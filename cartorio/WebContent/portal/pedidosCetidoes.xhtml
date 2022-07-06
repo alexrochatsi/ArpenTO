@@ -1,0 +1,662 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formCadastro" enctype="multipart/form-data">
+							<p:growl id="growl" />
+							<div class="container">
+								<p:panel menuTitle="Solicitações para o Cartório."
+									header="SOLICITAÇÕES PARA #{loginCartorio.usuarioCartorioSessao.cartorio.razao} / #{loginCartorio.usuarioCartorioSessao.cartorio.municipio}.">
+									<p:panelGrid columns="5"
+										style="background-color: #0277BD;padding: 5px 5px; font-size: 1.4em"
+										layout="grid">
+										<h:outputText value="SELECIONE O PERÍODO"
+											style="color: white;" />
+										<p:calendar value="#{certidaoPedido.periodoInicial}"
+											id="periodoInicial" locale="pt_BR" placeholder="__/__/____"
+											readonlyInput="true" maxdate="new Date()" required="true"
+											requiredMessage="Informe a primeira data para a pesquisa."
+											showOn="button" navigator="true" pattern="dd/MM/yyyy"
+											mask="true" yearRange="c-120:c0">
+											<p:ajax event="dateSelect"
+												listener="#{certidaoPedido.habilitaPeriodoFinal}"
+												update=":formCadastro:periodoFinal" />
+										</p:calendar>
+										<p:calendar value="#{certidaoPedido.periodoFinal}"
+											id="periodoFinal" locale="pt_BR" placeholder="__/__/____"
+											readonlyInput="true"
+											disabled="#{certidaoPedido.disablePeriodoFinal}"
+											showOn="button" navigator="true" pattern="dd/MM/yyyy"
+											required="true"
+											requiredMessage="Informe a segunda data para a pesquisa."
+											mindate="#{certidaoPedido.periodoInicial}" mask="true"
+											maxdate="new Date()" yearRange="c-120:c0" />
+										<p:remoteCommand name="rcBoletosData"
+											actionListener="#{certidaoPedido.buscarPedidos}" />
+										<p:commandButton type="button"
+											styleClass="GreenButton Wid100 Fs16 White RaisedButton"
+											onclick="rcBoletosData()" value="Buscar" icon="fa fa-check" />
+									</p:panelGrid>
+									<p:dataTable id="meusPedidos" var="pedidos" paginator="true"
+										rowsPerPageTemplate="10,15" rows="10"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+										paginatorPosition="bottom" sortBy="#{pedidos.dataPedido}"
+										sortOrder="DESCENDING" style="text-align: center"
+										tableStyleClass="ui-table-columntoggle"
+										emptyMessage="Não há pedidos cadastrados"
+										value="#{certidaoPedido.pedidosCartorio}" required="true"
+										requiredMessage="Selecione um pedido."
+										selection="#{certidaoPedido.certidaoPedidoSelecionado}"
+										rowKey="#{pedidos.id}" selectionMode="single">
+										<p:ajax event="rowSelect"
+											listener="#{certidaoPedido.carregaPedido}"
+											update=":formCadastro:btnDetalhar,:formCadastro:btnMudarStatus" />
+										<p:column headerText="Código" style="font-size: 1.1em"
+											styleClass="Wid10 Responsive" priority="3">
+											<h:outputText value="#{pedidos.id}" />
+										</p:column>
+										<p:column styleClass="Wid20 Responsive" headerText="Status"
+											sortable="true" sortBy="#{pedidos.status}" priority="1">
+											<h:outputText style="color: orange"
+												rendered="#{pedidos.status == 0}"
+												value="Enviado para Cartório, aguardando..." />
+											<h:outputText style="color: darkorange"
+												rendered="#{pedidos.status == 1}"
+												value="Certidão encontrada, habilitado o BOLETO para pagamento." />
+											<h:outputText style="color: red"
+												rendered="#{pedidos.status == 2}"
+												value="CERTIDÃO não encontrada." />
+											<h:outputText style="color: blue"
+												rendered="#{pedidos.status == 3}"
+												value="Cartório, preparando envio da CERTIDÃO." />
+											<h:outputText style="color: green"
+												rendered="#{pedidos.status == 4}"
+												value="CERTIDÃO, concluída." />
+											<h:outputText style="color: chocolate"
+												rendered="#{pedidos.status == 5}"
+												value="Prazo para download vencido." />
+										</p:column>
+										<p:column headerText="Data do Pedido"
+											styleClass="Wid10 Responsive" priority="1">
+											<h:outputText value="#{pedidos.dataPedido}">
+												<f:convertDateTime pattern="dd/MM/yyyy - HH:mm"
+													timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column styleClass="Wid10 Responsive"
+											sortBy="#{pedidos.custoPedido.tipoCertidao}"
+											headerText="Tipo de Certidão" priority="2">
+											<h:outputText value="#{pedidos.custoPedido.tipoCertidao}" />
+										</p:column>
+										<p:column styleClass="Wid20 Responsive"
+											headerText="Forma de Entrega" priority="2">
+											<h:outputText rendered="#{pedidos.formaEntrega == 1}"
+												value="VIA CORREIOS" />
+											<h:outputText rendered="#{pedidos.formaEntrega == 2}"
+												value="RETIRAR NO CARTÓRIO" />
+											<h:outputText rendered="#{pedidos.formaEntrega == 3}"
+												value="EMITIDA ELETRONICAMENTE" />
+										</p:column>
+										<p:column styleClass="Wid10 Responsive"
+											sortBy="#{pedidos.custoPedido.valorCertidao +
+											 pedidos.custoPedido.taxaAdministrativa +
+											 pedidos.correios.valor}"
+											headerText="Valor" priority="1">
+											<h:outputText
+												value="#{pedidos.custoPedido.valorCertidao +
+											 pedidos.custoPedido.taxaAdministrativa +
+											 pedidos.correios.valor}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+										</p:column>
+									</p:dataTable>
+								</p:panel>
+								<div class="EmptyBox10"></div>
+								<div class="Wid10 Fright">
+									<p:commandButton id="btnDetalhar" type="button"
+										disabled="#{certidaoPedido.certidaoPedidoSelecionado.id == null}"
+										style="background-color:orange"
+										styleClass="Wid100 Fs16 White RaisedButton Responsive"
+										value="Detalhar" icon="fa fa-eye" onclick="PF('dlg1').show();" />
+								</div>
+								<div class="Wid15 Fright" style="margin-right: 2%">
+									<p:commandButton id="btnMudarStatus" type="button"
+										disabled="#{certidaoPedido.certidaoPedidoSelecionado.id == null}"
+										styleClass="BlueButton Wid100 Fs14 White RaisedButton Responsive"
+										value="Mudar Status" icon="fa fa-pencil-square-o"
+										onclick="PF('dlgStatus').show();" />
+								</div>
+								<div class="EmptyBox20"></div>
+							</div>
+						</h:form>
+						<p:dialog header="Detalhe do pedido." modal="true"
+							widgetVar="dlg1" closeOnEscape="true" width="60%" height="400px"
+							showEffect="puff" hideEffect="clip">
+							<h:form id="formUpdate" enctype="multipart/form-data">
+								<p:growl id="growl" />
+								<div class="container">
+									<p:panel menuTitle="Detalhes do Pedido"
+										header="Detalhes do Pedido">
+										<div class="EmptyBox30"></div>
+										<div class="Container50 Responsive">
+											<p:outputLabel value="Tipo de Certidão:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel style="color: red"
+												value="#{certidaoPedido.certidaoPedido.custoPedido.tipoCertidao}" />
+										</div>
+										<div class="Container50 Responsive">
+											<p:outputLabel value="Cidade:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel style="color: red"
+													value="#{certidaoPedido.certidaoPedido.cidadePedido}" />
+											</div>
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Container100 Responsive">
+											<p:outputLabel value="Cartório:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel style="color: red"
+												value="#{certidaoPedido.certidaoPedido.cartorio.razao} / #{certidaoPedido.certidaoPedido.cartorio.municipio}" />
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Container100 Responsive">
+											<p:outputLabel value="Matrícula:"
+												rendered="#{certidaoPedido.renderizarMatricula == true}" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel style="color: red"
+												rendered="#{certidaoPedido.renderizarMatricula == true}"
+												value="#{certidaoPedido.certidaoPedido.matricula}" />
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Número do Livro:"
+												rendered="#{certidaoPedido.renderizarMatricula == false}" />
+											<div class="EmptyBox5"></div>
+											<div class="container30">
+												<p:outputLabel style="color: red"
+													rendered="#{certidaoPedido.renderizarMatricula == false}"
+													value="#{certidaoPedido.certidaoPedido.livro}" />
+											</div>
+										</div>
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Número da Folha:"
+												rendered="#{certidaoPedido.renderizarMatricula == false}" />
+											<div class="EmptyBox5"></div>
+											<div class="container30">
+												<p:outputLabel style="color: red"
+													rendered="#{certidaoPedido.renderizarMatricula == false}"
+													value="#{certidaoPedido.certidaoPedido.folha}" />
+											</div>
+										</div>
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Número do Termo:"
+												rendered="#{certidaoPedido.renderizarMatricula == false}" />
+											<div class="EmptyBox5"></div>
+											<div class="container30">
+												<p:outputLabel style="color: red"
+													rendered="#{certidaoPedido.renderizarMatricula == false}"
+													value="#{certidaoPedido.certidaoPedido.termo}" />
+											</div>
+										</div>
+										<!-- ______________________________________________________________ -->
+										<div class="EmptyBox10"></div>
+										<div class="Container100 Responsive">
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaNascimento == true and certidaoPedido.renderizarMatricula == false}"
+												value="Nome Registrado:" />
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaObitoNatimorto == true and certidaoPedido.renderizarMatricula == false}"
+												value="Nome Falecido:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="nomeRegistrado"
+													value="#{certidaoPedido.certidaoPedido.nomeRegistrado}"
+													rendered="#{certidaoPedido.renderizaNascimento == true or
+												certidaoPedido.renderizaObitoNatimorto == true and certidaoPedido.renderizarMatricula == false}"
+													styleClass="Fleft Responsive"
+													style="text-transform: uppercase; width: 95%;color: red" />
+											</div>
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Container50 Responsive">
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaCasamento == true and certidaoPedido.renderizarMatricula == false}"
+												value="Nome Cônjugue 1" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="nomeConjugue1"
+													rendered="#{certidaoPedido.renderizaCasamento == true and certidaoPedido.renderizarMatricula == false}"
+													value="#{certidaoPedido.certidaoPedido.conjugue1}"
+													styleClass="Fleft Responsive"
+													style="text-transform: uppercase; width: 95%;color: red" />
+											</div>
+										</div>
+										<div class="Container50 Responsive">
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaCasamento == true and certidaoPedido.renderizarMatricula == false}"
+												value="Nome Cônjugue 2" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="nomeConjugue2"
+													rendered="#{certidaoPedido.renderizaCasamento == true and certidaoPedido.renderizarMatricula == false}"
+													value="#{certidaoPedido.certidaoPedido.conjugue2}"
+													styleClass="Fleft Responsive"
+													style="text-transform: uppercase; width: 95%;color: red" />
+											</div>
+										</div>
+										<!-- ______________________________________________________________ -->
+										<div class="EmptyBox10"></div>
+										<h:panelGroup
+											rendered="#{certidaoPedido.renderizarMatricula == false and certidaoPedido.renderizaNascimento == true}">
+											<div class="EmptyBox20"></div>
+											<div class="Container50 Responsive">
+												<p:outputLabel value="Nome da Genitora:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:outputLabel id="nomeGenitora"
+														rendered="#{certidaoPedido.renderizaObitoNatimorto == true or 
+												certidaoPedido.renderizaNascimento == true and certidaoPedido.renderizarMatricula == false}"
+														value="#{certidaoPedido.certidaoPedido.nomeGenitora}"
+														styleClass="Fleft Responsive"
+														style="text-transform: uppercase; width: 95%;color:red" />
+												</div>
+											</div>
+											<div class="Container50 Responsive">
+												<p:outputLabel value="Nome do Genitor:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:outputLabel id="nomeGenitor"
+														rendered="#{certidaoPedido.renderizaObitoNatimorto == true or 
+												certidaoPedido.renderizaNascimento == true and certidaoPedido.renderizarMatricula == false}"
+														style="color:red"
+														value="#{certidaoPedido.certidaoPedido.nomeGenitor}"
+														styleClass="Fleft Responsive" />
+												</div>
+											</div>
+										</h:panelGroup>
+										<!-- ______________________________________________________________ -->
+										<h:panelGroup
+											rendered="#{certidaoPedido.renderizarMatricula == false and certidaoPedido.renderizaObitoNatimorto == true}">
+											<div class="EmptyBox20"></div>
+											<div class="Container50 Responsive">
+												<p:outputLabel value="Nome da Genitora:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:outputLabel id="nomeGenitora2"
+														rendered="#{certidaoPedido.renderizaObitoNatimorto == true or 
+												certidaoPedido.renderizaNascimento == true and certidaoPedido.renderizarMatricula == false}"
+														value="#{certidaoPedido.certidaoPedido.nomeGenitora}"
+														styleClass="Fleft Responsive"
+														style="text-transform: uppercase; width: 95%;color:red" />
+												</div>
+											</div>
+											<div class="Container50 Responsive">
+												<p:outputLabel value="Nome do Genitor:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:outputLabel id="nomeGenitor2"
+														rendered="#{certidaoPedido.renderizaObitoNatimorto == true or 
+												certidaoPedido.renderizaNascimento == true and certidaoPedido.renderizarMatricula == false}"
+														style="color:red"
+														value="#{certidaoPedido.certidaoPedido.nomeGenitor}"
+														styleClass="Fleft Responsive" />
+												</div>
+											</div>
+										</h:panelGroup>
+										<div class="EmptyBox10"></div>
+										<!-- ______________________________________________________________ -->
+										<div class="Container40 Responsive">
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaNascimento == true and certidaoPedido.renderizarMatricula == false}"
+												value="Data de Nascimento:" />
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaCasamento == true and certidaoPedido.renderizarMatricula == false}"
+												value="Data de Casamento" />
+											<p:outputLabel
+												rendered="#{certidaoPedido.renderizaObitoNatimorto == true and certidaoPedido.renderizarMatricula == false}"
+												value="Data de Falecimento:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="data" style="color:red"
+													value="#{certidaoPedido.certidaoPedido.data}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</p:outputLabel>
+											</div>
+										</div>
+										<div class="EmptyBox10"></div>
+									</p:panel>
+									<p:panel menuTitle="Nome da Certidão Eletrônica"
+										rendered="#{certidaoPedido.certidaoPedido.formaEntrega == 3 and certidaoPedido.certidaoPedido.certidaoUpload != null}"
+										header="Nome da Certidão Eletrônica">
+										<div class="EmptyBox20"></div>
+										<div class="Fleft Container50 Responsive">
+											<p:outputLabel
+												value="#{certidaoPedido.certidaoPedido.certidaoUpload.nomeArquivo}"
+												style="color:red" />
+										</div>
+										<div class="EmptyBox20"></div>
+									</p:panel>
+									<p:panel menuTitle="Endereço para Entrega"
+										rendered="#{certidaoPedido.certidaoPedido.formaEntrega == 1}"
+										header="Endereço de entrega da Certidão">
+										<div class="EmptyBox20"></div>
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Código de Rastreio:"
+												rendered="#{certidaoPedido.certidaoPedido.codigoRastreio != null or
+										not empty certidaoPedido.certidaoPedido.codigoRastreio}" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel style="color: blue"
+												rendered="#{certidaoPedido.certidaoPedido.codigoRastreio != null or
+										not empty certidaoPedido.certidaoPedido.codigoRastreio}"
+												value="#{certidaoPedido.certidaoPedido.codigoRastreio}" />
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Fleft Container50 Responsive">
+											<p:outputLabel value="Forma de Envio" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel style="text-transform: uppercase; color:red"
+												value="#{certidaoPedido.certidaoPedido.correios.servico}" />
+										</div>
+										<div class="Fleft Container20 Responsive">
+											<p:outputLabel value="CEP:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel id="cep" style="color:red"
+												value="#{certidaoPedido.certidaoPedido.enderecoEntrega.cep}" />
+										</div>
+										<div class="EmptyBox10" />
+										<div class="Container50 Responsive">
+											<p:outputLabel value="Cidade:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="municipio" style="color:red"
+													value="#{certidaoPedido.certidaoPedido.enderecoEntrega.municipioUF.nomeMunicipio} / 
+													#{certidaoPedido.certidaoPedido.enderecoEntrega.municipioUF.uf}" />
+											</div>
+										</div>
+										<div class="Fleft Container50 Responsive">
+											<p:outputLabel value="Bairro:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel id="bairro"
+												style="text-transform: uppercase; color:red"
+												value="#{certidaoPedido.certidaoPedido.enderecoEntrega.bairro}"
+												requiredMessage="Campo Vazio! Informe o nome da cidade para entrega." />
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Fleft Container70 Responsive">
+											<p:outputLabel value="Endereço:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel id="endereco"
+												style="text-transform: uppercase;color:red"
+												value="#{certidaoPedido.certidaoPedido.enderecoEntrega.logradouro}" />
+										</div>
+										<div class="Fleft Container20 Responsive">
+											<p:outputLabel value="Número:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel id="numero"
+												style="text-transform: uppercase;color:red"
+												value="#{certidaoPedido.certidaoPedido.enderecoEntrega.numero}" />
+										</div>
+										<div class="EmptyBox10"></div>
+										<div class="Fleft Container50 Responsive">
+											<p:outputLabel value="Complemento:" />
+											<div class="EmptyBox5"></div>
+											<p:outputLabel style="text-transform: uppercase; color:red"
+												value="#{certidaoPedido.certidaoPedido.enderecoEntrega.complemento}" />
+										</div>
+										<div class="EmptyBox20"></div>
+									</p:panel>
+									<p:panel menuTitle="Endereço para Entrega"
+										rendered="#{certidaoPedido.certidaoPedido.formaEntrega == 2}"
+										header="Endereço de entrega da Certidão">
+										<div class="EmptyBox20"></div>
+										<div class="Fleft Container50 Responsive">
+											<p:outputLabel value="RETIRAR NO CARTÓRIO" style="color:red" />
+										</div>
+										<div class="EmptyBox20"></div>
+									</p:panel>
+									<p:panel menuTitle="Endereço para Entrega"
+										rendered="#{certidaoPedido.certidaoPedido.formaEntrega == 3}"
+										header="Endereço de entrega da Certidão">
+										<div class="EmptyBox20"></div>
+										<div class="Fleft Container50 Responsive">
+											<p:outputLabel value="SERÁ EMITIDO ELETRONICAMENTE"
+												style="color:red" />
+										</div>
+										<div class="EmptyBox20"></div>
+									</p:panel>
+									<div class="EmptyBox30"></div>
+									<p:panel menuTitle="Custos" id="custos" header="Custos R$">
+										<p:panelGrid columns="6" id="custosPanelGrid" class="Wid100">
+											<h:outputText style="font-weight: bold;" styleClass="Wid20"
+												value="Valor da Certidão" />
+											<h:outputText style="font-size: 1em"
+												value="#{certidaoPedido.certidaoPedido.custoPedido.valorCertidao}"
+												rendered="#{certidaoPedido.certidaoPedido.custoPedido.valorCertidao != null}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+											<h:outputText value="R$ 0.00" style="font-size: 1em"
+												rendered="#{certidaoPedido.certidaoPedido.custoPedido.valorCertidao == null}">
+											</h:outputText>
+											<h:outputText style="font-weight: bold;"
+												value="Taxa de Admin" styleClass="Wid20" />
+											<h:outputText style="font-size: 1em"
+												rendered="#{certidaoPedido.certidaoPedido.custoPedido.taxaAdministrativa != null}"
+												value="#{certidaoPedido.certidaoPedido.custoPedido.taxaAdministrativa}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+											<h:outputText style="font-size: 1em"
+												rendered="#{certidaoPedido.certidaoPedido.custoPedido.taxaAdministrativa == null}"
+												value="R$ 0.00" />
+											<h:outputText style="font-weight: bold;" styleClass="Wid20"
+												value="Valor do Frete" />
+											<h:outputText style="font-size: 1em"
+												rendered="#{certidaoPedido.certidaoPedido.correios.valor != null}"
+												value="#{certidaoPedido.certidaoPedido.correios.valor}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+											<h:outputText style="font-size: 1em"
+												rendered="#{certidaoPedido.certidaoPedido.correios.valor == null}"
+												value="R$ 0.00" />
+											<h:outputText style="font-weight: bold;font-size: 1em"
+												styleClass="Wid20" value="Total" />
+											<h:outputText
+												style="color:red; font-weight: bold;font-size: 1em"
+												value="#{certidaoPedido.certidaoPedido.custoPedido.taxaAdministrativa +
+											         certidaoPedido.certidaoPedido.custoPedido.valorCertidao + 
+												     certidaoPedido.certidaoPedido.correios.valor}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+										</p:panelGrid>
+									</p:panel>
+									<div class="EmptyBox20"></div>
+								</div>
+							</h:form>
+						</p:dialog>
+						<p:dialog header="Alterar Status." modal="true"
+							widgetVar="dlgStatus" draggable="false" resizable="false"
+							closeOnEscape="true" width="60%" height="360px" showEffect="puff"
+							hideEffect="clip">
+							<h:form id="formStatusPedido" enctype="multipart/form-data">
+								<p:growl id="growl" autoUpdate="true" />
+								<div class="container">
+									<div class="EmptyBox10"></div>
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Código do Pedido:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel style="color: red"
+												value="#{certidaoPedido.certidaoPedido.id}" />
+										</div>
+									</div>
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Tipo de Certidão:" />
+										<div class="EmptyBox5"></div>
+										<p:outputLabel style="color: red"
+											value="#{certidaoPedido.certidaoPedido.custoPedido.tipoCertidao}" />
+									</div>
+									<div class="Container40 Responsive">
+										<p:outputLabel value="Código de Rastreio:"
+											rendered="#{not empty certidaoPedido.certidaoPedido.codigoRastreio or 
+											certidaoPedido.certidaoPedido.status == 4 and certidaoPedido.certidaoPedido.formaEntrega == 1}" />
+										<div class="EmptyBox5"></div>
+										<p:outputLabel style="color: blue"
+											rendered="#{not empty certidaoPedido.certidaoPedido.codigoRastreio}"
+											value="#{certidaoPedido.certidaoPedido.codigoRastreio}" />
+										<p:inputMask mask="aa999999999aa" required="true"
+											requiredMessage="Informe o código de rastreio."
+											style="text-transform: uppercase"
+											placeholder="Ex: SS987654321XX"
+											rendered="#{certidaoPedido.certidaoPedido.status == 4 and certidaoPedido.certidaoPedido.formaEntrega == 1 and empty certidaoPedido.certidaoPedido.codigoRastreio}"
+											value="#{certidaoPedido.certidaoPedido.codigoRastreio}" />
+									</div>
+									<div class="EmptyBox10"></div>
+									<div class="Container100 Responsive">
+										<p:outputLabel
+											rendered="#{certidaoPedido.renderizaNascimento and certidaoPedido.renderizarMatricula == false}"
+											value="Nome Registrado:" />
+										<p:outputLabel
+											rendered="#{certidaoPedido.renderizaObitoNatimorto and certidaoPedido.renderizarMatricula == false}"
+											value="Nome Falecido:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel id="nomeRegistrado"
+												value="#{certidaoPedido.certidaoPedido.nomeRegistrado}"
+												rendered="#{certidaoPedido.renderizaNascimento == true or
+												certidaoPedido.renderizaObitoNatimorto == true and certidaoPedido.renderizarMatricula == false}"
+												styleClass="Fleft Responsive"
+												style="text-transform: uppercase; width: 95%;color: red" />
+										</div>
+									</div>
+									<div class="EmptyBox20"></div>
+									<div class="Container100 Responsive">
+										<p:outputLabel
+											rendered="#{certidaoPedido.renderizarMatricula == true}"
+											value="Matrícula:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel id="matricula"
+												value="#{certidaoPedido.certidaoPedido.matricula}"
+												rendered="#{certidaoPedido.renderizarMatricula == true}"
+												styleClass="Fleft Responsive"
+												style="text-transform: uppercase; width: 95%;color: red" />
+										</div>
+									</div>
+									<h:panelGroup id="conjugues"
+										rendered="#{certidaoPedido.renderizaCasamento == true and certidaoPedido.renderizarMatricula == false}">
+										<div class="EmptyBox20"></div>
+										<div class="Container50 Responsive">
+											<p:outputLabel value="Nome Cônjugue 1" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="nomeConjugue1"
+													rendered="#{certidaoPedido.renderizaCasamento}"
+													value="#{certidaoPedido.certidaoPedido.conjugue1}"
+													styleClass="Fleft Responsive"
+													style="text-transform: uppercase; width: 95%;color: red" />
+											</div>
+										</div>
+										<div class="Container50 Responsive">
+											<p:outputLabel value="Nome Cônjugue 2" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:outputLabel id="nomeConjugue2"
+													rendered="#{certidaoPedido.renderizaCasamento}"
+													value="#{certidaoPedido.certidaoPedido.conjugue2}"
+													styleClass="Fleft Responsive"
+													style="text-transform: uppercase; width: 95%;color: red" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<div class="EmptyBox20"></div>
+									<p:panel header="Status do Pedido" styleClass="TexAlCenter"
+										menuTitle="Status do Pedido">
+										<div class="EmptyBox5"></div>
+										<p:selectOneRadio id="console" style="display: inline-table;"
+											rendered="#{certidaoPedido.certidaoPedido.formaEntrega == 1}"
+											value="#{certidaoPedido.certidaoPedido.status}">
+											<f:selectItem itemLabel="Pedido Recebido" itemValue="0" />
+											<f:selectItem itemLabel="Certidão Encontrada" itemValue="1" />
+											<f:selectItem itemLabel="Certidão Não Encontrada"
+												itemValue="2" />
+											<f:selectItem itemLabel="Preparando Envio" itemValue="3" />
+											<f:selectItem itemLabel="Concluído" itemValue="4" />
+											<f:ajax event="click" render=":formStatusPedido" />
+										</p:selectOneRadio>
+										<p:selectOneRadio id="console2" style="display: inline-table;"
+											rendered="#{certidaoPedido.certidaoPedido.formaEntrega != 1}"
+											value="#{certidaoPedido.certidaoPedido.status}">
+											<f:selectItem itemLabel="Pedido Recebido" itemValue="0" />
+											<f:selectItem itemLabel="Certidão Encontrada" itemValue="1" />
+											<f:selectItem itemLabel="Certidão Não Encontrada"
+												itemValue="2" />
+											<f:selectItem itemLabel="Concluído" itemValue="4" />
+											<f:ajax event="click" render=":formStatusPedido" />
+										</p:selectOneRadio>
+									</p:panel>
+									<p:panel header="Anexar a Certidão" id="pnlAnexaCertidao"
+										rendered="#{certidaoPedido.certidaoPedido.status == 4 and certidaoPedido.certidaoPedido.formaEntrega == 3}"
+										menuTitle="Anexar a Certidão">
+										<div class="EmptyBox20"></div>
+										<div class="Container50 Responsive">
+											<div class="container100">
+												<p:inputText id="caminhoDoc" size="60"
+													placeholder="Selecione a certidão..." disabled="true"
+													required="true"
+													requiredMessage="Anexar a certidão do pedido."
+													value="#{certidaoPedido.certidaoUpload.nomeArquivo}" />
+											</div>
+										</div>
+										<div class="Container20 Responsive">
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:fileUpload
+													fileUploadListener="#{certidaoPedido.doUpload}"
+													allowTypes="/(\.|\/)(pdf)$/" multiple="false"
+													required="true" requiredMessage="Selecione a certidão"
+													mode="advanced"
+													invalidFileMessage="Somente formato PDF. \n"
+													sizeLimit="2097152"
+													invalidSizeMessage="Tamanho de 2mb excedido. \n"
+													showButtons="false" label="Selecionar..." auto="true" />
+											</div>
+										</div>
+										<div class="EmptyBox5"></div>
+									</p:panel>
+									<div class="EmptyBox20"></div>
+									<div class="Wid20 Fright">
+										<p:remoteCommand name="rcAlteraStatus"
+											actionListener="#{certidaoPedido.acaoAlterar}" />
+										<p:commandButton type="button" resetValues="true"
+											styleClass="BlueButton Wid100 Fs14 White RaisedButton"
+											onclick="rcAlteraStatus()" value="Alterar"
+											icon="fa icon-round50" />
+									</div>
+									<div class="EmptyBox20"></div>
+								</div>
+							</h:form>
+						</p:dialog>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

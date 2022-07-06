@@ -1,0 +1,1424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formCadastro" enctype="multipart/form-data">
+							<p:growl id="growl" autoUpdate="true" />
+							<div class="container">
+								<p:wizard widgetVar="wiz"
+									flowListener="#{registroNascimento.onFlowProcess}"
+									backLabel="Voltar" nextLabel="Avançar">
+									<p:tab id="dadosCertidaoTab" title="Certidão">
+										<p:panel menuTitle="Certidão" id="dadosCertidaoPanel"
+											header="Dados da Certidão">
+											<div class="EmptyBox20" />
+											<div class="Container60 Responsive">
+												<p:outputLabel value="Matricula:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputMask id="preMatricula"
+														disabled="#{registroNascimento.matriculaInvalida == false}"
+														mask="999999999999999999999999999999"
+														value="#{registroNascimento.preMatricula}"
+														styleClass="Fleft Responsive" required="true"
+														placeholder="Informe a matrícula, somente números..."
+														requiredMessage="Campo Vazio! Informe a matrícula."
+														style="width: 95%;">
+														<f:validateLength minimum="30" maximum="30" />
+													</p:inputMask>
+												</div>
+											</div>
+											<div class="Container20 Responsive">
+												<p:outputLabel value="Dígito Verificador:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputMask id="dvMatricula" mask="99"
+														disabled="#{registroNascimento.matriculaInvalida == false}"
+														value="#{registroNascimento.dvMatricula}"
+														styleClass="Fleft Responsive" required="true"
+														requiredMessage="Campo Vazio! Informe o Dígito Verificador."
+														style="width: 45%;">
+														<f:validateLength minimum="2" maximum="2" />
+													</p:inputMask>
+												</div>
+											</div>
+											<div class="Fleft Container20 Responsive">
+												<div class="Wid100">
+													<p:remoteCommand name="rcValidaMatri"
+														actionListener="#{registroNascimento.validaMatricula}" />
+													<p:commandButton type="button" style="margin-top: 10%"
+														disabled="#{registroNascimento.matriculaInvalida == false}"
+														styleClass="GreenButton Wid60 Fs16 White RaisedButton"
+														onclick="rcValidaMatri()" value="Validar"
+														icon="fa fa-check" />
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<p:separator />
+											<div class="EmptyBox20" />
+											<div class="Container100 Responsive">
+												<p:outputLabel value="Nome:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputText id="nomeRegistrado"
+														disabled="#{registroNascimento.matriculaInvalida}"
+														value="#{registroNascimento.registroNascimento.nome}"
+														styleClass="Fleft Responsive" required="true"
+														placeholder="Informe o nome que esta registrado no cartório..."
+														requiredMessage="Campo Vazio! Informe o nome registrado da certidão."
+														style="width: 95%;" />
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Container25 Responsive">
+												<p:outputLabel value="Data de Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<p:calendar id="dataNascimento" navigator="true"
+													disabled="#{registroNascimento.matriculaInvalida}"
+													required="true"
+													requiredMessage="Informe a Data de Nascimento!"
+													locale="pt_BR" placeholder="__/__/____"
+													readonlyInput="true" showOn="button"
+													value="#{registroNascimento.registroNascimento.dataNascimento}"
+													pattern="dd/MM/yyyy" mask="true" yearRange="c-120:c+60">
+													<p:ajax event="dateSelect"
+														listener="#{registroNascimento.atualizaDataExtenso}"
+														update=":formCadastro:dataNascimentoExtenso,:formCadastro:dataRegistroNascimento" />
+												</p:calendar>
+											</div>
+											<div class="Container70 Responsive">
+												<p:outputLabel value="Data Nascimento Extenso:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputText id="dataNascimentoExtenso" disabled="true"
+														value="#{registroNascimento.registroNascimento.dataNascimentoExtenso}"
+														styleClass="Fleft Responsive" required="true"
+														placeholder="Data de nascimento por extenso..."
+														requiredMessage="Campo Vazio! Informe a data de nascimento por extenso."
+														style="width: 95%;">
+													</p:inputText>
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Container20 Responsive">
+												<p:outputLabel value="Data do Registro de Nascimento:" style="font-size: 14px" />
+												<div class="EmptyBox5"></div>
+												<p:calendar id="dataRegistroNascimento" navigator="true"
+													required="true"
+													disabled="#{registroNascimento.matriculaInvalida}"
+													requiredMessage="Informe a Data do Registro de nascimento!"
+													locale="pt_BR" placeholder="__/__/____"
+													value="#{registroNascimento.registroNascimento.dataRegistroNascimento}"
+													pattern="dd/MM/yyyy" mask="true" yearRange="c-110:c+110"
+													mindate="#{registroNascimento.registroNascimento.dataNascimento}" />
+											</div>
+											<div class="Container20 Responsive">
+												<h:outputText value="Hora de Nascimento Ignorada: " />
+												<div class="EmptyBox5"></div>
+												<p:selectBooleanCheckbox
+													disabled="#{registroNascimento.matriculaInvalida}"
+													value="#{registroNascimento.registroNascimento.horaNascimentoIgnorada}"
+													style="margin-left: 5%">
+													<p:ajax update=":formCadastro:hora,:formCadastro:minuto" />
+												</p:selectBooleanCheckbox>
+											</div>
+											<div class="Container20 Responsive">
+												<p:outputLabel value="Hora do Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<p:inputMask id="hora" mask="99"
+													disabled="#{registroNascimento.registroNascimento.horaNascimentoIgnorada == true or 
+													registroNascimento.matriculaInvalida == true}"
+													value="#{registroNascimento.registroNascimento.horaNascimento}"
+													styleClass="Fleft Responsive">
+													<p:ajax event="blur"
+														listener="#{registroNascimento.validaHora}" />
+												</p:inputMask>
+											</div>
+											<div class="Container20 Responsive">
+												<p:outputLabel value="Minuto do Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<p:inputMask id="minuto" mask="99"
+													disabled="#{registroNascimento.registroNascimento.horaNascimentoIgnorada == true or
+													registroNascimento.matriculaInvalida == true}"
+													value="#{registroNascimento.registroNascimento.minutoNascimento}"
+													styleClass="Fleft Responsive">
+													<p:ajax event="blur"
+														listener="#{registroNascimento.validaMinuto}" />
+												</p:inputMask>
+											</div>
+											<div class="Container20 Responsive">
+												<p:outputLabel value="Sexo:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="sexo" required="true"
+														disabled="#{registroNascimento.matriculaInvalida}"
+														requiredMessage="Informe o Sexo!"
+														value="#{registroNascimento.registroNascimento.sexo}">
+														<f:selectItem value="#{null}" itemLabel="Selecione o sexo" />
+														<f:selectItems value="#{registroNascimento.sexos}"
+															var="sexos" itemValue="#{sexos}"
+															itemLabel="#{sexos.label}" />
+														<f:converter converterId="sexoEnumConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Fleft Container25 Responsive">
+												<p:outputLabel value="Estado:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="s_uf"
+														disabled="#{registroNascimento.matriculaInvalida}"
+														value="#{registroNascimento.ufSelecionada}" filter="true"
+														filterMatchMode="startsWith" required="true"
+														requiredMessage="Informe o Estado."
+														converter="ufConverter" effect="fade">
+														<f:selectItem itemLabel="SELECIONE O ESTADO"
+															itemValue="#{null}" />
+														<f:selectItems value="#{registroNascimento.ufs}" var="uf"
+															itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+															itemValue="#{uf}" />
+														<p:ajax event="change"
+															listener="#{registroNascimento.habilitaListCidades}" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container70 Responsive">
+												<p:outputLabel value="Cidade:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:autoComplete id="municipioNascimento"
+														disabled="#{registroNascimento.disableCidade}"
+														forceSelection="true" styleClass="Fleft Responsive"
+														required="true" minQueryLength="3" size="100"
+														requiredMessage="Campo Vazio! Informe a cidade de nascimento."
+														placeholder="Cidade de nascimento..."
+														completeMethod="#{registroNascimento.completeMunicipiosIBGE}"
+														converter="ibgeUFConverter" var="iUF"
+														itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+														value="#{registroNascimento.registroNascimento.municipioUF}">
+													</p:autoComplete>
+												</div>
+											</div>
+											<div class="EmptyBox30" />
+										</p:panel>
+									</p:tab>
+									<p:tab id="localNascimentoTab" title="Nascimento / DNV">
+										<p:panel menuTitle="Nascimento / DNV"
+											header="Local de Nascimento / DNV" id="localNascimentoPanel">
+											<div class="EmptyBox20" />
+											<div class="Container20 Responsive">
+												<p:outputLabel value="DNV:" />
+												<div class="EmptyBox5"></div>
+												<p:inputMask id="dnv" mask="9999999999" required="true"
+													disabled="#{registroNascimento.disableDNV1}"
+													requiredMessage="Informe o DNV."
+													value="#{registroNascimento.registroNascimento.dnv}"
+													styleClass="Fleft Responsive" />
+											</div>
+											<div class="Container20 Responsive">
+												<p:outputLabel value="DV:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputMask id="dvDNV" mask="9"
+														disabled="#{registroNascimento.disableDNV1}"
+														value="#{registroNascimento.dvDNV}"
+														styleClass="Fleft Responsive" required="true"
+														requiredMessage="Campo Vazio! Informe o Dígito Verificador."
+														style="width: 45%;">
+														<f:validateLength minimum="1" maximum="1" />
+													</p:inputMask>
+												</div>
+											</div>
+											<div class="Fleft Container20 Responsive">
+												<div class="Wid100">
+													<p:remoteCommand name="rcValidaDNV"
+														actionListener="#{registroNascimento.validaDNV}" />
+													<p:commandButton type="button" style="margin-top: 10%"
+														id="btnValida"
+														disabled="#{registroNascimento.disableDNV1}"
+														styleClass="GreenButton Wid60 Fs16 White RaisedButton"
+														onclick="rcValidaDNV()" value="Validar" icon="fa fa-check" />
+												</div>
+											</div>
+											<div class="Container20 Responsive">
+												<h:outputText value="DNV Inexistente: " />
+												<div class="EmptyBox5"></div>
+												<p:selectBooleanCheckbox
+													disabled="#{registroNascimento.disableDNV2}"
+													value="#{registroNascimento.registroNascimento.dnvInexistente}"
+													style="margin-left: 5%">
+													<p:ajax listener="#{registroNascimento.DNVInexistente}"
+														update="dnv,dvDNV,btnValida,tipoLocalNascimento,localNascimento,localNlistado" />
+												</p:selectBooleanCheckbox>
+											</div>
+											<div class="EmptyBox20" />
+											<p:separator />
+											<div class="EmptyBox20" />
+											<div class="Container30 Responsive">
+												<p:outputLabel value="Tipo de Local de Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="tipoLocalNascimento" required="true"
+														disabled="#{registroNascimento.disableLocal1}"
+														requiredMessage="Informe o tipo de Local de Nascimento"
+														value="#{registroNascimento.registroNascimento.tipoLocalNascimento}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o tipo de local" />
+														<f:selectItems
+															value="#{registroNascimento.tiposLocaisNascimento}"
+															var="tLocal" itemValue="#{tLocal}"
+															itemLabel="#{tLocal.label}" />
+														<f:converter converterId="localNascimentoEnumConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container30 Responsive">
+												<p:outputLabel value="Local de Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="localNascimento" required="true"
+														disabled="#{registroNascimento.disableLocal1}"
+														filter="true"
+														requiredMessage="Informe o tipo de Local de Nascimento"
+														value="#{registroNascimento.registroNascimento.localNascimento}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o local de nascimento" />
+														<f:selectItems value="#{registroNascimento.locais}"
+															var="local" itemValue="#{local}"
+															itemLabel="#{local.descricao}" />
+														<f:converter converterId="localConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container20 Responsive">
+												<h:outputText value="Local Não Listado: " />
+												<div class="EmptyBox5"></div>
+												<p:selectBooleanCheckbox id="localNlistado"
+													disabled="#{registroNascimento.disableLocal1}"
+													value="#{registroNascimento.localInexistente}"
+													style="margin-left: 5%">
+													<p:ajax update="btnNovoLocal"
+														listener="#{registroNascimento.localNaoListado}" />
+												</p:selectBooleanCheckbox>
+											</div>
+											<div class="Wid20 Fright" style="margin-top: 2%">
+												<p:commandButton type="button" id="btnNovoLocal"
+													disabled="#{registroNascimento.disableLocal2}"
+													styleClass="GreenButton Wid60 Fs14 White RaisedButton"
+													value="Adicionar Local" icon="fa fa-plus-square"
+													onclick="PF('dlg1').show();"></p:commandButton>
+											</div>
+											<div class="EmptyBox30" />
+										</p:panel>
+									</p:tab>
+									<p:tab id="dadosGenitoraTab" title="Genitora">
+										<p:panel menuTitle="Genitora" id="dadosGenitoraPanel"
+											header="Dados da Genitora">
+											<div class="EmptyBox20" />
+											<div class="Container100 Responsive">
+												<p:outputLabel value="Nome:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputText id="nomeGenitora" required="true"
+														requiredMessage="Campo Vazio! Informe o nome da Genitora."
+														value="#{registroNascimento.registroNascimento.genitora.nome}"
+														styleClass="Fleft Responsive"
+														placeholder="Informe o nome..." style="width: 95%;" />
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Container50 Responsive">
+												<p:outputLabel value="País de Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="paisNascimentoGenitora"
+														required="true"
+														requiredMessage="Selecione o país de nascimento da Genitora."
+														onchange="PF('paisNascimentoGenitora').Value(24);"
+														filter="true" filterMatchMode="startsWith"
+														placeholder="Pais de nascimento..." style="width: 80%"
+														value="#{registroNascimento.registroNascimento.genitora.paisNascimento}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o país..." />
+														<f:selectItems value="#{registroNascimento.paisesIBGE()}"
+															var="paises" itemValue="#{paises}"
+															itemLabel="#{paises.nome}" />
+														<f:converter converterId="paisConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container50 Responsive">
+												<p:outputLabel value="Nacionalidade:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="NascionalidadeGenitora"
+														required="true"
+														requiredMessage="Selecione a nacionalidade da Genitora."
+														onchange="PF('paisNascimentoGenitora').Value(24);"
+														filter="true" filterMatchMode="startsWith"
+														placeholder="Pais de nascimento..." style="width: 80%"
+														value="#{registroNascimento.registroNascimento.genitora.nacionalidade}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o nacionalidade..." />
+														<f:selectItems value="#{registroNascimento.paisesIBGE()}"
+															var="paises" itemValue="#{paises}"
+															itemLabel="#{paises.nome}" />
+														<f:converter converterId="paisConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<!-- ______________________________________________________ -->
+											<div class="EmptyBox20" />
+											<div class="Fleft Container30 Responsive">
+												<p:outputLabel value="Naturalidade:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="s_ufGenitora"
+														disabled="#{registroNascimento.disableSelectNaturalidadeGenitora}"
+														value="#{registroNascimento.ufSelecionadaGenitora}"
+														filter="true" filterMatchMode="startsWith" required="true"
+														requiredMessage="Selecione a naturalidade da Genitora."
+														converter="ufConverter" effect="fade">
+														<f:selectItem itemLabel="SELECIONE O ESTADO"
+															itemValue="#{null}" />
+														<f:selectItems value="#{registroNascimento.ufs}" var="uf"
+															itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+															itemValue="#{uf}" />
+														<p:ajax event="change"
+															listener="#{registroNascimento.habilitaListCidadesGenitora}" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container70 Responsive">
+												<p:outputLabel value="Municipio:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:autoComplete id="naturalidadeGenitora"
+														disabled="#{registroNascimento.disableCidadeGenitora}"
+														forceSelection="true" styleClass="Fleft Responsive"
+														required="true"
+														requiredMessage="Campo Vazio! Informe o município da Genitora."
+														minQueryLength="3" size="90"
+														placeholder="Cidade de nascimento..."
+														completeMethod="#{registroNascimento.completeMunicipiosIBGEGenitora}"
+														converter="ibgeUFConverter" var="iUF"
+														itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+														value="#{registroNascimento.registroNascimento.genitora.naturalidade}">
+													</p:autoComplete>
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Wid30 Fleft" style="margin-top: 2%">
+												<p:remoteCommand name="rcMunGenitora"
+													actionListener="#{registroNascimento.novoMunicipioGenitora}" />
+												<p:commandButton type="button"
+													styleClass="RedButton Wid90 Fs16 White RaisedButton"
+													onclick="rcMunGenitora()" value="Municipio não listado"
+													icon="fa fa-warning" />
+											</div>
+											<div class="Container70 Responsive">
+												<p:outputLabel value="Novo Município:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputText id="novaNaturalidadeGenitora"
+														disabled="#{registroNascimento.disableNovoMunicipioGenitora}"
+														forceSelection="true" styleClass="Fleft Responsive"
+														minQueryLength="3" size="90"
+														placeholder="Município de nascimento..."
+														value="#{registroNascimento.registroNascimento.genitora.novoMunicipio}">
+													</p:inputText>
+												</div>
+											</div>
+											<!-- _______________________________________________________ -->
+											<div class="EmptyBox20" />
+											<p:fieldset legend="Documento" toggleable="false"
+												id="documentosGenitora" toggleSpeed="500">
+												<div class="EmptyBox20" />
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Tipo de Documento:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:selectOneMenu id="tipoDocumentoGenitora" filter="true"
+															required="true"
+															requiredMessage="Selecione o tipo de documento da Genitora."
+															value="#{registroNascimento.registroNascimento.genitora.documento.tipoDocumento}">
+															<f:selectItem value="#{null}"
+																itemLabel="Selecione o tipo de doc." />
+															<f:selectItems
+																value="#{registroNascimento.tiposDocumento}" var="tipo"
+																itemValue="#{tipo}" itemLabel="#{tipo.label}" />
+															<f:converter converterId="tipoDocumentoEnumConverter" />
+															<p:ajax
+																update="serieDocumentoGenitora,descricao_genitora,dataEmissao_genitora,s_uf_genitora,s_cartorioGenitora" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Número:" />
+													<div class="EmptyBox5"></div>
+													<p:inputText id="numeroDocumentoGenitora" required="true"
+														requiredMessage="Campo Vazio! Informe o número do documento."
+														value="#{registroNascimento.registroNascimento.genitora.documento.numero}"
+														styleClass="Fleft Responsive" />
+												</div>
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Série:" />
+													<div class="EmptyBox5"></div>
+													<p:inputText id="serieDocumentoGenitora" required="true"
+														requiredMessage="Campo Vazio! Informe a série do documento."
+														disabled="#{registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CPF' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NIT' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RIC' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RNE' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CNH' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NAO_IDENTIFICADO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RG'}"
+														value="#{registroNascimento.registroNascimento.genitora.documento.numeroSerie}"
+														styleClass="Fleft Responsive" />
+												</div>
+												<div class="EmptyBox20" />
+												<div class="Fleft Container60 Responsive">
+													<p:outputLabel value="Orgão Emissor:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:selectOneMenu id="s_cartorioGenitora" required="true"
+															disabled="#{registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CPF' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NIT' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RIC' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RNE' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'PASSAPORTE' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CNH' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CTPS' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NAO_IDENTIFICADO'}"
+															requiredMessage="Selecione o órgão emissor."
+															styleClass="Wid90"
+															value="#{registroNascimento.registroNascimento.genitora.documento.orgaoEmissao}"
+															filter="true" filterMatchMode="startsWith"
+															converter="orgaoEmissorConverter" effect="fade">
+															<f:selectItem itemLabel="SELECIONE O ÓRGÃO EMISSOR"
+																itemValue="#{null}" />
+															<f:selectItems
+																value="#{registroNascimento.orgaoEmissores}"
+																var="orgaoEmissor"
+																itemLabel="#{orgaoEmissor.descricao} / #{orgaoEmissor.abreviatura}"
+																itemValue="#{orgaoEmissor}" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="Fleft Container30 Responsive">
+													<p:outputLabel value="UF de Emissão:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:selectOneMenu id="s_uf_genitora" required="true"
+															disabled="#{registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CPF' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NIT' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RIC' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RNE' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'PASSAPORTE' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CNH' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CTPS' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+															registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NAO_IDENTIFICADO'}"
+															requiredMessage="Selecione o estado emissor do documento."
+															value="#{registroNascimento.registroNascimento.genitora.documento.ufEmissao}"
+															filter="true" filterMatchMode="startsWith"
+															converter="ufConverter" effect="fade">
+															<f:selectItem itemLabel="SELECIONE O ESTADO"
+																itemValue="#{null}" />
+															<f:selectItems value="#{registroNascimento.ufs}" var="uf"
+																itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+																itemValue="#{uf}" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="EmptyBox20" />
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Data de Emissão:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:calendar id="dataEmissao_genitora" navigator="true"
+															disabled="#{registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CPF' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NIT' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RNE' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NAO_IDENTIFICADO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RIC'}"
+															locale="pt_BR" placeholder="__/__/____" required="true"
+															requiredMessage="Campo Vazio! Informe a data de emissão do documento."
+															value="#{registroNascimento.registroNascimento.genitora.documento.dataEmissao}"
+															pattern="dd/MM/yyyy" mask="true" yearRange="c-120:c+0" />
+													</div>
+												</div>
+												<div class="Container60 Responsive">
+													<p:outputLabel value="Descrição:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:inputText id="descricao_genitora"
+															disabled="#{registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CPF' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'NIT' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CNH' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RNE' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RG' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'PASSAPORTE' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'CTPS' or
+													registroNascimento.registroNascimento.genitora.documento.tipoDocumento == 'RIC'}"
+															value="#{registroNascimento.registroNascimento.genitora.documento.descricao}"
+															styleClass="Fleft Responsive" />
+													</div>
+												</div>
+												<div class="EmptyBox5"></div>
+											</p:fieldset>
+											<div class="EmptyBox20" />
+											<div class="Fleft Container60 Responsive">
+												<p:outputLabel value="Profissão:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="ocupacaoGenitora"
+														converter="ocupacaoConverter" required="true"
+														requiredMessage="Selecione a profissão da Genitora."
+														value="#{registroNascimento.registroNascimento.genitora.ocupacao}">
+														<f:selectItem itemLabel="Selecione uma profissão." />
+														<f:selectItems value="#{registroNascimento.ocupacoes}"
+															var="ocp" itemValue="#{ocp}" itemLabel="#{ocp.cbo}" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="EmptyBox30" />
+										</p:panel>
+									</p:tab>
+									<p:tab id="dadosGenitorTab" title="Genitor">
+										<p:panel menuTitle="Genitor" id="dadosGenitorPanel"
+											header="Genitor">
+											<div class="EmptyBox20" />
+											<div class="Container100 Responsive">
+												<p:outputLabel value="Nome:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputText id="nomeGenitor" required="true"
+														requiredMessage="Campo Vazio! Informe o nome do Genitor."
+														value="#{registroNascimento.registroNascimento.genitor.nome}"
+														styleClass="Fleft Responsive"
+														placeholder="Informe o nome..." style="width: 95%;" />
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="EmptyBox20" />
+											<div class="Container50 Responsive">
+												<p:outputLabel value="País de Nascimento:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="paisNascimentoGenitor"
+														onchange="PF('paisNascimentoGenitora').Value(24);"
+														filter="true" filterMatchMode="startsWith" required="true"
+														requiredMessage="Selecione o país de nascimento do Genitor."
+														placeholder="Pais de nascimento..." style="width: 80%"
+														value="#{registroNascimento.registroNascimento.genitor.paisNascimento}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o país..." />
+														<f:selectItems value="#{registroNascimento.paisesIBGE()}"
+															var="paises" itemValue="#{paises}"
+															itemLabel="#{paises.nome}" />
+														<f:converter converterId="paisConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container50 Responsive">
+												<p:outputLabel value="Nacionalidade:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="NascionalidadeGenitor"
+														onchange="PF('paisNascimentoGenitora').Value(24);"
+														filter="true" filterMatchMode="startsWith" required="true"
+														requiredMessage="Campo Vazio: Informe a nacionalidade do Genitor"
+														placeholder="Pais de nascimento..." style="width: 80%"
+														value="#{registroNascimento.registroNascimento.genitor.nacionalidade}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o nacionalidade..." />
+														<f:selectItems value="#{registroNascimento.paisesIBGE()}"
+															var="paises" itemValue="#{paises}"
+															itemLabel="#{paises.nome}" />
+														<f:converter converterId="paisConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<!-- ______________________________________________________ -->
+											<div class="EmptyBox20" />
+											<div class="Fleft Container20 Responsive">
+												<p:outputLabel value="Naturalidade:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="s_ufGenitor"
+														disabled="#{registroNascimento.disableSelectNaturalidadeGenitor}"
+														value="#{registroNascimento.ufSelecionadaGenitor}"
+														filter="true" filterMatchMode="startsWith" required="true"
+														requiredMessage="Infome a naturalidade do Genitor"
+														converter="ufConverter" effect="fade">
+														<f:selectItem itemLabel="SELECIONE O ESTADO"
+															itemValue="#{null}" />
+														<f:selectItems value="#{registroNascimento.ufs}" var="uf"
+															itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+															itemValue="#{uf}" />
+														<p:ajax event="change"
+															listener="#{registroNascimento.habilitaListCidadesGenitor}" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container70 Responsive">
+												<p:outputLabel value="Municipio:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:autoComplete id="naturalidadeGenitor"
+														disabled="#{registroNascimento.disableCidadeGenitor}"
+														forceSelection="true" styleClass="Fleft Responsive"
+														minQueryLength="3" size="110" required="true"
+														requiredMessage="Campo Vazio! Informe o município do Genitor."
+														placeholder="Cidade de nascimento..."
+														completeMethod="#{registroNascimento.completeMunicipiosIBGEGenitor}"
+														converter="ibgeUFConverter" var="iUF"
+														itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+														value="#{registroNascimento.registroNascimento.genitor.naturalidade}">
+													</p:autoComplete>
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Wid30 Fleft" style="margin-top: 2%">
+												<p:remoteCommand name="rcMunGenitor"
+													actionListener="#{registroNascimento.novoMunicipioGenitora}" />
+												<p:commandButton type="button"
+													styleClass="RedButton Wid90 Fs16 White RaisedButton"
+													onclick="rcMunGenitor()" value="Municipio não listado"
+													icon="fa fa-warning" />
+											</div>
+											<div class="Container70 Responsive">
+												<p:outputLabel value="Novo Município:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputText id="novaNaturalidadeGenitor"
+														disabled="#{registroNascimento.disableNovoMunicipioGenitor}"
+														forceSelection="true" styleClass="Fleft Responsive"
+														minQueryLength="3" size="110" required="true"
+														requiredMessage="Informe um nome para incluir um novo munícipio."
+														placeholder="Município de nascimento..."
+														value="#{registroNascimento.registroNascimento.genitor.novoMunicipio}">
+													</p:inputText>
+												</div>
+											</div>
+											<!-- _______________________________________________________ -->
+											<div class="EmptyBox20" />
+											<p:fieldset legend="Documento" toggleable="false"
+												id="documentosGenitor" toggleSpeed="500">
+												<div class="EmptyBox20" />
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Tipo de Documento:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:selectOneMenu id="tipoDocumentoGenitor" required="true"
+															requiredMessage="Selecione o Tipo de Documento para o Genitor."
+															value="#{registroNascimento.registroNascimento.genitor.documento.tipoDocumento}">
+															<f:selectItem value="#{null}"
+																itemLabel="Selecione o tipo de doc." />
+															<f:selectItems
+																value="#{registroNascimento.tiposDocumento}" var="tipo"
+																itemValue="#{tipo}" itemLabel="#{tipo.label}" />
+															<f:converter converterId="tipoDocumentoEnumConverter" />
+															<p:ajax
+																update="serieDocumentoGenitor,descricao_genitor,dataEmissao_genitor,s_uf_genitor,s_cartorioGenitor" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Número:" />
+													<div class="EmptyBox5"></div>
+													<p:inputText id="numeroDocumentoGenitor" required="true"
+														requiredMessage="Campo Vazio: Informe o número do documento do Genitor"
+														value="#{registroNascimento.registroNascimento.genitor.documento.numero}"
+														styleClass="Fleft Responsive" />
+												</div>
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Série:" />
+													<div class="EmptyBox5"></div>
+													<p:inputText id="serieDocumentoGenitor" required="true"
+														requiredMessage="Campo Vazio: Informe a série do documento."
+														disabled="#{registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CPF' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NIT' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RIC' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RNE' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CNH' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NAO_IDENTIFICADO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RG'}"
+														value="#{registroNascimento.registroNascimento.genitor.documento.numeroSerie}"
+														styleClass="Fleft Responsive" />
+												</div>
+												<div class="EmptyBox20" />
+												<div class="Fleft Container60 Responsive">
+													<p:outputLabel value="Orgão Emissor:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:selectOneMenu id="s_cartorioGenitor" styleClass="Wid90"
+															disabled="#{registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CPF' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NIT' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RIC' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RNE' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'PASSAPORTE' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CNH' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CTPS' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NAO_IDENTIFICADO'}"
+															value="#{registroNascimento.registroNascimento.genitor.documento.orgaoEmissao}"
+															filter="true" filterMatchMode="startsWith"
+															required="true"
+															requiredMessage="Selecione o órgão emissor do documento."
+															converter="orgaoEmissorConverter" effect="fade">
+															<f:selectItem itemLabel="SELECIONE O ÓRGÃO EMISSOR"
+																itemValue="#{null}" />
+															<f:selectItems
+																value="#{registroNascimento.orgaoEmissores}"
+																var="orgaoEmissor"
+																itemLabel="#{orgaoEmissor.descricao} / #{orgaoEmissor.abreviatura}"
+																itemValue="#{orgaoEmissor}" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="Fleft Container30 Responsive">
+													<p:outputLabel value="UF de Emissão:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:selectOneMenu id="s_uf_genitor" required="true"
+															disabled="#{registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CPF' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NIT' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RIC' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RNE' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'PASSAPORTE' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CNH' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CTPS' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+															registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NAO_IDENTIFICADO'}"
+															requiredMessage="Selecione o estado emissor do documento."
+															value="#{registroNascimento.registroNascimento.genitor.documento.ufEmissao}"
+															filter="true" filterMatchMode="startsWith"
+															converter="ufConverter" effect="fade">
+															<f:selectItem itemLabel="SELECIONE O ESTADO"
+																itemValue="#{null}" />
+															<f:selectItems value="#{registroNascimento.ufs}" var="uf"
+																itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+																itemValue="#{uf}" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="EmptyBox20" />
+												<div class="Container30 Responsive">
+													<p:outputLabel value="Data de Emissão:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:calendar id="dataEmissao_genitor" navigator="true"
+															required="true"
+															requiredMessage="Campo Vazio: Informe a data de emissão do documento."
+															disabled="#{registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CPF' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NIT' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RNE' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NAO_IDENTIFICADO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RIC'}"
+															locale="pt_BR" placeholder="__/__/____"
+															value="#{registroNascimento.registroNascimento.genitor.documento.dataEmissao}"
+															pattern="dd/MM/yyyy" mask="true" yearRange="c-120:c+0" />
+													</div>
+												</div>
+												<div class="Container60 Responsive">
+													<p:outputLabel value="Descrição:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:inputText id="descricao_genitor" required="true"
+															requiredMessage="Campo Vazio: Informe a descrição para o documento."
+															disabled="#{registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CPF' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'NIT' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CNH' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RNE' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RG' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'PASSAPORTE' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'CTPS' or
+													registroNascimento.registroNascimento.genitor.documento.tipoDocumento == 'RIC'}"
+															value="#{registroNascimento.registroNascimento.genitor.documento.descricao}"
+															styleClass="Fleft Responsive" />
+													</div>
+												</div>
+												<div class="EmptyBox5"></div>
+											</p:fieldset>
+											<div class="EmptyBox20" />
+											<div class="Container80 Responsive">
+												<p:outputLabel value="Profissão do Genitor:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="profissaoGenitor" style="width: 95%;"
+														filter="true" required="true"
+														requiredMessage="Selecione a profissão do Genitor."
+														value="#{registroNascimento.registroNascimento.genitor.ocupacao}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione a profissão do genitor." />
+														<f:selectItems value="#{registroNascimento.ocupacoes}"
+															var="ocp" itemValue="#{ocp}" itemLabel="#{ocp.cbo}" />
+														<f:converter converterId="ocupacaoConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="EmptyBox30" />
+										</p:panel>
+									</p:tab>
+									<p:tab id="enderecoCasalTab" title="Endereço">
+										<p:panel menuTitle="Endereço" id="enderecoCasalPanel"
+											header="Endereço">
+											<div class="EmptyBox20" />
+											<div class="Container100 Responsive">
+												<h:outputText value="Marque se os genitores moram juntos:"
+													style="color: red; font-size: 1.2em; margin-left:2%;" />
+												<p:selectBooleanCheckbox
+													value="#{registroNascimento.morarJunto}"
+													style="margin-left: 5%">
+													<p:ajax update=":formCadastro:enderecoCasalTabView" />
+												</p:selectBooleanCheckbox>
+											</div>
+											<div class="EmptyBox20" />
+											<p:tabView id="enderecoCasalTabView">
+												<div class="EmptyBox20" />
+												<p:tab title="Endereço da Genitora" id="enderecoGenitora">
+													<div class="Container50 Responsive">
+														<p:outputLabel value="CEP:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputMask id="cepGenitora" mask="99999-999"
+																required="true" placeholder="00000-000"
+																requiredMessage="Campo Vazio! Informe o CEP"
+																value="#{registroNascimento.registroNascimento.genitora.endereco.cep}"
+																styleClass="Fleft Responsive" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Container100 Responsive">
+														<p:outputLabel value="Endereço:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="logradouroGenitora" required="true"
+																requiredMessage="Campo Vazio! Informe o endereço..."
+																placeholder="Ex.: Alameda xx, Quadra xx, ..."
+																value="#{registroNascimento.registroNascimento.genitora.endereco.logradouro}"
+																styleClass="Fleft Responsive" style="width: 95%;" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Container30 Responsive">
+														<p:outputLabel value="Número:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="numeroGenitora"
+																value="#{registroNascimento.registroNascimento.genitora.endereco.numero}"
+																styleClass="Fleft Responsive" />
+														</div>
+													</div>
+													<div class="Container70 Responsive">
+														<p:outputLabel value="Bairro:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="bairroGenitora" required="true"
+																requiredMessage="Informe o bairro!"
+																placeholder="Infome o bairro para o endereço."
+																value="#{registroNascimento.registroNascimento.genitora.endereco.bairro}"
+																styleClass="Fleft Responsive" style="width: 95%;" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Container100 Responsive">
+														<p:outputLabel value="Complemento:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="complementoGenitora"
+																value="#{registroNascimento.registroNascimento.genitora.endereco.complemento}"
+																styleClass="Fleft Responsive" style="width: 95%;" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Fleft Container25 Responsive">
+														<p:outputLabel value="Estado:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:selectOneMenu id="s_uf_casal_genitora"
+																value="#{registroNascimento.ufSelecionadaCasalGenitora}"
+																filter="true" filterMatchMode="startsWith"
+																required="true" requiredMessage="Informe o Estado."
+																converter="ufConverter" effect="fade">
+																<f:selectItem itemLabel="SELECIONE O ESTADO"
+																	itemValue="#{null}" />
+																<f:selectItems value="#{registroNascimento.ufs}"
+																	var="uf" itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+																	itemValue="#{uf}" />
+																<p:ajax event="change"
+																	update=":formCadastro:enderecoCasalTabView:municipioCasalGenitora"
+																	listener="#{registroNascimento.habilitaListCidadesCasalGenitora}" />
+															</p:selectOneMenu>
+														</div>
+													</div>
+													<div class="Container70 Responsive">
+														<p:outputLabel value="Cidade:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:autoComplete id="municipioCasalGenitora"
+																disabled="#{registroNascimento.disableCidadeCasalGenitora}"
+																forceSelection="true" styleClass="Fleft Responsive"
+																required="true" minQueryLength="3" size="100"
+																requiredMessage="Campo Vazio! Informe a cidade da genitora."
+																placeholder="Cidade de nascimento..."
+																completeMethod="#{registroNascimento.completeMunicipiosIBGECasalGenitora}"
+																converter="ibgeUFConverter" var="iUF"
+																itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+																value="#{registroNascimento.registroNascimento.genitora.endereco.municipioUF}">
+															</p:autoComplete>
+														</div>
+													</div>
+													<div class="EmptyBox30" />
+												</p:tab>
+												<p:tab title="Endereço do Genitor"
+													rendered="#{registroNascimento.morarJunto == false}"
+													id="enderecoGenitor">
+													<div class="Container50 Responsive">
+														<p:outputLabel value="CEP:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="cepGenitor" placeholder="00000-000"
+																required="true"
+																requiredMessage="Campo Vazio! Informe o CEP do Genitor."
+																value="#{registroNascimento.registroNascimento.genitor.endereco.cep}"
+																styleClass="Fleft Responsive" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Container100 Responsive">
+														<p:outputLabel value="Endereço:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="logradouroGenitor" required="true"
+																requiredMessage="Campo Vazio! Informe o endereço do Genitor."
+																placeholder="Ex.: Alameda xx, Quadra xx, ..."
+																value="#{registroNascimento.registroNascimento.genitor.endereco.logradouro}"
+																styleClass="Fleft Responsive" style="width: 95%;" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Container30 Responsive">
+														<p:outputLabel value="Número:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="numeroGenitor"
+																value="#{registroNascimento.registroNascimento.genitor.endereco.numero}"
+																styleClass="Fleft Responsive" />
+														</div>
+													</div>
+													<div class="Container70 Responsive">
+														<p:outputLabel value="Bairro:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="bairroGenitor" required="true"
+																requiredMessage="Campo Vazio! Informe o bairro do Genitor."
+																placeholder="Infome o bairro para o endereço."
+																value="#{registroNascimento.registroNascimento.genitor.endereco.bairro}"
+																styleClass="Fleft Responsive" style="width: 95%;" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Container100 Responsive">
+														<p:outputLabel value="Complemento:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:inputText id="complementoGenitor"
+																value="#{registroNascimento.registroNascimento.genitor.endereco.complemento}"
+																styleClass="Fleft Responsive" style="width: 95%;" />
+														</div>
+													</div>
+													<div class="EmptyBox20" />
+													<div class="Fleft Container25 Responsive">
+														<p:outputLabel value="Estado:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:selectOneMenu id="s_uf_casal_genitor"
+																value="#{registroNascimento.ufSelecionadaCasalGenitor}"
+																filter="true" filterMatchMode="startsWith"
+																required="true"
+																requiredMessage="Informe o Estado do Genitor."
+																converter="ufConverter" effect="fade">
+																<f:selectItem itemLabel="SELECIONE O ESTADO"
+																	itemValue="#{null}" />
+																<f:selectItems value="#{registroNascimento.ufs}"
+																	var="uf" itemLabel="#{uf.descUF} / #{uf.siglaUF}"
+																	itemValue="#{uf}" />
+																<p:ajax event="change"
+																	update=":formCadastro:enderecoCasalTabView:municipioCasalGenitor"
+																	listener="#{registroNascimento.habilitaListCidadesCasalGenitor}" />
+															</p:selectOneMenu>
+														</div>
+													</div>
+													<div class="Container70 Responsive">
+														<p:outputLabel value="Cidade:" />
+														<div class="EmptyBox5"></div>
+														<div class="container100">
+															<p:autoComplete id="municipioCasalGenitor"
+																disabled="#{registroNascimento.disableCidadeCasalGenitor}"
+																forceSelection="true" styleClass="Fleft Responsive"
+																required="true" minQueryLength="3" size="100"
+																requiredMessage="Campo Vazio! Informe a cidade da genitor."
+																placeholder="Cidade de nascimento..."
+																completeMethod="#{registroNascimento.completeMunicipiosIBGECasalGenitor}"
+																converter="ibgeUFConverter" var="iUF"
+																itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+																value="#{registroNascimento.registroNascimento.genitor.endereco.municipioUF}">
+															</p:autoComplete>
+														</div>
+													</div>
+													<div class="EmptyBox30" />
+												</p:tab>
+											</p:tabView>
+											<div class="EmptyBox30" />
+										</p:panel>
+									</p:tab>
+									<p:tab id="parentesDiretosTab" title="Parentes Diretos">
+										<p:panel menuTitle="Parentes Diretos"
+											id="parentesDiretosPanel" header="Parentes Diretos">
+											<div class="EmptyBox20" />
+											<p:fieldset legend="Avós Materno" toggleable="false"
+												id="avosMaterno" toggleSpeed="500">
+												<div class="Container100 Responsive">
+													<p:outputLabel value="Avó:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:inputText id="avo1Materno"
+															value="#{registroNascimento.registroNascimento.genitora.mae}"
+															styleClass="Fleft Responsive" style="width: 95%;" />
+													</div>
+												</div>
+												<div class="Container100 Responsive">
+													<p:outputLabel value="Avô:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:inputText id="avo2Materno"
+															value="#{registroNascimento.registroNascimento.genitora.pai}"
+															styleClass="Fleft Responsive" style="width: 95%;" />
+													</div>
+												</div>
+											</p:fieldset>
+											<p:fieldset legend="Avós Paterno" toggleable="false"
+												id="avosPaterno" toggleSpeed="500">
+												<div class="Container100 Responsive">
+													<p:outputLabel value="Avó:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:inputText id="avo1Paterno"
+															value="#{registroNascimento.registroNascimento.genitor.mae}"
+															styleClass="Fleft Responsive" style="width: 95%;" />
+													</div>
+												</div>
+												<div class="Container100 Responsive">
+													<p:outputLabel value="Avô:" />
+													<div class="EmptyBox5"></div>
+													<div class="container100">
+														<p:inputText id="avo2Paterno"
+															value="#{registroNascimento.registroNascimento.genitor.pai}"
+															styleClass="Fleft Responsive" style="width: 95%;" />
+													</div>
+												</div>
+											</p:fieldset>
+										</p:panel>
+									</p:tab>
+									<p:tab id="observacaoTab" title="Observação">
+										<p:panel menuTitle="Observações" id="observacaoPanel"
+											header="Observações">
+											<div class="Container100 Responsive">
+												<p:outputLabel value="Observação:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputTextarea id="observacao_registro"
+														value="#{registroNascimento.registroNascimento.observacao}"
+														styleClass="Fleft Responsive" style="width: 80%;" />
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+										</p:panel>
+										<div class="EmptyBox30" />
+									</p:tab>
+									<p:tab id="impressoSeguranca"
+										title="Impresso Segurança e Selo Digital">
+										<p:panel menuTitle="Impresso Segurança e Selo Digital"
+											id="impressoSegurancaPanel"
+											header="Impresso Segurança e Selo Digital">
+											<div class="EmptyBox20" />
+											<div class="Container100 Responsive">
+												<p:outputLabel value="Número de Série:" />
+												<div class="EmptyBox5"></div>
+												<div class="container50">
+													<p:inputText id="numeroSerie" required="true"
+														maxlength="15" placeholder="Ex.: AAA 887.876"
+														requiredMessage="Informe o número de série."
+														value="#{registroNascimento.registroNascimento.impressoSeguranca.numeroSerie}"
+														styleClass="Fleft Responsive" style="width: 50%" />
+												</div>
+											</div>
+											<div class="EmptyBox20" />
+											<div class="Container30 Responsive">
+												<p:outputLabel value="Via:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="via" required="true"
+														requiredMessage="Informe a Via!"
+														value="#{registroNascimento.registroNascimento.impressoSeguranca.via}">
+														<f:selectItem value="#{null}" itemLabel="Selecione a via" />
+														<f:selectItems value="#{registroNascimento.vias}"
+															var="vias" itemValue="#{vias}" itemLabel="#{vias.label}" />
+														<f:converter converterId="viaEnumConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container30 Responsive">
+												<p:outputLabel value="Tipo de Impresso:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:selectOneMenu id="tipoImpressoSeguranca" required="true"
+														requiredMessage="Informe o tipo de impresso de segurança!"
+														value="#{registroNascimento.registroNascimento.impressoSeguranca.tipoImpressoSeguranca}">
+														<f:selectItem value="#{null}"
+															itemLabel="Selecione o tipo de impresso" />
+														<f:selectItems
+															value="#{registroNascimento.impressosSeguranca}"
+															var="impressos" itemValue="#{impressos}"
+															itemLabel="#{impressos.label}" />
+														<f:converter converterId="impressoSegurancaEnumConverter" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="Container20 Responsive" style="margin-left: 2%">
+												<p:outputLabel value="Selo Digital:" />
+												<div class="EmptyBox5"></div>
+												<div class="container100">
+													<p:inputMask id="seloDigital"
+														value="#{registroNascimento.registroNascimento.impressoSeguranca.seloDigital}"
+														mask="999999aaa999999-***" styleClass="Fleft Responsive"
+														placeholder="Ex.: 000000AAA000000-A0A"
+														style="width: 95%;text-transform: uppercase" />
+												</div>
+											</div>
+											<div class="EmptyBox30" />
+											<div class="Wid20 Fright">
+												<p:remoteCommand name="rc1" update="@(form)"
+													actionListener="#{registroNascimento.acaoIncluir}" />
+												<p:commandButton type="button" resetValues="true"
+													oncomplete="PF('wiz').loadStep('dadosCertidaoTab', false)"
+													styleClass="BlueButton Wid60 Fs16 White RaisedButton"
+													onclick="rc1()" value="Finalizar" icon="fa fa-arrow-right" />
+											</div>
+											<div class="EmptyBox10"></div>
+										</p:panel>
+									</p:tab>
+								</p:wizard>
+							</div>
+						</h:form>
+						<p:dialog header="Adicionar novo local" modal="true"
+							resizable="false" widgetVar="dlg1" width="70%" height="100%"
+							showEffect="puff" hideEffect="clip">
+							<h:form id="formLocal" enctype="multipart/form-data">
+								<p:growl id="growl" />
+								<div class="EmptyBox20" />
+								<div class="container">
+									<div class="Container100 Responsive">
+										<p:outputLabel value="Nome do local:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:inputText id="descricao"
+												value="#{cadastroLocal.local.descricao}"
+												styleClass="Fleft Responsive" style="width: 95%;" />
+										</div>
+									</div>
+									<div class="EmptyBox20" />
+									<div class="Fleft Container20 Responsive">
+										<p:outputLabel value="Estado:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="s_ufLocal"
+												value="#{cadastroLocal.ufSelecionada}" filter="true"
+												filterMatchMode="startsWith" converter="ufConverter"
+												effect="fade">
+												<f:selectItem itemLabel="SELECIONE O ESTADO"
+													itemValue="#{null}" />
+												<f:selectItems value="#{cadastroLocal.ufs}" var="uf"
+													itemLabel="#{uf.descUF} / #{uf.siglaUF}" itemValue="#{uf}" />
+												<p:ajax event="change"
+													listener="#{cadastroLocal.habilitaListCidades}" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="Container70 Responsive" style="margin-left: 2%">
+										<p:outputLabel value="Cidade:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:autoComplete id="cidadeLocal"
+												disabled="#{cadastroLocal.disableCidade}"
+												forceSelection="true" styleClass="Fleft Responsive"
+												minQueryLength="3" size="100"
+												placeholder="Cidade de nascimento..."
+												completeMethod="#{cadastroLocal.completeMunicipiosIBGE}"
+												converter="ibgeUFConverter" var="iUF"
+												itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+												value="#{cadastroLocal.local.endereco.municipioUF}">
+											</p:autoComplete>
+										</div>
+									</div>
+									<div class="EmptyBox20" />
+									<div class="Fleft Container30 Responsive">
+										<p:outputLabel value="Número:" />
+										<div class="EmptyBox5"></div>
+										<p:inputText id="numero" styleClass="Wid90"
+											value="#{cadastroLocal.local.endereco.numero}" />
+									</div>
+									<div class="Fleft Container50 Responsive">
+										<p:outputLabel value="Endereço:" />
+										<div class="EmptyBox5"></div>
+										<p:inputText id="logradouro" styleClass="Wid90"
+											value="#{cadastroLocal.local.endereco.logradouro}" />
+									</div>
+									<div class="EmptyBox20" />
+									<div class="Fleft Container50 Responsive">
+										<p:outputLabel value="Bairro:" />
+										<div class="EmptyBox5"></div>
+										<p:inputText id="bairro" styleClass="Wid90"
+											value="#{cadastroLocal.local.endereco.bairro}" />
+									</div>
+									<div class="Fleft Container50 Responsive">
+										<p:outputLabel value="Complemento:" />
+										<div class="EmptyBox5"></div>
+										<p:inputText id="complemento" styleClass="Wid90"
+											value="#{cadastroLocal.local.endereco.complemento}" />
+									</div>
+									<div class="EmptyBox20" />
+								</div>
+
+								<div class="EmptyBox20" />
+								<div class="Wid30">
+									<p:remoteCommand name="rc1"
+										actionListener="#{cadastroLocal.acaoIncluir}" />
+									<p:commandButton type="button"
+										update=":formCadastro:localNascimentoTab:localNascimento"
+										styleClass="GreenButton Wid60 Fs18 White RaisedButton"
+										onclick="rc1()" value="Adicionar" icon="fa fa-save" />
+								</div>
+							</h:form>
+						</p:dialog>
+						<p:dialog header="O que deseja fazer?" modal="true"
+							resizable="false" widgetVar="dlgAcao" width="70%" height="100%"
+							showEffect="puff" hideEffect="clip">
+							<h:form id="formAcao" enctype="multipart/form-data">
+								<p:growl id="growl" />
+								<div class="EmptyBox20" />
+								<div class="Fleft Container100 Responsive">
+									<div class="Wid30">
+										<p:remoteCommand name="rc3"
+											actionListener="#{registroNascimento.redirecionaHome}" />
+										<p:commandButton type="button"
+											styleClass="RedButton Wid60 Fs16 White RaisedButton"
+											onclick="rc3()" value="Ir para o Home" icon="fa fa-home" />
+									</div>
+									<div class="Wid30">
+										<p:remoteCommand name="rc2"
+											actionListener="#{registroNascimento.redirecionaNovoCadastro}" />
+										<p:commandButton type="button"
+											styleClass="GreenButton Wid60 Fs16 White RaisedButton"
+											onclick="rc2()" value="Novo Registro" icon="fa fa-plus" />
+									</div>
+									<div class="Wid30">
+										<p:remoteCommand name="rc4"
+											actionListener="#{registroNascimento.acaoImprimir}" />
+										<p:commandButton type="button"
+											styleClass="BlueButton Wid60 Fs16 White RaisedButton"
+											onclick="rc4()" value="Imprimir" icon="fa fa-print" />
+									</div>
+								</div>
+							</h:form>
+						</p:dialog>
+						<p:dialog header="Documento Gerado." modal="true"
+							resizable="false" widgetVar="dlgImp" width="80%" height="600px"
+							showEffect="puff" hideEffect="clip">
+							<div class="Container100 Responsive">
+								<h:form id="formPDF" enctype="multipart/form-data"
+									rendered="#{registroNascimento.pathRelatorio != null}">
+									<p:growl id="growl" />
+									<p:panel menuTitle="Último documento gerado"
+										header="Último documento gerado">
+										<div class="EmptyBox20"></div>
+										<object id="viewPDF" type="application/pdf"
+											data="../#{registroNascimento.pathRelatorio}" height="400px"
+											width="100%">
+											Seu navegador não mostrou o pdf, <a
+												href="../#{registroNascimento.pathRelatorio}">click aqui</a>
+											para baixar o documento.
+										</object>
+									</p:panel>
+								</h:form>
+							</div>
+						</p:dialog>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

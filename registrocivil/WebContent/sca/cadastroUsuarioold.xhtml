@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="pt-br">
+
+<ui:composition template="../resources/template/templateNovo.xhtml">
+
+
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<h:form id="form">
+			<p:panel header="Cadastro de Usuário">
+				<p:panel>
+					<h:panelGrid styleClass="input-text" style="border:none;"
+						id="display">
+						<p:growl id="growl" />
+						<h:panelGrid columns="8"
+							style="left: 10px; margin-top: 10px;  position: relative; "
+							cellspacing="1">
+
+							<h:outputText value="Nome:" for="txt_nome" />
+							<h:outputText value="*" styleClass="asterisco" />
+							<p:inputText id="nomeCompleto"
+								value="#{cadastroUsuario.usuario.nomeCompleto}"
+								style="width:300px;" />
+
+							<h:outputText value="Login :" for="txt_login"
+								style="margin-left:15px" />
+							<h:outputText value="*" styleClass="asterisco" />
+							<p:inputText id="login" value="#{cadastroUsuario.usuario.login}" />
+							<h:panelGroup style=" margin-left: 10px;">
+								<h:outputText value="Ativo? " />
+								<h:selectBooleanCheckbox
+									value="#{cadastroUsuario.usuario.flagAtivo}" />
+							</h:panelGroup>
+						</h:panelGrid>
+						<h:panelGrid columns="7" style="left: 10px;  position: relative;"
+							cellspacing="1">
+							<h:outputText value="Telefone: " for="txt_telefone"
+								style="margin-left:-18px" />
+							<p:inputMask id="telefone" mask="99-9999-9999"
+								value="#{cadastroUsuario.usuario.telefone}" required="false"
+								style="margin-left:-8px;" />
+
+							<h:outputText value="Ramal :" for="txt_ramal" />
+							<p:inputText id="ramal" required="false"
+								value="#{cadastroUsuario.usuario.ramal}" />
+							<h:outputText value="Email :" for="txt_email"
+								style="margin-left:15px" />
+							<p:inputText id="email" style="width: 200px; margin-left: 12px;"
+								value="#{cadastroUsuario.usuario.email}" />
+							<h:inputHidden value="#{cadastroUsuario.usuario.id}" id="id" />
+
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<h:outputText value="Administrador? " />
+							<h:selectBooleanCheckbox
+								value="#{cadastroUsuario.usuario.administradorGeral}" />
+						</h:panelGrid>
+
+					</h:panelGrid>
+
+
+					<h:panelGrid columns="5" id="commands"
+						styleClass="ui-panel ui-widget ui-widget-content ui-corner-all"
+						style=" height: 50px; 
+						  margin-left: 20px; ">
+						<h:panelGroup>
+							<p:commandLink
+								update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+								id="incluir" alt="Incluir"
+								actionListener="#{cadastroUsuario.acaoIncluir}"
+								style="margin-left:10px;"
+								disabled="#{cadastroUsuario.usuario.id != null}">
+								<p:graphicImage
+									value="#{(cadastroUsuario.usuario.id == null || cadastroUsuario.usuario.id ==0) ? '../resources/images/salvar.png' : '../resources/images/salvar_off.png'}" />
+							</p:commandLink>
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:commandLink id="alterar" title="Alterar"
+								update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+								actionListener="#{cadastroUsuario.acaoAlterar}"
+								disabled="#{(cadastroUsuario.usuario.id == null || cadastroUsuario.usuario.id ==0)}"
+								style="margin-left:15px;">
+								<p:graphicImage
+									value="#{(cadastroUsuario.usuario.id == null || cadastroUsuario.usuario.id ==0) ? '../resources/images/alterar_off.png' : '../resources/images/alterar.png'}" />
+							</p:commandLink>
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:commandLink id="alterarSenha" title="Alterar Senha"
+								actionListener="#{cadastroUsuario.acaoAtribuirSenha}"
+								update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+								disabled="#{(cadastroUsuario.usuario.id == null || cadastroUsuario.usuario.id ==0)}"
+								style="margin-left:15px;">
+
+								<p:graphicImage
+									value="#{(cadastroUsuario.usuario.id == null || cadastroUsuario.usuario.id ==0) ? '../resources/images/senha_off.png' : '../resources/images/senha_on.png'}" />
+
+							</p:commandLink>
+						</h:panelGroup>
+
+
+						<h:commandButton id="limpar" title="Limpar "
+							actionListener="#{cadastroUsuario.acaoLimpar}"
+							image="../resources/images/limpar.png"
+							style="margin-left:15px; margin-right:15px; " />
+					</h:panelGrid>
+
+
+				</p:panel>
+
+
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+
+
+	<ui:define name="footer" id="#{facesContext.externalContext.request}">
+		<p:panel style="margin-top:15px;" id="panel3">
+			<p:dataTable id="dataTable" var="usuario"
+				value="#{cadastroUsuario.usuarioDM}" selectionMode="single"
+				selection="#{cadastroUsuario.usuario}" paginator="true" rows="7"
+				style="width:100%; ">
+
+				<p:ajax event="rowSelect" listener="#{cadastroUsuario.onRowSelect}"
+					update=":form:commands, :form:display" />
+
+				<p:column headerText="Login" style="width:100px;">
+					<h:outputText value="#{usuario.login}" style="width:100px;" />
+				</p:column>
+				<p:column headerText="Nome" style="width:100px;">
+					<h:outputText value="#{usuario.nomeCompleto}" style="width:100px;" />
+				</p:column>
+				<p:column headerText="Telefone" style="width:100px;">
+					<h:outputText value="#{usuario.telefone}" style="width:100px;" />
+				</p:column>
+				<p:column headerText="Ramal" style="width:100px;">
+					<h:outputText value="#{usuario.ramal}" style="width:100px;" />
+				</p:column>
+				<p:column headerText="email" style="width:100px;">
+					<h:outputText value="#{usuario.email}" style="width:100px;" />
+				</p:column>
+				<p:column style="width:100px;">
+					<h:outputText value="#{(usuario.flagAtivo)? 'ATIVO' : 'INATIVO'}"
+						style="width:100px;" />
+				</p:column>
+			</p:dataTable>
+
+
+		</p:panel>
+
+
+
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<p:confirmDialog id="confirmDialog"
+			message="Deseja excluir esse usuário?" header="Exclusão"
+			severity="alert" widgetVar="confirmation" appendToBody="true">
+			<h:form id="formConfirmDialogExcluir">
+				<p:commandButton id="sim" value="SIM"
+					update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+					oncomplete="confirmation.hide()" ajax="true"
+					actionListener="#{cadastroUsuario.acaoExcluir}" />
+				<p:commandButton id="nao" value="NÃO" onclick="confirmation.hide()" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="dataSindSessionFactory" class="br.com.datasind.cadastro.SessionFactory"
+		init-method="initialize" />
+
+	<bean id="fabricaTransacao"
+		class="br.com.datasind.transacao.hibernate.FabricaTransacaoHibernate">
+		<property name="sessionFactory">
+			<ref bean="dataSindSessionFactory" />
+		</property>
+		<property name="contexto">
+			<bean class="br.com.datasind.transacao.ContextoFabricaTransacaoImpl" />
+		</property>
+	</bean>
+
+	<bean id="gerenteTransacao" class="br.com.datasind.gerente.GerenteTransacaoImpl">
+		<property name="fabricaTransacao">
+			<ref bean="fabricaTransacao" />
+		</property>
+	</bean>
+
+
+	<bean id="contextoGerente" class="br.com.datasind.gerente.ContextoGerenteCadastroImpl">
+		<property name="fabricaGerente">
+			<ref bean="fabricaGerente" />
+		</property>
+		<property name="fabricaValidador">
+			<ref bean="fabricaValidador" />
+		</property>
+	</bean>
+
+	<bean id="fabricaGerente" class="br.com.datasind.gerente.FabricaGerente" />
+
+	<bean id="fabricaValidador" class="br.com.datasind.validacao.FabricaValidador">
+		<property name="contextoValidador">
+			<bean class="br.com.datasind.validacao.ContextoValidadorImpl">
+				<property name="fabricaGerente">
+					<ref bean="fabricaGerente" />
+				</property>
+				<property name="fabricaValidador">
+					<ref bean="fabricaValidador" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="baseGerente" abstract="true">
+		<property name="contexto">
+			<ref bean="contextoGerente" />
+		</property>
+	</bean>
+
+	<bean id="dataMethodsPointcut" class="br.com.datasind.aop.WriteMethodPointcut" />
+
+	<!-- EmptyToNullParametersAdvice -->
+
+	<!-- CloseSessionOnHibernateExceptionAdvice -->
+
+	<bean id="anyMethodPointcut" class="org.springframework.aop.TruePointcut" />
+
+	<bean id="closeSessionOnHibernateExceptionAdvice"
+		class="br.com.datasind.aop.CloseSessionOnHibernateExceptionAdvice" />
+
+	<bean id="closeSessionOnHibernateExceptionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut">
+			<ref local="anyMethodPointcut" />
+		</property>
+		<property name="advice">
+			<ref local="closeSessionOnHibernateExceptionAdvice" />
+		</property>
+	</bean>
+
+	<!-- WriteSessionHibernateInterceptor -->
+	<bean id="writeSessionHibernateInterceptor" class="br.com.datasind.aop.WriteSessionHibernateInterceptor" />
+
+	<bean id="writeSessionHibernateAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut">
+			<ref local="dataMethodsPointcut" />
+		</property>
+		<property name="advice">
+			<ref local="writeSessionHibernateInterceptor" />
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<value>gerente*</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>writeSessionHibernateAdvisor</value>
+				<value>closeSessionOnHibernateExceptionAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="gerenteControleAcesso" parent="baseGerente"
+		class="br.com.datasind.gerente.GerenteControleAcessoImpl">
+	</bean>
+
+	<bean id="gerenteArquivos" class="br.com.datasind.gerente.GerenteArquivosFS">
+	</bean>
+
+</beans>

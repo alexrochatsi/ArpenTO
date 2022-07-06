@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition template="../resources/template/templatePortal.xhtml">
+
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<script language="javascript" type="text/javascript">
+			$(document).ready(function() {
+				setInterval("location.reload(true)", 300000);
+			});
+		</script>
+
+		<h:form id="form">
+
+			<p:growl id="growl" />
+
+			<div class="container" style="width: 1000px;">
+
+				<div class="tile-group one">
+					<div class="tile-group-title">Pessoal</div>
+
+					<p:link styleClass="tile bg-dark" style="width: 55px"
+						title="Minhas Mensagens">
+						<div class="iconPessoal">
+
+							<span class="fa fa-comments fa-4x btn-group whiteiconcolor"></span>
+						</div>
+						<div class="brand">
+							<div id="qtdMsg" class="badge bg-white fg-black"
+								style="font-weight: bold;">0</div>
+						</div>
+
+					</p:link>
+
+					<p:link styleClass="tile bg-dark" style="width: 55px"
+						title="Processos em Minha Posse">
+						<div class="iconPessoal">
+							<span class="fa fa-home fa-4x btn-group whiteiconcolor"></span>
+						</div>
+						<div class="brand">
+							<div id="qtdHome" class="badge bg-white fg-black"
+								style="font-weight: bold;">0</div>
+						</div>
+					</p:link>
+					<p:link styleClass="tile bg-dark" style="width: 55px"
+						title="Processos Cx. Entrada">
+						<div class="iconPessoal">
+
+							<span class="fa fa-download fa-4x btn-group whiteiconcolor"></span>
+						</div>
+						<div class="brand">
+							<div id="qtdCxEntrada" class="badge bg-lightBlue fg-white"
+								style="font-weight: bold;">0</div>
+						</div>
+					</p:link>
+					<p:link styleClass="tile bg-dark" style="width: 55px"
+						title="Processos Cx. Saída">
+						<div class="iconPessoal">
+							<span class="fa fa-upload fa-4x btn-group whiteiconcolor"></span>
+
+						</div>
+						<div class="brand">
+							<div id="qtdCxSaida" class="badge bg-lime fg-white"
+								style="font-weight: bold;">0</div>
+						</div>
+					</p:link>
+				</div>
+
+				<div class="tile-group three">
+					<div class="tile-group-title">Monitoramentos</div>
+					<p:commandLink styleClass="tileMonitoracao bg-amber">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<!-- 							<p:outputLabel id="qtdBusca" value="#{portal.qntdBuscas}" -->
+							<!-- 								styleClass="fg-white" -->
+							<!-- 								style="text-align: center; font-size: 6em; font-weight: bold;" /> -->
+							<div style="text-align: center;">
+								<p:outputLabel id="qtdBusca" value="0" styleClass="fg-white"
+									style="text-align: center; font-size: 4.5em; font-weight: bold;" />
+							</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Possíveis Busca EPROC</div>
+						</div>
+					</p:commandLink>
+
+					<p:commandLink styleClass="tileMonitoracao bg-darkRed"
+						oncomplete="PF('dlgMandado').show()">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<!-- 							<p:outputLabel id="qtdBusca" value="#{portal.qntdBuscas}" -->
+							<!-- 								styleClass="fg-white" -->
+							<!-- 								style="text-align: center; font-size: 6em; font-weight: bold;" /> -->
+							<div style="text-align: center;">
+								<p:outputLabel id="qtdMandado" value="#{portal.qntdMandatos}"
+									styleClass="fg-white"
+									style="text-align: center; font-size: 4.5em; font-weight: bold;" />
+							</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Mandados de Busca</div>
+						</div>
+					</p:commandLink>
+
+
+					<p:link styleClass="tileMonitoracao bg-darkBlue">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<div id="qtdMovimentacao" class="fg-white"
+								style="text-align: center; font-size: 4.5em; font-weight: bold;">0</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Processos Movimentações</div>
+						</div>
+					</p:link>
+					<p:link styleClass="tileMonitoracao bg-olive">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<div id="qtdNegociacao" class="fg-white"
+								style="text-align: center; font-size: 4.5em; font-weight: bold;">0</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Negociações Pendentes</div>
+						</div>
+					</p:link>
+					<p:link styleClass="tileMonitoracao bg-mauve">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<div id="qtdContrato" class="fg-white"
+								style="text-align: center; font-size: 4.5em; font-weight: bold;">0</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Contratos Pendentes</div>
+						</div>
+					</p:link>
+					<p:link styleClass="tileMonitoracao bg-emerald">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<div id="qtdLancamento" class="fg-white"
+								style="text-align: center; font-size: 4.5em; font-weight: bold;">-</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Lançamentos para Hoje</div>
+						</div>
+					</p:link>
+					<p:link styleClass="tileMonitoracao bg-darkMagenta">
+						<div class="tile-content icon">
+							<!-- <span class="icon-IE"></span>  -->
+							<div id="qtdAlvara" class="fg-white"
+								style="text-align: center; font-size: 4.5em; font-weight: bold;">0</div>
+						</div>
+						<div class="brandMonitoramento">
+							<div class="labelMonitoramento">Possíveis Alvarás</div>
+						</div>
+					</p:link>
+				</div>
+				<!-- 				<div class="tile-group one" style="margin-left: 20px;"> -->
+
+				<!-- 					<div class="tile-content" style="cursor: default"> -->
+				<!-- 						<div class="text-right padding10 ntp"> -->
+				<!-- 							<div class="fg-white padding10"> -->
+				<!-- 								Sync Completa: <span id="ultimaSync" style="font-size: .8em;">-</span> -->
+				<!-- 							</div> -->
+				<!-- 							<div class="bg-white scroll3" -->
+				<!-- 								style="width: 100%; height: 55px; border: 1px solid #fff; background-color: #CAA2F2 !important; padding-right: 5px; padding-top: 1px"> -->
+
+				<!-- 							</div> -->
+
+				<!-- 						</div> -->
+
+				<!-- 					</div> -->
+
+				<!-- 				</div> -->
+
+
+			</div>
+			<div class="container" style="width: 1000px;">
+				<div class="tile-group one">
+					<div class="tile-group-title">Sincronização</div>
+
+					<p:link styleClass="tile bg-darkIndigo"
+						style="width: 260px; height:115px; ">
+						<div class="tile-content" style="cursor: default">
+
+							<div class="text-right padding10 ntp">
+
+								<div class="bg-white scroll3"
+									style="width: 100%; height: 70px; border: 1px solid #fff; background-color: #CAA2F2 !important; padding-right: 5px; padding-top: 1px">
+									<table
+										style="float: right; background-color: transparent; margin-top: 10px;">
+										<tr>
+											<td style="white-space: normal; font-size: 12px; color: #fff">Clientes
+												Desatualizados:</td>
+											<td id="clieDes"
+												style="white-space: normal; font-size: 12px; color: #fff; font-weight: bold;">0</td>
+										</tr>
+										<tr>
+											<td style="white-space: normal; font-size: 12px; color: #fff">Mandados
+												Desatualizados:</td>
+											<td id="mandDes"
+												style="white-space: normal; font-size: 12px; color: #fff; font-weight: bold;">0</td>
+										</tr>
+										<tr>
+											<td style="white-space: normal; font-size: 12px; color: #fff">Movimentações
+												Desatualizadas:</td>
+											<td id="movDes"
+												style="white-space: normal; font-size: 12px; color: #fff; font-weight: bold;">0</td>
+										</tr>
+										<tr>
+											<td height="25"><br /></td>
+										</tr>
+										<tr style="margin-top: 10px;">
+											<td colspan="2" id="jobAtual"><h:outputText
+													value="#{portal.jobAtual}" escape="false"
+													style="white-space: normal;font-size: 12px;color: #fff;" /></td>
+										</tr>
+									</table>
+								</div>
+
+
+							</div>
+
+						</div>
+
+
+					</p:link>
+
+
+				</div>
+
+
+			</div>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<p:dialog header="BUSCAS" widgetVar="dlgBusca" id="dlgBusca"
+			showEffect="blind" hideEffect="drop" modal="true" height="700"
+			style="min-width: 700px; min-height:700px;">
+			<div class="container">
+				<p:dataGrid var="busca" value="#{portal.buscas}" columns="2"
+					layout="grid" rows="12" paginator="true" id="busca"
+					emptyMessage="Nenhum processo" rowsPerPageTemplate="6,12,16">
+
+					<f:facet name="header">POSSÍVEIS BUSCAS</f:facet>
+
+
+
+					<p:panel header="#{busca.nome}"
+						style="text-align:center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0;">
+
+						<div class="col-md-12">
+							<h:outputText value="#{busca.dataEvento}"
+								styleClass="labelProcessoDetalhe">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+									timeZone="GMT-3" />
+							</h:outputText>
+							<br />
+							<h:outputText value="#{busca.classe}"
+								styleClass="labelProcessoDetalhe" style="color: #A6200C;" />
+							<br />
+							<h:outputText value="#{busca.processo.numeroTJ}"
+								styleClass="labelProcessoDetalhe" style="color: #551A8B;" />
+							<br />
+
+							<h:commandLink
+								action="#{cadastroCliente.onRowProcessoInfoTemporaria}"
+								update=":form" ajax="false">
+								<f:setPropertyActionListener value="#{busca}"
+									target="#{cadastroCliente.processoInfoTemporaria}" />
+
+								<p:graphicImage value="../resources/images/search.png" />
+							</h:commandLink>
+						</div>
+					</p:panel>
+
+				</p:dataGrid>
+			</div>
+		</p:dialog>
+
+		<p:dialog header="MANDADOS" widgetVar="dlgMandado" id="dlgMandado"
+			showEffect="blind" hideEffect="drop" modal="true" height="700">
+			<div class="container">
+				<p:dataGrid var="mandado" value="#{portal.mandados}" columns="2"
+					layout="grid" rows="12" paginator="true" id="mandado"
+					rowsPerPageTemplate="6,12,16" emptyMessage="Nenhum processo">
+
+					<f:facet name="header">MANDADOS DE BUSCAS</f:facet>
+
+
+
+					<p:panel header="#{mandado.nome}"
+						style="text-align:center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0;">
+
+						<div class="col-md-12">
+							<h:outputText value="#{mandado.dataEvento}"
+								styleClass="labelProcessoDetalhe">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+									timeZone="GMT-3" />
+							</h:outputText>
+							<br />
+							<h:outputText value="#{mandado.classe}"
+								styleClass="labelProcessoDetalhe" style="color: #A6200C;" />
+							<br />
+							<h:outputText value="#{mandado.descricao}"
+								styleClass="labelProcessoDetalhe" style="color: #700000 ;" />
+							<br />
+							<h:outputText value="#{mandado.processo.numeroTJ}"
+								styleClass="labelProcessoDetalhe" style="color: #551A8B;" />
+							<br />
+
+
+							<h:commandLink
+								action="#{cadastroCliente.onRowProcessoInfoTemporaria}"
+								update=":form" ajax="false">
+								<f:setPropertyActionListener value="#{mandado}"
+									target="#{cadastroCliente.processoInfoTemporaria}" />
+
+								<p:graphicImage value="../resources/images/search.png" />
+							</h:commandLink>
+						</div>
+					</p:panel>
+
+				</p:dataGrid>
+			</div>
+		</p:dialog>
+
+	</ui:define>
+	<ui:define name="footer">
+
+	</ui:define>
+</ui:composition>
+</html>

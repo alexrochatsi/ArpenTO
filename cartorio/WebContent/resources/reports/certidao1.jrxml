@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certidao1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8321c212-50ad-4db3-9074-6af45a0d503b">
+	<property name="ireport.zoom" value="1.4641000000000377"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="98"/>
+	<parameter name="razao" class="java.lang.String"/>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="contato" class="java.lang.String"/>
+	<parameter name="folha" class="java.lang.String"/>
+	<parameter name="livro" class="java.lang.String"/>
+	<parameter name="termo" class="java.lang.String"/>
+	<parameter name="tipoCertidao" class="java.lang.String"/>
+	<parameter name="nome1" class="java.lang.String"/>
+	<parameter name="matricula" class="java.lang.String"/>
+	<parameter name="cidade" class="java.lang.String"/>
+	<parameter name="uf" class="java.lang.String"/>
+	<parameter name="nomeCartorio" class="java.lang.String"/>
+	<parameter name="dataExtenso" class="java.lang.String"/>
+	<parameter name="dia" class="java.lang.String"/>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="ano" class="java.lang.String"/>
+	<parameter name="hora" class="java.lang.String"/>
+	<parameter name="municipioNascimento" class="java.lang.String"/>
+	<parameter name="nomeLivro" class="java.lang.String"/>
+	<parameter name="seloDigital" class="java.lang.String"/>
+	<parameter name="sexo" class="java.lang.String"/>
+	<parameter name="localNascimento" class="java.lang.String"/>
+	<parameter name="municipioRegistro" class="java.lang.String"/>
+	<parameter name="genitor" class="java.lang.String"/>
+	<parameter name="genitora" class="java.lang.String"/>
+	<parameter name="avo1Paterno" class="java.lang.String"/>
+	<parameter name="avo2Paterno" class="java.lang.String"/>
+	<parameter name="avo1Materno" class="java.lang.String"/>
+	<parameter name="avo2Materno" class="java.lang.String"/>
+	<parameter name="gemeo" class="java.lang.String"/>
+	<parameter name="dataRegistroExtenso" class="java.lang.String"/>
+	<parameter name="dnv" class="java.lang.String"/>
+	<parameter name="observacao" class="java.lang.String"/>
+	<parameter name="dadosGemeo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="242" splitType="Stretch">
+			<staticText>
+				<reportElement x="262" y="172" width="39" height="16" uuid="8f247fcf-8728-4cdf-957b-04456737d4f7"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="207" width="64" height="16" uuid="9305cff2-dabf-4867-9d3a-9722e9de2731"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Matrícula]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="34" y="221" width="491" height="21" uuid="241d8f21-ea5f-4dc6-9cab-ea6d53006242"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="151" width="491" height="22" uuid="61d6abba-8601-4ad0-a060-4802d6c59c51"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tipoCertidao}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="248" y="1" width="77" height="64" uuid="7daa0640-0f68-4200-a107-ca2478aa0d4d"/>
+				<imageExpression><![CDATA["D:\\Desenvolvimento\\cartorio\\WebContent\\resources\\images\\justicafederal.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="121" y="66" width="312" height="18" uuid="2d0f513c-0a4d-4bfb-a205-b41ed1b41dc8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[REPÚBLICA FEDERATIVA DO BRASIL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="101" width="42" height="14" uuid="bfd5215a-a75c-415d-ae8e-762c1d5493bc"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeLivro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="101" width="46" height="14" uuid="e1a0a8d3-99a2-4501-8c04-246ecf450a5d"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{livro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="49" y="101" width="5" height="14" uuid="3bb9d05a-a616-40b0-8dc1-db3e534d855a"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="287" y="101" width="46" height="14" uuid="95f3c871-ca52-4a5a-9ee1-4627e83a2d23"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{folha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="101" width="42" height="14" uuid="20a827f4-8c83-40b0-a48f-2fc2d13a2190"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{termo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="246" y="101" width="36" height="14" uuid="406eba27-9778-452d-8926-4ded13e13634"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FOLHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="101" width="37" height="14" uuid="f1bbae13-a2d2-4813-8602-7e3a89a8c55c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TERMO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="187" width="533" height="22" uuid="2e3d2663-98f0-45cd-aceb-811e5852f4be"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="121" y="82" width="312" height="18" uuid="525cf92b-2648-4970-96dd-49a28f929c28"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[REGISTRO CIVIL DAS PESSOAS NATURAIS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="460" y="114" width="93" height="47" uuid="53ead059-7831-4775-ac99-d6b130286804"/>
+				<imageExpression><![CDATA["D:\\Users\\Usuario\\Pictures\\selo.jpg"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="136" width="174" height="14" uuid="47f83dc9-ad1c-4880-b2df-bc6874558296"/>
+				<textElement textAlignment="Right">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{seloDigital}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="349" splitType="Stretch">
+			<rectangle>
+				<reportElement x="10" y="6" width="410" height="25" uuid="1270f5cd-ab66-424d-aa42-a5d9110e33c2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="428" y="6" width="26" height="25" uuid="3c61d834-1cbb-489a-bbb6-9a78f14df92e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="460" y="6" width="26" height="25" uuid="da0a6267-9ad2-47d5-9919-2e75131120a8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="493" y="6" width="50" height="25" uuid="a5b590ab-7f50-4ef6-ada7-dca2cfa2580b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="6" width="182" height="12" uuid="42747911-3b91-4011-b851-ba178cae4b40"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Data do nascimento por extenso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="5" width="14" height="12" uuid="701b2642-afa1-47cb-b540-2da3fa815367"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Dia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="466" y="5" width="18" height="12" uuid="6fe05849-01fd-404e-9589-6ee68faca51f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mês]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="512" y="5" width="17" height="12" uuid="33d33c45-439f-41a3-8a36-d6510161b516"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ano]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="115" width="533" height="43" uuid="09b2f03c-92b5-4086-9496-ec129265a91a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="116" width="162" height="12" uuid="fbc8ed95-1c4f-41d0-bf8f-a99903aba3c8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Filiação]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="164" width="533" height="76" uuid="c832070c-8fae-4ab3-a71e-97bd0d7a5e46"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="164" width="19" height="12" uuid="7d696f12-6f6a-4afa-a017-2407a0b59b68"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Avós]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="100" y="37" width="443" height="25" uuid="3f643db6-9178-455c-bfa2-825ce8d4d26f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="105" y="37" width="200" height="12" uuid="a3bb1d6d-d2b8-4fdd-b8d9-5102752d0c72"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Municipio do nascimento e unidade de federação]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="37" width="85" height="25" uuid="1f386e5c-9e2b-4f42-bb6d-3e3630d50db5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="46" y="37" width="28" height="12" uuid="dd39e990-2e68-40ed-9e1b-3c02c64fd019"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Hora]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="68" width="185" height="40" uuid="caad8e80-9fa7-43e8-9390-ff73f2ef001f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="68" width="180" height="12" uuid="debdc3ab-ee13-47d2-b35b-1985b3481844"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Município de registro e unidade de federação]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="205" y="68" width="255" height="40" uuid="798d4d6b-aee8-47f1-ad0c-5cb79e93b1ad"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="210" y="68" width="180" height="12" uuid="e2df0a59-f223-49ea-ae43-55bf06002e0a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Local de Nascimento]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="469" y="68" width="75" height="40" uuid="b975053e-434c-4483-a9d8-c92f849f0695"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="496" y="68" width="28" height="12" uuid="c6f6649b-b758-4a56-b672-a0eec85814bf"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="65" y="247" width="478" height="35" uuid="0d5044ef-acb4-4d98-adb4-04106be7e727"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="247" width="44" height="35" uuid="51c3ef3d-9ae7-4297-8655-34b3d71625d6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="20" y="247" width="35" height="12" uuid="467fad0e-3304-4eef-b23d-8ea457ba4973"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Gêmeo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="247" width="133" height="12" uuid="380e2ba2-ada9-4f55-a9d3-32c6911b94f8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nome e Matrícula do(s) gêmeo(s)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="290" width="428" height="25" uuid="32c6677f-b3fa-40e0-83ee-cfce76a2f231"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="447" y="290" width="96" height="25" uuid="af3ff249-8129-4407-b869-54cd9a3e87e3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="290" width="220" height="12" uuid="5c3ed05f-d3ba-4dc9-ba6f-111e2d2fbb22"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Data do registro por extenso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="290" width="74" height="12" uuid="3563c7c4-b80c-487f-bce4-a119c4fbad1b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Número da D.N.V]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="322" width="533" height="25" uuid="7c678576-246a-4c18-bd13-12cc5a2b7e5a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="322" width="220" height="12" uuid="021417b4-4195-4710-96ab-66695c662de9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Observações / Averbações]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="18" y="16" width="400" height="14" uuid="a447e915-a1b2-40bb-b121-95a47c3db0e4"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataExtenso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="48" width="85" height="14" uuid="5a54f534-f936-4392-987d-c7bfc97ae244"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="106" y="47" width="436" height="14" uuid="9c5f11c6-f810-4590-87cb-35e5f36acb34"/>
+				<textFieldExpression><![CDATA[$P{municipioNascimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="429" y="15" width="25" height="14" uuid="496a955f-95c8-4e1f-b982-82abc3cecb19"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{dia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="461" y="15" width="25" height="14" uuid="fba0b46d-797f-4b87-8481-c2914d9734da"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="494" y="15" width="48" height="14" uuid="31980284-9f21-4f80-9569-828ffeffad3d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{ano}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="79" width="74" height="14" uuid="3aa5ace8-3db7-4ad8-a8d9-414670ec563c"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sexo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="208" y="79" width="250" height="14" uuid="2b50b181-24bf-406c-90bc-4660c932875c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{localNascimento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="15" y="79" width="179" height="14" uuid="58321b73-b6c9-4a61-80bb-cb5ba7e8a1b2"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{municipioRegistro}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="16" y="127" width="526" height="14" uuid="5c3f0a05-22a8-408b-b992-3ac19b3b8b38"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{genitor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="16" y="142" width="526" height="14" uuid="b5224027-4e80-4e59-adf0-4acd8ff93e1e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{genitora}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="176" width="45" height="14" uuid="b8ea2622-db28-4503-86b7-9dcd1b697cd0"/>
+				<text><![CDATA[Paternos: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="206" width="45" height="14" uuid="3dc55da5-08c5-4b7e-8f5e-ce7ca3f288ba"/>
+				<text><![CDATA[Maternos: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="56" y="190" width="10" height="14" uuid="d6bffaf7-d769-4913-b55a-7fa87b1595e9"/>
+				<text><![CDATA[e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="220" width="10" height="14" uuid="391441bb-6ddb-466d-ab17-48138e20d7fa"/>
+				<text><![CDATA[e]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="176" width="477" height="14" uuid="7231a10c-dfdc-4198-8b80-86e71dc3c7d6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{avo1Paterno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="190" width="476" height="14" uuid="89d70db0-659d-449f-990a-61d67434a2f2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{avo2Paterno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="206" width="477" height="14" uuid="37dd2c08-851e-4c2a-a79f-a7e57f8eaffc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{avo1Materno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="220" width="477" height="14" uuid="97a382db-184b-4564-8d18-25168cc9bcb9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{avo2Materno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="261" width="32" height="14" uuid="5fd17d5d-b847-4b1a-b1a7-9fd3a8564785"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{gemeo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="299" width="422" height="14" uuid="e59987e6-d97e-4681-af88-b2f66a0f9ad8"/>
+				<textFieldExpression><![CDATA[$P{dataRegistroExtenso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="300" width="90" height="14" uuid="984bee7c-3007-4211-80b3-8ddcc61f5a88"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{dnv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="331" width="526" height="14" uuid="d707aa4c-48d6-4623-925a-ad21b91909ce"/>
+				<textFieldExpression><![CDATA[$P{observacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="70" y="260" width="468" height="14" uuid="7d7c3f89-d98c-4f0d-82a4-8f0a5b169ce7"/>
+				<textFieldExpression><![CDATA[$P{dadosGemeo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="189" splitType="Stretch">
+			<staticText>
+				<reportElement x="333" y="9" width="213" height="20" uuid="12250ffb-ff64-494e-a6fe-a8dfd2f2bc43"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[O conteúdo da certidão é verdadeiro. Dou fé.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="408" y="38" width="5" height="20" uuid="88a3a391-16bd-47b2-b962-4d725ada5411"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="268" y="40" width="140" height="38" uuid="493be5d5-0691-48d1-8006-f80815554fe5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="40" width="15" height="20" uuid="fecf795b-c47f-4b94-b5ab-187872ad83c6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{uf}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd" isBlankWhenNull="true">
+				<reportElement x="436" y="40" width="12" height="20" uuid="9757c13b-f496-4dee-8b05-42e3eee63eea"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="429" y="40" width="5" height="16" uuid="4b2dc635-1c6b-4d14-88cd-022d6b48bfc6"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="543" y="40" width="5" height="16" uuid="25bdceba-95ab-4cbe-ab5a-f5da4570a7d5"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="12" width="252" height="16" uuid="e544b489-0b49-48a6-a055-2ff08a3df8d8"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{razao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="62" width="252" height="16" uuid="102c144f-1e54-49a2-bf79-a7b21ad88475"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endereco}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="90" width="252" height="16" uuid="e7052438-8902-4061-ab49-581b6b12075f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contato}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="40" width="252" height="16" uuid="2d8d348f-2b59-4f24-affc-f1c4465fffda"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeCartorio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM" isBlankWhenNull="true">
+				<reportElement x="463" y="40" width="42" height="20" uuid="ee8cb8bb-b454-4c3b-b600-1eafecb736e0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy" isBlankWhenNull="true">
+				<reportElement x="520" y="40" width="23" height="20" uuid="0fada41b-32de-4765-9b1e-101779ddba4b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="449" y="40" width="12" height="20" uuid="8e42d140-c0c4-4612-ac90-760784b25a7a"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="506" y="40" width="12" height="20" uuid="994d1b0d-20b5-495c-99f0-a73eab91eae1"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="325" y="90" width="183" height="11" uuid="b5f21768-f345-4196-9785-f36977a38343"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeCartorio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="391" y="100" width="60" height="12" uuid="53db9cda-a54f-4bd9-b9fe-3fafe10f3b12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Registrador(a)]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

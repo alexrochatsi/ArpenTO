@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioCompletoArrecadacaoIndireta_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4a5a94bd-f3a5-4daa-a6fe-b11bd354915f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="normal">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#CCCCCC" fill="Solid" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="vlrTotal" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dataOcorencia" class="java.util.Date">
+		<fieldDescription><![CDATA[dataOcorencia]]></fieldDescription>
+	</field>
+	<field name="dataEfetivacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataEfetivacao]]></fieldDescription>
+	</field>
+	<field name="valorCreditado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorCreditado]]></fieldDescription>
+	</field>
+	<field name="custas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[custas]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement uuid="2de95eda-8e64-4936-904c-f5c96a98a719" x="215" y="2" width="98" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR CREDITADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2de95eda-8e64-4936-904c-f5c96a98a719" x="105" y="2" width="95" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA CRÉDITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2de95eda-8e64-4936-904c-f5c96a98a719" x="4" y="2" width="95" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA PAGAMENTO]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="ec8e78fc-91d1-4957-97f0-8bce4d3bd6aa" x="0" y="15" width="555" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="bbb66821-21e6-4374-a465-8d23de3d07a0" x="0" y="2" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2de95eda-8e64-4936-904c-f5c96a98a719" x="322" y="2" width="98" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRIFAS / CUSTAS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<frame>
+				<reportElement uuid="3b2de2a4-2581-48af-8e3c-7febecd11e0f" style="normal" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="555" height="13"/>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="39cb2624-e6ec-48c6-853c-19f8a22a8f06" x="215" y="0" width="98" height="13"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{valorCreditado}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="eefd3527-df73-435f-977d-7afba3644e21" x="322" y="0" width="98" height="13"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{custas}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="231b1529-4f41-4654-ae51-cda0b53b8871" x="4" y="0" width="95" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{dataOcorencia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="94ab5bde-0faf-4099-b8bd-609df2f37eac" x="105" y="0" width="95" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{dataEfetivacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="23">
+			<textField>
+				<reportElement uuid="d3b8b1aa-5c22-459e-a4e5-05de23f4c351" x="371" y="3" width="105" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{vlrTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="db75a060-749e-4528-b506-55038ca5dd10" x="329" y="3" width="41" height="20"/>
+				<textElement/>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="329b2f9e-d9aa-4887-9027-96b8da9866e8" x="0" y="2" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</lastPageFooter>
+</jasperReport>

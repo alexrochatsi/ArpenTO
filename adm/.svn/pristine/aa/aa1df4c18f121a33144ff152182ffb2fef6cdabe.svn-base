@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>: ARPEN-TO :</title>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/core_layout_rio.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/rio-font.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/font-awesome.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/layout_rio.css" />
+</h:head>
+
+<h:body class="loginbodyblue">
+	<h:form id="form">
+	<p:growl id="growl" />
+		<div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+			<div class="Wid33 MarAuto WidAutoOnMobile">
+				<img
+					src="#{request.contextPath}/resources/images/arpen/logo-arpen-to2.png"
+					style="width: 80%; max-width: 400px;" />
+				<div class="EmptyBox30"></div>
+				<div class="Card ShadowEffect">
+
+					<div class="EmptyBox20"></div>
+					<div class="Wid100 OvHidden BigTopic Fs24">
+						<i class="icon-users Fs40"> </i> Informe suas credenciais de
+						acesso
+					</div>
+					<div class="EmptyBox20"></div>
+					<div class="Wid100">
+						<p:inputText styleClass="Wid80 TexAlCenter Fs18" required="true"
+							requiredMessage="Informe seu login"
+							value="#{loginAdministrador.usuarioAdministrador.nomeLogin}"
+							placeholder="Nome do usuário de login..." />
+					</div>
+					<div class="EmptyBox10"></div>
+					<div class="Wid100">
+						<p:password styleClass="Wid80 TexAlCenter Fs18" required="true"
+							requiredMessage="Insira uma senha."
+							value="#{loginAdministrador.usuarioAdministrador.senha}"
+							placeholder="Senha..." />
+					</div>
+					<div class="EmptyBox30"></div>
+					<div class="Wid100">
+						<p:commandButton styleClass="Wid60 Fs18 White RaisedButton" update="@form"
+							action="#{loginAdministrador.loginAction}" type="submit" value="Login"
+							icon="fa fa-sign-in"></p:commandButton>
+					</div>
+					<div class="EmptyBox5"></div>
+					<div class="EmptyBox20"></div>
+					<div class="Separator"></div>
+					<div class="EmptyBox10"></div>
+				</div>
+				<div
+					class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular WhiteBlue">
+					<div class="Wid50 Fleft">
+						<i class="fa fa-copyright"></i> ARPEN-TO<br /> Todos os Direitos
+						Reservados.
+					</div>
+					<div class="Wid50 Fleft">
+						<a href="http://datasind.com.br" target="_blank"> <img
+							src="#{request.contextPath}/resources/images/arpen/logo-tecnotins-nova-site.png"
+							width="130" />
+						</a>
+					</div>
+				</div>
+				<div class="EmptyBox20"></div>
+			</div>
+		</div>
+	</h:form>
+	<p:ajaxStatus id="status" onstart="PF('statusDialog').show();"
+		onsuccess="PF('statusDialog').hide();">
+	</p:ajaxStatus>
+
+	<p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+		resizable="false" responsive="true" draggable="false" closable="true">
+		<p:graphicImage value="resources/images/Preloader_3.gif" />
+	</p:dialog>
+</h:body>
+</html>

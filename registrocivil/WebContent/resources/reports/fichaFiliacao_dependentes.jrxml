@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaFiliacao_dependentes" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="660a2e8a-b94b-41aa-9fcf-13a42639e733">
+	<property name="ireport.zoom" value="2.4200000000000017"/>
+	<property name="ireport.x" value="28"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="matricula" class="java.lang.String">
+		<fieldDescription><![CDATA[matricula]]></fieldDescription>
+	</field>
+	<field name="nascimento" class="java.util.Date">
+		<fieldDescription><![CDATA[nascimento]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[nome]]></fieldDescription>
+	</field>
+	<field name="grauParentesco" class="java.lang.String">
+		<fieldDescription><![CDATA[grauParentesco]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="65dbd720-b2b4-4fb5-ae84-3285ff90d9db" x="1" y="1" width="70" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATRÍCULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b49e5961-2de3-44c9-b373-d27d7da70421" x="72" y="1" width="74" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DT. NASCIMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b8549804-b75a-48cf-91a7-664c6c3115d1" x="146" y="1" width="231" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0719042b-7255-4a98-bee2-840de0cc0fda" x="377" y="1" width="178" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRAU DE PARENTESCO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="bbe29de7-f482-4b95-b9ad-d7fdae8fba64" stretchType="RelativeToBandHeight" x="1" y="0" width="70" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="0afec864-2d0d-4ef5-9f4f-31484c0150d2" stretchType="RelativeToBandHeight" x="72" y="0" width="74" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nascimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b8e4a064-aa2a-4ad4-91a7-1f0b95400dd9" x="146" y="0" width="231" height="12"/>
+				<textElement>
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0ae9ed4e-7b57-4b00-9141-4c192ed22c67" stretchType="RelativeToBandHeight" x="377" y="0" width="178" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grauParentesco}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

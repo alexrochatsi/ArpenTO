@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="../resources/template/templateNovo.xhtml">
+	<style type="text/css">
+</style>
+
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+
+		<style type="text/css">
+.fileupload-buttonbar {
+	padding: 0em 0em;
+}
+
+.ui-editor-list {
+	background-color: #000000;
+}
+</style>
+
+		<h:form id="form" enctype="multipart/form-data">
+			<p:growl id="growl" />
+
+			<script>
+				jQuery('growl').ready(function() {
+				$('input[type=tel]').focusout(function(event){
+				    var phone, element;
+				    element = $(this);
+				    element.unmask();
+				    phone = element.val().replace(/\D/g, '');
+				    if(phone.length > 10) {
+				        element.mask("(99) 99999-999?9");
+				    } else {
+				        element.mask("(99) 9999-9999?9");
+				    }
+					
+				}).trigger('focusout');
+				});
+			</script>
+
+			<p:panel header="Cadastro Instituição">
+				<p:tabView id="tabViewer">
+					<p:tab title="Instituicao" id="tab0">
+
+						<h:panelGrid id="teste" styleClass="input-text"
+							style="border:none">
+
+							<p:panelGrid styleClass="semBorda">
+								<p:row>
+									<p:column style="font-weight: bold; text-align: right;">Nome:</p:column>
+									<p:column colspan="5">
+										<p:inputText id="nome"
+											value="#{cadastroInstituicao.instituicao.razaoSocial}
+								"
+											style=" width: 603px" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column style="font-weight: bold; text-align: right;">Sigla:</p:column>
+
+									<p:column colspan="3">
+										<p:inputText id="sigla"
+											value="#{cadastroInstituicao.instituicao.nomeFantasia}"
+											size="65" />
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: right;">CNPJ:</p:column>
+
+									<p:column colspan="3">
+										<p:inputMask value="#{cadastroInstituicao.instituicao.cnpj}"
+											size="30" mask="99.999.999/9999-99" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column style="font-weight: bold; text-align: right;">Endereço:</p:column>
+									<p:column colspan="3">
+										<p:inputText id="endereco" size="65"
+											value="#{cadastroInstituicao.instituicao.endereco}" />
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: left;">Bairro:</p:column>
+									<p:column colspan="2">
+										<p:inputText id="bairro" size="30"
+											value="#{cadastroInstituicao.instituicao.bairro}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column style="font-weight: bold; text-align: right;">UF:</p:column>
+									<p:column>
+										<p:selectOneMenu id="uf" value="#{cadastroInstituicao.uf}"
+											converter="ufConverter">
+											<f:selectItem itemLabel="UF" itemValue="" />
+											<f:selectItems value="#{cadastroInstituicao.ufs}" var="uf"
+												itemLabel="#{uf.siglaUF}" />
+											<p:ajax update=":form:tabViewer:cidade"
+												listener="#{cadastroInstituicao.handleCidadeChange}" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: left;">Cidade:</p:column>
+									<p:column>
+										<p:selectOneMenu id="cidade" converter="cidadeConverter"
+											value="#{cadastroInstituicao.cidade}">
+											<f:selectItems value="#{cadastroInstituicao.cidades}"
+												var="cidade" itemLabel="#{cidade.descCidade}" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: right;">CEP:</p:column>
+									<p:column>
+										<p:inputMask id="cep" size="30"
+											value="#{cadastroInstituicao.instituicao.cep}"
+											mask="99.999-999" />
+									</p:column>
+
+								</p:row>
+							</p:panelGrid>
+
+							<p:panelGrid styleClass="semBorda">
+								<p:row>
+									<p:column style="font-weight: bold; text-align: right;">Telefone:</p:column>
+									<p:column>
+										<p:inputText id="Fone" type="tel" size="47"
+											value="#{cadastroInstituicao.instituicao.fone}" />
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: right;">Fax:</p:column>
+									<p:column>
+										<p:inputText id="fax" type="tel" size="47"
+											value="#{cadastroInstituicao.instituicao.fax}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column style="font-weight: bold; text-align: right;">Telefone:</p:column>
+									<p:column>
+										<p:inputText id="Fone2" type="tel" size="47"
+											value="#{cadastroInstituicao.instituicao.fone2}" />
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: right;">Celular:</p:column>
+									<p:column>
+										<p:inputText id="celular" type="tel" size="47"
+											value="#{cadastroInstituicao.instituicao.celular}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+
+									<p:column style="font-weight: bold; text-align: right;">Site:</p:column>
+									<p:column>
+										<p:inputText id="site" size="47"
+											value="#{cadastroInstituicao.instituicao.site}" />
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: right;">E-mail:</p:column>
+									<p:column>
+										<p:inputText id="email" size="47"
+											value="#{cadastroInstituicao.instituicao.email}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+
+									<p:column style="font-weight: bold; text-align: right;">Login Eproc:</p:column>
+									<p:column>
+										<p:inputText id="loginEproc" size="47"
+											value="#{cadastroInstituicao.instituicao.loginEproc}" />
+									</p:column>
+
+									<p:column style="font-weight: bold; text-align: right;">Senha Eproc:</p:column>
+									<p:column>
+										<p:inputText id="senhaEproc" size="47"
+											value="#{cadastroInstituicao.instituicao.senhaEproc}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</h:panelGrid>
+
+					</p:tab>
+
+
+				</p:tabView>
+				<p:separator />
+				<h:panelGrid
+					styleClass="ui-panel ui-widget ui-widget-content ui-corner-all">
+					<p:commandLink id="alterar" title="Alterar" update="@(form) "
+						actionListener="#{cadastroInstituicao.acaoAlterar}"
+						style="margin-left:0px;">
+						<p:graphicImage value="../resources/images/alterar.png" />
+					</p:commandLink>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

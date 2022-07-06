@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certidao2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8321c212-50ad-4db3-9074-6af45a0d503b">
+	<property name="ireport.zoom" value="1.1000000000000187"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="480"/>
+	<parameter name="razao" class="java.lang.String"/>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="contato" class="java.lang.String"/>
+	<parameter name="nomeLivro" class="java.lang.String"/>
+	<parameter name="folha" class="java.lang.String"/>
+	<parameter name="livro" class="java.lang.String"/>
+	<parameter name="termo" class="java.lang.String"/>
+	<parameter name="tipoCertidao" class="java.lang.String"/>
+	<parameter name="nome1" class="java.lang.String"/>
+	<parameter name="matricula" class="java.lang.String"/>
+	<parameter name="cidade" class="java.lang.String"/>
+	<parameter name="uf" class="java.lang.String"/>
+	<parameter name="nome2" class="java.lang.String"/>
+	<parameter name="nomeCartorio" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="259" splitType="Stretch">
+			<staticText>
+				<reportElement x="262" y="164" width="39" height="16" uuid="8f247fcf-8728-4cdf-957b-04456737d4f7"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Nomes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="222" width="64" height="16" uuid="9305cff2-dabf-4867-9d3a-9722e9de2731"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Matrícula]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="200" width="533" height="22" uuid="39525f21-5ded-481e-9b63-e98a10d62a5a"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="237" width="491" height="21" uuid="241d8f21-ea5f-4dc6-9cab-ea6d53006242"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="143" width="491" height="22" uuid="61d6abba-8601-4ad0-a060-4802d6c59c51"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tipoCertidao}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="248" y="1" width="77" height="64" uuid="7daa0640-0f68-4200-a107-ca2478aa0d4d"/>
+				<imageExpression><![CDATA["D:\\Desenvolvimento\\cartorio\\WebContent\\resources\\images\\justicafederal.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="121" y="66" width="312" height="18" uuid="2d0f513c-0a4d-4bfb-a205-b41ed1b41dc8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[REPÚBLICA FEDERATIVA DO BRASIL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="109" width="42" height="14" uuid="bfd5215a-a75c-415d-ae8e-762c1d5493bc"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeLivro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="109" width="46" height="14" uuid="e1a0a8d3-99a2-4501-8c04-246ecf450a5d"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{livro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="49" y="109" width="5" height="14" uuid="3bb9d05a-a616-40b0-8dc1-db3e534d855a"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="287" y="109" width="46" height="14" uuid="95f3c871-ca52-4a5a-9ee1-4627e83a2d23"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{folha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="491" y="109" width="57" height="14" uuid="20a827f4-8c83-40b0-a48f-2fc2d13a2190"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{termo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="246" y="109" width="36" height="14" uuid="406eba27-9778-452d-8926-4ded13e13634"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FOLHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="109" width="41" height="14" uuid="f1bbae13-a2d2-4813-8602-7e3a89a8c55c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TERMO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="180" width="533" height="22" uuid="2e3d2663-98f0-45cd-aceb-811e5852f4be"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="121" y="82" width="312" height="18" uuid="525cf92b-2648-4970-96dd-49a28f929c28"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[REGISTRO CIVIL DAS PESSOAS NATURAIS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="301" splitType="Stretch">
+			<rectangle>
+				<reportElement x="10" y="10" width="533" height="102" uuid="2e004bec-9fe3-41bf-8a08-7deb2016d879"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="10" width="368" height="12" uuid="262c494f-a8e8-49f1-a289-8b645ce22114"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nomes completos de solteiro, datas e locais de nascimento, nacionalidade e filiações dos cônjugues]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="119" width="428" height="25" uuid="1270f5cd-ab66-424d-aa42-a5d9110e33c2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="448" y="119" width="21" height="25" uuid="3c61d834-1cbb-489a-bbb6-9a78f14df92e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="478" y="119" width="21" height="25" uuid="da0a6267-9ad2-47d5-9919-2e75131120a8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="509" y="119" width="34" height="25" uuid="a5b590ab-7f50-4ef6-ada7-dca2cfa2580b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="119" width="182" height="12" uuid="42747911-3b91-4011-b851-ba178cae4b40"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Data do registro do casamento (por extenso)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="118" width="14" height="12" uuid="701b2642-afa1-47cb-b540-2da3fa815367"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Dia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="481" y="118" width="18" height="12" uuid="6fe05849-01fd-404e-9589-6ee68faca51f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mês]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="518" y="118" width="17" height="12" uuid="33d33c45-439f-41a3-8a36-d6510161b516"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ano]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="154" width="533" height="25" uuid="09b2f03c-92b5-4086-9496-ec129265a91a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="154" width="162" height="12" uuid="fbc8ed95-1c4f-41d0-bf8f-a99903aba3c8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Regime de bens do casamento]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="192" width="533" height="25" uuid="8330bb5a-4f22-4ffb-8d69-d6e3ab8bb019"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="192" width="479" height="12" uuid="2f435c10-1fac-46fe-8cc2-46bb83e4bbf2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nome que cada um dos cônjuges passou a utilizar (quando houver alteração)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="227" width="533" height="70" uuid="c832070c-8fae-4ab3-a71e-97bd0d7a5e46"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="227" width="479" height="12" uuid="7d696f12-6f6a-4afa-a017-2407a0b59b68"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Observações / Averbações]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="209" splitType="Stretch">
+			<staticText>
+				<reportElement x="333" y="9" width="213" height="20" uuid="12250ffb-ff64-494e-a6fe-a8dfd2f2bc43"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[O conteúdo da certidão é verdadeiro. Dou fé.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="40" width="5" height="20" uuid="88a3a391-16bd-47b2-b962-4d725ada5411"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="282" y="40" width="154" height="20" uuid="493be5d5-0691-48d1-8006-f80815554fe5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="40" width="15" height="20" uuid="fecf795b-c47f-4b94-b5ab-187872ad83c6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{uf}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="470" y="40" width="73" height="20" uuid="9757c13b-f496-4dee-8b05-42e3eee63eea"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="463" y="39" width="5" height="20" uuid="4b2dc635-1c6b-4d14-88cd-022d6b48bfc6"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="543" y="40" width="5" height="20" uuid="25bdceba-95ab-4cbe-ab5a-f5da4570a7d5"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="12" width="252" height="16" uuid="e544b489-0b49-48a6-a055-2ff08a3df8d8"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{razao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="62" width="252" height="16" uuid="102c144f-1e54-49a2-bf79-a7b21ad88475"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endereco}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="90" width="252" height="16" uuid="e7052438-8902-4061-ab49-581b6b12075f"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contato}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="10" y="40" width="252" height="16" uuid="2d8d348f-2b59-4f24-affc-f1c4465fffda"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeCartorio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

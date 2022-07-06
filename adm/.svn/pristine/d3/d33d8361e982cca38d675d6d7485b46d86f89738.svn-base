@@ -1,0 +1,155 @@
+package br.com.datasind.entidade;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+
+import org.hibernate.validator.Email;
+
+@Entity
+@Table(name = "usuariosite")
+public class UsuarioSite extends EntidadePadrao {
+
+	/**
+	 * 
+	 */
+	@Transient
+	private static final long serialVersionUID = 134092810403057623L;
+
+	@Id
+	@GeneratedValue
+	private Integer id;
+
+	@Version
+	private Integer versao;
+
+	public Integer getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Integer versao) {
+		this.versao = versao;
+	}
+
+	@Column(length = 100, nullable = false)
+	private String nome;
+
+	@Email
+	@Column(length = 150, nullable = false)
+	private String email;
+
+	@Column (length = 60, nullable = false)
+	private String senha;
+
+	private Boolean flagAtivo;
+
+	private Date dataUltimoLogin;
+
+	private Date dataCadastro;
+
+	private Boolean validaEmail;
+	
+	private String UID;
+	
+	@OneToMany(mappedBy = "usuarioSite", targetEntity = CertidaoPedido.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<CertidaoPedido> certidaoPedidos;
+
+	/* Getters e Setters */
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public UsuarioSite() {
+		super();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+		boolean foundLowerCase = false;
+		for (int i = 0; i < senha.length() && !foundLowerCase; i++) {
+			if (!Character.isUpperCase(senha.charAt(i))) {
+				foundLowerCase = true;
+			}
+		}
+
+		if (!foundLowerCase) {
+			System.out.println(senha);
+		}
+	}
+
+	public Boolean getFlagAtivo() {
+		return flagAtivo;
+	}
+
+	public void setFlagAtivo(Boolean flagAtivo) {
+		this.flagAtivo = flagAtivo;
+	}
+
+	public Date getDataUltimoLogin() {
+		return dataUltimoLogin;
+	}
+
+	public void setDataUltimoLogin(Date dataUltimoLogin) {
+		this.dataUltimoLogin = dataUltimoLogin;
+	}
+
+	public Boolean getValidaEmail() {
+		return validaEmail;
+	}
+
+	public void setValidaEmail(Boolean validaEmail) {
+		this.validaEmail = validaEmail;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public String getUID() {
+		return UID;
+	}
+
+	public void setUID(String uID) {
+		UID = uID;
+	}
+
+}

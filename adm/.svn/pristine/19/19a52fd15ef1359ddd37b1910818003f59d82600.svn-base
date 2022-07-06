@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-BR" lang="pt-BR"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>DATASIND</title>
+
+	<link href="../resources/styles/stylesheet.css" rel="stylesheet"
+		type="text/css" />
+	<script type="text/javascript"
+		src="../resources/scripts/entradaDados.js"></script>
+</h:head>
+
+<h:body style="-rave-layout: grid" class="form-body">
+
+
+
+	<div id="header">
+		<ui:insert name="header">
+			<ui:include src="principal.xhtml" />
+
+		</ui:insert>
+
+
+	</div>
+	<h:outputText id="usuarioOutputText"
+		value="Usuário: #{portal.usuarioSessao.nomeCompleto}"
+		style="left: 80px; top:56px;  position: absolute; white-space: nowrap;"
+		styleClass="text-label" />
+
+	<div id="titulo"
+		style="margin-left: 650px; margin-top: 48px; width: 500px; position: absolute;">
+		<ui:insert name="titulo">
+		</ui:insert>
+	</div>
+
+
+	<div id="content"
+		style="background: #C2CDFE; border: #D3CABC 1px solid; padding: 10px; border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; width: 801px; height: 380px; margin-top: 100px; margin-left: 100px; margin-right: 280px; position: absolute; max-width: 1000px; min-width: 801px; min-height: 350px; max-height: auto;">
+		<h:form id="form">
+			<ui:insert name="content">
+
+			</ui:insert>
+			<div id="footer">
+				<div id="footer">
+					<ui:insert name="footer"></ui:insert>
+				</div>
+			</div>
+
+		</h:form>
+	</div>
+
+
+</h:body>
+
+</html>

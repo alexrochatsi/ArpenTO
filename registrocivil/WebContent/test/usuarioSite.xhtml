@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<f:metadata>
+		<f:viewParam name="uid" value="#{cadastroUsuarioSite.UID}" />
+		<f:viewParam name="t" value="#{cadastroUsuarioSite.tipoRequisicao}" />
+		<f:event type="preRenderView"
+			listener="#{cadastroUsuarioSite.loadModel()}" />
+	</f:metadata>
+	<p:growl id="growl" />
+</h:body>
+</html>

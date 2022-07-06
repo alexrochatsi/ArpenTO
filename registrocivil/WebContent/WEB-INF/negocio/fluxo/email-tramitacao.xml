@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="tramitacaoSmtpAuthenticator" class="br.com.evoluti.admin.util.mail.SmtpAuthenticator">
+		<!-- GMail -->
+		<constructor-arg value="ewf.tramitacao@gmail.com" />
+		<constructor-arg value="ewf 1234" />
+		<!-- Evoluti -->
+		<!-- <constructor-arg value="seu usuario@evoluti.com.br" /> <constructor-arg 
+			value="sua senha" /> -->
+	</bean>
+
+	<bean id="tramitacaoMailSession" class="javax.mail.Session"
+		factory-method="getInstance">
+		<constructor-arg>
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<!-- Se precisar de SSL... GMail por exemplo -->
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">
+					javax.net.ssl.SSLSocketFactory
+				</prop>
+				<prop key="mail.smtp.socketFactory.fallback">
+					false
+				</prop>
+				<!-- Se precisar de servidor SOCKS (ainda não testado) -->
+				<!-- <prop key="proxySet">true</prop> <prop key="socksProxyHost">0.0.0.0</prop> 
+					<prop key="socksProxyPort">0</prop> -->
+			</props>
+		</constructor-arg>
+		<constructor-arg ref="tramitacaoSmtpAuthenticator" />
+	</bean>
+
+	<bean id="tramitacaoMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<!-- GMail -->
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="465" />
+		<!-- Evoluti -->
+		<!-- <property name="host" value="10.0.0.4" /> <property name="port" value="25" 
+			/> -->
+		<property name="session" ref="tramitacaoMailSession" />
+	</bean>
+
+	<bean id="tramitacaoTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="no-reply@ewf.evoluti.com.br" />
+		<property name="subject" value="Tramitação de Processo" />
+	</bean>
+
+	<bean id="emailTramitacao" class="br.com.evoluti.admin.servico.TramitacaoEmailService">
+		<property name="mailSender" ref="tramitacaoMailSender" />
+		<property name="templateMessage" ref="tramitacaoTemplateMessage" />
+		<property name="velocityEngine" ref="velocityEngine" />
+		<property name="velocityTemplate" value="negocio/fluxo/email-tramitacao-template.txt" />
+	</bean>
+</beans>

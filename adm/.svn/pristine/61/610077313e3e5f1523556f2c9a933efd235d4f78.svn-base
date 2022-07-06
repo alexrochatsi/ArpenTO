@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="inicializadorPath" class="br.com.datasind.inicializacao.InicializadorPath"
+		abstract="true" />
+
+	<bean id="inicializadorLoginCartorio"
+		class="br.com.datasind.inicializacao.acesso.InicializadorLoginCartorio" />
+
+	<bean id="inicializadorPerfil"
+		class="br.com.datasind.inicializacao.acesso.InicializadorPerfil" />
+
+	<bean id="inicializadorUsuarioModuloPerfil"
+		class="br.com.datasind.inicializacao.acesso.InicializadorUsuarioCartorioModuloPerfil" />
+
+	<bean id="inicializadorPermissaoAcesso"
+		class="br.com.datasind.inicializacao.acesso.InicializadorPermissaoAcesso" />
+
+	<bean id="inicializadorCidade"
+		class="br.com.datasind.inicializacao.acesso.InicializadorCidade" />
+
+	<bean id="inicializadorRegistroNascimento"
+		class="br.com.datasind.inicializacao.acesso.InicializadorRegistroNascimento" />
+
+</beans>

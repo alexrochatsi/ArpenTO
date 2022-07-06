@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{matriculaCertidao.loadModel}" />
+	</f:metadata>
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="EmptyBox30"></div>
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formCadastro" enctype="multipart/form-data">
+							<p:growl id="growl" />
+							<div class="container">
+								<p:panel menuTitle="Dados da Certidão"
+									header="Dados da Certidão">
+									<div class="EmptyBox30"></div>
+									<div class="Container25 Responsive">
+										<p:outputLabel value="Código da Serventia: *" />
+										<div class="EmptyBox5"></div>
+										<p:inputMask id="cdServentia" disabled="true"
+											value="#{matriculaCertidao.codigoServentia}"
+											placeholder="Somente números" styleClass="Fleft Responsive"
+											required="true" mask="999999" style="color: blue"
+											requiredMessage="Campo Vazio! Informe o código da serventia.">
+											<f:validateLength minimum="6" maximum="6" />
+										</p:inputMask>
+									</div>
+									<div class="Container25 Responsive">
+										<p:outputLabel value="Acervo: *" />
+										<div class="EmptyBox5"></div>
+										<p:inputMask id="acervo" disabled="true"
+											value="#{matriculaCertidao.acervo}" style="color: blue"
+											placeholder="Somente números..." mask="99"
+											styleClass="Fleft Responsive" required="true"
+											requiredMessage="Campo Vazio! Informe o Nº do Acervo.">
+											<f:validateLength minimum="2" maximum="2" />
+										</p:inputMask>
+									</div>
+									<div class="Container25 Responsive">
+										<p:outputLabel value="RCPN: *" />
+										<div class="EmptyBox5"></div>
+										<p:inputMask id="rcpn" disabled="true"
+											value="#{matriculaCertidao.rcpn}" mask="99"
+											placeholder="Somente números..." style="color: blue"
+											styleClass="Fleft Responsive" required="true"
+											requiredMessage="Campo Vazio! Informe o RCPN.">
+											<f:validateLength minimum="2" maximum="2" />
+										</p:inputMask>
+									</div>
+									<div class="Container25 Responsive">
+										<p:outputLabel value="Ano do Registro: *" />
+										<div class="EmptyBox5"></div>
+										<p:inputMask id="anoRegistro"
+											value="#{matriculaCertidao.anoRegistro}" mask="9999"
+											converter="javax.faces.Integer" placeholder="Ex: 2006"
+											converterMessage="Informe somente números para o Ano."
+											styleClass="Fleft Responsive" required="true"
+											requiredMessage="Campo Vazio! Informe o ano do registro.">
+											<f:validateLength minimum="4" maximum="4" />
+										</p:inputMask>
+									</div>
+									<div class="EmptyBox30"></div>
+									<!-- __________________________________________________________ -->
+									<div class="Container100 Responsive">
+										<p:outputLabel value="Ato: *" />
+										<div class="EmptyBox5"></div>
+										<p:dataTable id="tipoLivro" var="tLivro"
+											emptyMessage="Nenhum ato cadastrado"
+											style="text-align: center"
+											value="#{matriculaCertidao.tiposLivro}" required="true"
+											requiredMessage="Informe o Ato."
+											selection="#{matriculaCertidao.tipoLivro}"
+											rowKey="#{tLivro.id}" selectionMode="single">
+											<p:column styleClass="Wid10">
+												<h:outputText value="#{tLivro.id}" />
+											</p:column>
+											<p:column styleClass="Wid30">
+												<h:outputText value="#{tLivro.tipo}" />
+											</p:column>
+											<p:column>
+												<h:outputText value="#{tLivro.descricao}" />
+											</p:column>
+										</p:dataTable>
+									</div>
+									<!-- __________________________________________________________ -->
+									<div class="EmptyBox30"></div>
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Nº do Livro: *" />
+										<div class="EmptyBox5"></div>
+										<div class="container30">
+											<p:inputMask id="nLivro" value="#{matriculaCertidao.nLivro}"
+												placeholder="Somente Números..." mask="9?9999"
+												styleClass="Fleft Responsive" required="true"
+												requiredMessage="Campo Vazio! Informe o Nº do Livro.">
+												<f:validateLength maximum="5" />
+											</p:inputMask>
+										</div>
+									</div>
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Nº da Folha: *" />
+										<div class="EmptyBox5"></div>
+										<div class="container30">
+											<p:inputMask id="nFolha" value="#{matriculaCertidao.nFolha}"
+												placeholder="Somente Números" styleClass="Fleft Responsive"
+												required="true" mask="9?99"
+												requiredMessage="Campo Vazio! Informe o Nº da Folha.">
+												<f:validateLength maximum="3" />
+											</p:inputMask>
+										</div>
+									</div>
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Nº do Termo: *" />
+										<div class="EmptyBox5"></div>
+										<div class="container30">
+											<p:inputMask id="nTermo" value="#{matriculaCertidao.nTermo}"
+												placeholder="Somente Números" styleClass="Fleft Responsive"
+												required="true" mask="9?999999" maxlength="7"
+												requiredMessage="Campo Vazio! Informe o Nº do Termo.">
+											</p:inputMask>
+										</div>
+									</div>
+									<div class="EmptyBox30"></div>
+								</p:panel>
+								<div class="EmptyBox20"></div>
+								<div class="Container100 Responsive">
+									<p:outputLabel id="lblMatricula"
+										rendered="#{matriculaCertidao.matricula != null}"
+										value="Matrícula Gerada: " />
+									<div class="EmptyBox5"></div>
+									<p:outputLabel id="vlMatricula" styleClass="TexAlCenter"
+										style="font-size: 1.8em; color: red"
+										rendered="#{matriculaCertidao.matricula != null}"
+										value="#{matriculaCertidao.matricula}" />
+								</div>
+								<div class="EmptyBox10"></div>
+								<div class="Wid20 Fright">
+									<p:remoteCommand name="rc1"
+										update="@(form),:formCadastro:lblMatricula,:formCadastro:vlMatricula"
+										actionListener="#{matriculaCertidao.acaoGeraMatricula}" />
+									<p:commandButton type="button" resetValues="true"
+										styleClass="BlueButton Wid60 Fs14 White RaisedButton"
+										onclick="rc1()" value="Gerar Matrícula" icon="fa icon-round50" />
+								</div>
+								<div class="EmptyBox20"></div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14169373974200" configfile="/adm/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="122" y="370" id="pf14581715242980" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14581715242981 pf14581715242992" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="portal/portal.xhtml" x="338" y="178" id="pf14581715242993" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14581715242994 pf145823770043722" inlinks="pf14581715242981" path="/portal/portal.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="portal/alterarSenha.xhtml" x="338" y="562" id="pf14581715242995" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14581715242992" path="/portal/alterarSenha.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="../index" x="554" y="178" id="pf14581715242996" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf14581715242994" path="../index.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="ext/index.xhtml" x="122" y="946" id="pf14581715242997" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14581715242998" path="/ext/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="ext/extGuias.xhtml" x="338" y="946" id="pf14581715242999" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf145817152429910" inlinks="pf14581715242998" path="/ext/extGuias.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="ext/index" x="554" y="946" id="pf145817152430011" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" inlinks="pf145817152429910" path="/ext/index.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="cad/cadastroCliente.xhtml" id="pf145823770043723" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf145823770043722" path="/cad/cadastroCliente.xhtml"/>
+  <links id="pf14581715242981" target="pf14581715242993" source="pf14581715242980" outcome="portal" redirect="true"/>
+  <links id="pf14581715242992" target="pf14581715242995" source="pf14581715242980" outcome="senha" redirect="true"/>
+  <links id="pf14581715242994" target="pf14581715242996" source="pf14581715242993" outcome="login"/>
+  <links id="pf14581715242998" target="pf14581715242999" source="pf14581715242997" outcome="extGuias" redirect="true"/>
+  <links id="pf145817152429910" target="pf145817152430011" source="pf14581715242999" outcome="login"/>
+  <links id="pf145823770043722" target="pf145823770043723" source="pf14581715242993" outcome="verProcesso" redirect="true"/>
+</pageflow:Pageflow>

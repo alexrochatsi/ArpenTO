@@ -1,0 +1,68 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+	<h:form id="formPrincipal">
+
+		<style type="text/css">
+/*Remove downward facing triangle from submenus*/
+/*                 .wijmo-wijmenu-link > .ui-icon-triangle-1-s { */
+/*                     display: none !important; */
+/*                 } */
+/*Let submenu width be based on content*/
+.wijmo-wijmenu .wijmo-wijmenu-parent .wijmo-wijmenu-child {
+	width: 200px;
+	/*                     white-space: nowrap;  */
+}
+/*Prevent rightward facing icons from wrapping*/
+.wijmo-wijmenu-parent>.wijmo-wijmenu-link>span.ui-icon-triangle-1-e {
+	position: absolute;
+	height: 16px;
+	top: 50%;
+	margin-top: -8px;
+	right: -8px;
+}
+/*Make room for righward facing icons*/
+.wijmo-wijmenu ul.wijmo-wijmenu-child {
+	padding-right: 16px !important;
+}
+/*Set link width, which affects submenu overlap and is related to rightward facing icon padding*/
+.wijmo-wijmenu-child .wijmo-wijmenu-link {
+	width: 100% !important;
+}
+/*Prevent menuitem icon from generating a line break. Also make room for left-side icon.  Note: we use relative parent absolute child strategy*/
+.wijmo-wijmenu-child>.wijmo-wijmenu-item>.wijmo-wijmenu-link>.wijmo-wijmenu-text
+	{
+	position: relative !important;
+	margin-left: 16px !important;
+}
+
+.wijmo-wijmenu-child>.wijmo-wijmenu-item>.wijmo-wijmenu-link>.wijmo-wijmenu-text>.wijmo-wijmenu-icon-left
+	{
+	position: absolute;
+	height: 16px;
+	top: 50%;
+	margin-top: -8px;
+	left: -16px;
+}
+/*Set border (this is specific to black-tie theme)*/
+.ui-widget-content, .wijmo-wijmenu .ui-widget-content {
+	border: 1px solid #CCCCCC;
+}
+</style>
+
+		<h:panelGrid
+			style="position: absolute; left: 750px; width:220px;margin-top:-5px; top:0px;
+				 height:5px; ">
+			<p:menubar autoSubmenuDisplay="true" model="${menu.menuModel}"
+				style="width:220px;" id="menu" />
+
+		</h:panelGrid>
+	</h:form>
+
+
+
+</ui:fragment>

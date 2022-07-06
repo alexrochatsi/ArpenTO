@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+</h:head>
+<h:body>
+
+	<h:form id="form" enctype="multipart/form-data">
+		<p:growl id="growl" />
+		<p:panel header="Cadastro Usuário">
+			<p:tabView id="tabViewer">
+				<p:tab title="usuarioSite" id="tab0">
+					<h:panelGrid id="teste" styleClass="input-text" style="border:none">
+						<p:panelGrid styleClass="semBorda">
+							<p:row>
+								<p:column style="font-weight: bold; text-align: right;">Nome:</p:column>
+								<p:column colspan="5">
+									<p:inputText id="nome" value="" style=" width: 603px" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="font-weight: bold; text-align: right;">Endereço:</p:column>
+								<p:column colspan="3">
+									<p:inputText id="endereco" size="65" value="" />
+								</p:column>
+
+								<p:column style="font-weight: bold; text-align: left;">Bairro:</p:column>
+								<p:column colspan="2">
+									<p:inputText id="bairro" size="30" value="" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+			<p:separator />
+			<h:panelGrid
+				styleClass="ui-panel ui-widget ui-widget-content ui-corner-all">
+				<p:commandLink id="alterar" title="Alterar" update="@(form) "
+					actionListener="#{cadastroInstituicao.acaoAlterar}"
+					style="margin-left:0px;">
+					<p:graphicImage value="../resources/images/alterar.png" />
+				</p:commandLink>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-scheduling-data
+	xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData  http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
+	version="2.0">
+
+
+	<!-- <schedule> -->
+	<!-- <job> -->
+	<!-- <name>AutoConsultaMandadosBusca</name> -->
+	<!-- <group>eproc-to</group> -->
+	<!-- <description>esse job consulta no banco os processos de busca e mandados 
+		desatualizados e efetua a sincroniacao junto ao TJ/TO</description> -->
+	<!-- <job-class>br.com.xproc.jobs.AutoConsultaMandadosBuscaJOB</job-class> -->
+	<!-- <job-data-map> -->
+	<!-- <entry> -->
+	<!-- <key>qtdRegistros</key> -->
+	<!-- <value>100</value> -->
+	<!-- </entry> -->
+	<!-- <entry> -->
+	<!-- <key>minutosDesatualizacao</key> -->
+	<!-- <value>30</value> -->
+	<!-- </entry> -->
+	<!-- </job-data-map> -->
+	<!-- </job> -->
+	<!-- <trigger> -->
+	<!-- <cron> -->
+	<!-- <name>trigger1</name> -->
+	<!-- <job-name>AutoConsultaMandadosBusca</job-name> -->
+	<!-- <job-group>eproc-to</job-group> -->
+	<!-- <cron-expression>0/47 * * * * ?</cron-expression> -->
+	<!-- </cron> -->
+	<!-- </trigger> -->
+	<!-- </schedule> -->
+
+	<schedule>
+		<job>
+			<name>AutoConsultaDetalheProcessoEproc</name>
+			<group>eproc-to</group>
+			<description>esse job consulta no banco os processos desatualizados e efetua a sincroniacao junto ao TJ/TO</description>
+			<job-class>br.com.datasind.job.AutoConsultaDetalheProcessoEprocJOB</job-class>
+			<job-data-map>
+				<entry>
+					<key>qtdRegistros</key>
+					<value>100</value>
+				</entry>
+				<entry>
+					<key>horasDesatualizacao</key>
+					<value>2</value>
+				</entry>
+
+
+			</job-data-map>
+		</job>
+		<trigger>
+			<cron>
+				<name>trigger2</name>
+				<job-name>AutoConsultaDetalheProcessoEproc</job-name>
+				<job-group>eproc-to</job-group>
+				<cron-expression>10 0/3 * * * ?</cron-expression>
+				<!-- <cron-expression>0/23 * * * * ?</cron-expression> -->
+			</cron>
+		</trigger>
+	</schedule>
+
+	<!-- <schedule> -->
+	<!-- <job> -->
+	<!-- <name>AutoConsultaListaProcessosEproc</name> -->
+	<!-- <group>eproc-to</group> -->
+	<!-- <description>esse job consulta no banco os clientes desatualizados 
+		e efetua a sincroniacao junto ao TJ/TO</description> -->
+	<!-- <job-class>br.com.xproc.jobs.AutoConsultaListaProcessosEprocJOB</job-class> -->
+	<!-- <job-data-map> -->
+	<!-- <entry> -->
+	<!-- <key>qtdRegistros</key> -->
+	<!-- <value>100</value> -->
+	<!-- </entry> -->
+	<!-- <entry> -->
+	<!-- <key>horasDesatualizacao</key> -->
+	<!-- <value>2</value> -->
+	<!-- </entry> -->
+	<!-- </job-data-map> -->
+	<!-- </job> -->
+	<!-- <trigger> -->
+	<!-- <cron> -->
+	<!-- <name>trigger3</name> -->
+	<!-- <job-name>AutoConsultaListaProcessosEproc</job-name> -->
+	<!-- <job-group>eproc-to</job-group> -->
+	<!-- <cron-expression>59 0/1 * * * ?</cron-expression> -->
+	<!-- </cron> -->
+	<!-- </trigger> -->
+	<!-- </schedule> -->
+
+	<!-- <schedule> -->
+	<!-- <job> -->
+	<!-- <name>ChecarEmails</name> -->
+	<!-- <group>eproc-to</group> -->
+	<!-- <description>esse job checa as cx's de emails</description> -->
+	<!-- <job-class>br.com.xproc.jobs.ChecarEmailsJOB</job-class> -->
+	<!-- </job> -->
+	<!-- <trigger> -->
+	<!-- <cron> -->
+	<!-- <name>trigger4</name> -->
+	<!-- <job-name>ChecarEmails</job-name> -->
+	<!-- <job-group>eproc-to</job-group> -->
+	<!-- <cron-expression>0 0/1 * 1/1 * ? *</cron-expression> -->
+	<!-- </cron> -->
+	<!-- </trigger> -->
+	<!-- </schedule> -->
+
+	<schedule>
+		<job>
+			<name>TabelasTemporarias</name>
+			<group>eproc-to</group>
+			<description>esse job atualiza as tabelas temporarias</description>
+			<job-class>br.com.datasind.job.UpdateTabelasTemporariasJOB</job-class>
+		</job>
+		<trigger>
+			<cron>
+				<name>trigger5</name>
+				<job-name>TabelasTemporarias</job-name>
+				<job-group>eproc-to</job-group>
+				<cron-expression>0 0/2 * * * ?</cron-expression>
+			</cron>
+		</trigger>
+	</schedule>
+
+
+</job-scheduling-data>

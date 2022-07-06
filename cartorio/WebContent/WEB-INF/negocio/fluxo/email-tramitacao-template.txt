@@ -1,0 +1,12 @@
+Tramitacao de Processo.
+
+Assunto do Processo: $assuntoDescricao
+Numero do Processro ${numeroProcesso}
+
+Dados do Envio
+Usuario Envio: ${loginUsuarioEnvio} (${nomeUsuarioEnvio})
+Data Envio: $dateTool.format('dd/MM/yyyy HH:mm', $dataEnvio)
+
+Dados do Recebimento
+Usuario Recebimento: ${loginUsuarioRecebimento} (${nomeUsuarioRecebimento})
+Data Recebimento: $dateTool.format('dd/MM/yyyy HH:mm', $dataRecebimento)

@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{loginCartorio.verificaMensagensSession}" />
+</f:metadata>
+
+<h:head>
+	<title>: ARPEN-TO :</title>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/core_layout_rio.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/rio-font.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/font-awesome.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/layout_rio.css" />
+</h:head>
+
+<h:body class="loginbodyblue">
+	<p:growl id="growl" autoUpdate="true" globalOnly="true" />
+	<form
+		action="https://autenticador.certisign.com.br/CertisignLogin/certificado/login"
+		method="get">
+		<table align="center">
+			<tr>
+				<td><input type="hidden" value="4" id="id" name="id" size="50" /></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" value="CERTISIGNON_PROD" id="nome"
+					name="nome" size="50" /></td>
+			</tr>
+			<tr>
+				<!-- Aqui esta a página que irá ser redirecionada -->
+				<td><input type="hidden"
+					value="http://localhost:8080/cartorio/Retorno" id="retorno"
+					name="retorno" size="50" /></td>
+				<td>
+					<div>
+						<input type="image" style="width: 70%; max-width: 100%; margin-left: 15%"
+							src="#{request.contextPath}/resources/images/arpen/certificado.png"
+							alt="Submit" title="Logar com Certificado Digital" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<h:form id="form">
+		<div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+			<div class="Wid33 MarAuto WidAutoOnMobile">
+				<img
+					src="#{request.contextPath}/resources/images/arpen/logo-arpen-to2.png"
+					style="width: 80%; max-width: 400px;" />
+				<div class="EmptyBox30"></div>
+
+				<div class="Card ShadowEffect">
+
+					<div class="EmptyBox20"></div>
+					<div class="Wid100 OvHidden BigTopic Fs24">
+						<i class="icon-users Fs40"> </i> Informe suas credenciais de
+						acesso
+					</div>
+					<div class="EmptyBox20"></div>
+					<div class="Wid100">
+						<p:inputText styleClass="Wid80 TexAlCenter Fs18"
+							value="#{loginCartorio.usuarioCartorio.nomeLogin}"
+							placeholder="Nome de login do usuário..." />
+					</div>
+					<div class="EmptyBox10"></div>
+					<div class="Wid100">
+						<p:password styleClass="Wid80 TexAlCenter Fs18"
+							value="#{loginCartorio.usuarioCartorio.senha}"
+							placeholder="Senha..." />
+					</div>
+					<div class="EmptyBox30"></div>
+					<div class="Wid100">
+						<p:commandButton styleClass="Wid60 Fs18 White RaisedButton"
+							action="#{loginCartorio.loginAction}" type="submit" value="Login"
+							icon="fa fa-sign-in"></p:commandButton>
+					</div>
+					<div class="EmptyBox5"></div>
+					<div class="Wid100">
+						<p:commandButton type="button"
+							styleClass="RedButton Wid60 Fs18 White RaisedButton"
+							value="Esqueceu a senha?" icon="fa fa-lock"
+							onclick="PF('dlg2').show();"></p:commandButton>
+					</div>
+					<div class="EmptyBox20"></div>
+					<div class="Separator"></div>
+					<div class="EmptyBox10"></div>
+					<div class="Wid100">
+						<p:remoteCommand name="rc4" onsuccess="PF('dlgCadastro').show();"
+							actionListener="#{cadastroUsuarioCartorio.renderizarCartorios}" />
+						<p:commandButton type="button"
+							styleClass="GreenButton Wid60 Fs18 White RaisedButton"
+							onclick="rc4()" value="Quero me cadastrar" icon="fa fa-key" />
+					</div>
+					<div class="EmptyBox20"></div>
+				</div>
+				<div
+					class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular WhiteBlue">
+					<div class="Wid50 Fleft">
+						<i class="fa fa-copyright"></i> ARPEN-TO<br /> Todos os Direitos
+						Reservados.
+					</div>
+					<div class="Wid50 Fleft">
+						<a href="http://datasind.com.br" target="_blank"> <img
+							src="#{request.contextPath}/resources/images/arpen/logo-tecnotins-nova-site.png"
+							width="130" />
+						</a>
+					</div>
+				</div>
+				<div class="EmptyBox20"></div>
+			</div>
+		</div>
+	</h:form>
+	<p:dialog header="Cadastrar novo usuário" modal="true"
+		id="dlgCadastroID" widgetVar="dlgCadastro" closeOnEscape="true"
+		width="70%" height="100%" showEffect="puff" hideEffect="clip">
+		<!-- rendered="#{cadastroUsuarioCartorio.renderizaCartoriosLogin}" -->
+		<h:form id="formCadastro" enctype="multipart/form-data">
+			<p:growl id="growl2" autoUpdate="true" />
+			<div class="EmptyBox20"></div>
+			<div class="container">
+				<div class="Container20 Responsive">
+					<p:outputLabel value="Nome para o Login" />
+					<div class="EmptyBox5"></div>
+					<div class="container100">
+						<p:inputText id="nomeLogin"
+							value="#{cadastroUsuarioCartorio.usuarioCartorio.nomeLogin}"
+							styleClass="Fleft Responsive" required="true"
+							requiredMessage="Campo Vazio! Informe um nome de login.">
+							<f:ajax
+								listener="#{cadastroUsuarioCartorio.validaUsuarioCartorio}"
+								event="blur" />
+						</p:inputText>
+					</div>
+				</div>
+				<div class="Container80 Responsive">
+					<p:outputLabel value="Nome Completo:" />
+					<div class="EmptyBox5"></div>
+					<div class="container100">
+						<p:inputText id="nome"
+							value="#{cadastroUsuarioCartorio.usuarioCartorio.nome}"
+							styleClass="Fleft Responsive" required="true"
+							requiredMessage="Campo Vazio! Informe seu nome."
+							style="width: 95%;" />
+					</div>
+				</div>
+				<div class="EmptyBox20"></div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Digite seu E-mail:" />
+					<div class="EmptyBox5"></div>
+					<p:inputText id="email"
+						value="#{cadastroUsuarioCartorio.usuarioCartorio.email}"
+						required="true" styleClass="Wid90"
+						requiredMessage="Campo Vazio! Informe um E-mail."
+						validatorMessage="E-mail inválido!">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+				</div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="CPF:" />
+					<div class="EmptyBox5"></div>
+					<p:inputMask id="cpf" mask="999.999.999-99"
+						value="#{cadastroUsuarioCartorio.usuarioCartorio.cpf}"
+						required="true" styleClass="Wid90"
+						requiredMessage="Campo Vazio! Informe seu CPF."
+						validatorMessage="CPF inválido!">
+					</p:inputMask>
+				</div>
+				<div class="EmptyBox20"></div>
+				<h:panelGroup
+					rendered="#{cadastroUsuarioCartorio.renderizaCartoriosLogin == true}">
+					<div class="Fleft Container100 Responsive">
+						<p:outputLabel value="Cartório:" />
+						<div class="EmptyBox5"></div>
+						<div class="container100">
+							<p:selectOneMenu id="s_cartorio" styleClass="Wid90"
+								value="#{cadastroUsuarioCartorio.usuarioCartorio.cartorio}"
+								filter="true" filterMatchMode="startsWith" required="true"
+								requiredMessage="Selecione o cartório"
+								converter="cartorioConverter" effect="fade">
+								<f:selectItem itemLabel="SELECIONE O CARTÓRIO"
+									itemValue="#{null}" />
+								<f:selectItems value="#{cadastroUsuarioCartorio.cartorios}"
+									var="cartorio"
+									itemLabel="#{cartorio.nome} / #{cartorio.municipio}"
+									itemValue="#{cartorio}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+				</h:panelGroup>
+				<div class="EmptyBox20"></div>
+
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Digite sua senha:" />
+					<div class="EmptyBox5"></div>
+					<p:password id="senha" styleClass="Wid90"
+						value="#{cadastroUsuarioCartorio.usuarioCartorio.senha}"
+						required="true" match="senha2"
+						requiredMessage="Campo Vazio! Informe uma senha."
+						validatorMessage="As senhas não são iguais!" />
+				</div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Repita sua senha:" />
+					<div class="EmptyBox5"></div>
+					<p:password id="senha2" required="true" styleClass="Wid90"
+						requiredMessage="Campo vazio! Repita a senha." />
+				</div>
+			</div>
+
+			<div class="EmptyBox20"></div>
+			<div class="Wid30">
+				<p:remoteCommand name="rc1" update="@(form)"
+					actionListener="#{cadastroUsuarioCartorio.acaoIncluir}" />
+				<p:commandButton type="button"
+					styleClass="GreenButton Wid60 Fs18 White RaisedButton"
+					onclick="rc1()" value="Salvar" icon="fa fa-save" />
+			</div>
+		</h:form>
+	</p:dialog>
+	<p:dialog header="Solicite um nova senha" modal="true" widgetVar="dlg2"
+		width="70%" height="100%" showEffect="puff" hideEffect="clip">
+		<h:form id="formRecoverSenha" enctype="multipart/form-data">
+			<p:growl id="growl3" />
+			<div class="EmptyBox20"></div>
+			<div class="container">
+				<div class="EmptyBox20"></div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Digite seu E-mail:" />
+					<div class="EmptyBox5"></div>
+					<p:inputText id="email"
+						value="#{cadastroUsuarioCartorio.usuarioCartorio.email}"
+						required="true" styleClass="Wid90"
+						requiredMessage="Campo Vazio! Informe um E-mail."
+						validatorMessage="E-mail inválido!"
+						placeholder="Informe o seu e-mail...">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+				</div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Repita seu e-mail:" />
+					<div class="EmptyBox5"></div>
+					<p:inputText id="email2" required="true" styleClass="Wid90"
+						value="#{cadastroUsuarioCartorio.validaEmail}"
+						placeholder="Informe seu e-mail novamente..."
+						requiredMessage="Campo Vazio! Repita seu E-mail." />
+				</div>
+			</div>
+
+			<div class="EmptyBox20"></div>
+			<div class="Wid30">
+				<p:remoteCommand name="rc2" update="@(form)"
+					actionListener="#{cadastroUsuarioCartorio.solicitaNovaSenha}" />
+				<p:commandButton type="button"
+					styleClass="BlueButton Wid60 Fs18 White RaisedButton"
+					onclick="rc2()" value="Solicitar" icon="fa fa-arrow-right" />
+			</div>
+		</h:form>
+	</p:dialog>
+	<p:dialog header="Solicite um nova senha" modal="true"
+		widgetVar="loginInativo" width="70%" height="100%" showEffect="puff"
+		hideEffect="clip">
+		<h1>TESTANDO O LOGIN INATIVO</h1>
+	</p:dialog>
+	<p:ajaxStatus id="status" onstart="PF('statusDialog').show();"
+		onsuccess="PF('statusDialog').hide();">
+	</p:ajaxStatus>
+
+	<p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+		resizable="false" responsive="true" draggable="false" closable="true">
+		<p:graphicImage value="resources/images/Preloader_3.gif" />
+	</p:dialog>
+
+	<script type="text/javascript">
+		// close navbar
+		$(document).on('click', '.navbar-collapse.in', function(e) {
+			if ($(e.target).is('a')) {
+				$(this).collapse('hide');
+			}
+		});
+	</script>
+
+	<script src="#{request.contextPath}/resources/js/GestorController.js"
+		type="text/javascript" charset="UTF-8" />
+	<script src="#{request.contextPath}/resources/js/app.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script src="#{request.contextPath}/resources/js/controllers.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script src="#{request.contextPath}/resources/js/UsuarioController.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script src="#{request.contextPath}/resources/js/SistemasController.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script
+		src="#{request.contextPath}/resources/js/ParDeChavesController.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script
+		src="#{request.contextPath}/resources/js/DetalheSistemasController.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script
+		src="#{request.contextPath}/resources/js/ListarSistemasController.js"
+		type="text/javascript" charset="UTF-8"></script>
+
+	<script src="#{request.contextPath}/resources/js/angular.min.js"></script>
+	<script
+		src="#{request.contextPath}/resources/js/angular-sanitize.min.js"></script>
+	<script src="#{request.contextPath}/resources/js/angular-route.min.js"></script>
+	<script
+		src="#{request.contextPath}/resources/js/angular-loading.min.js"></script>
+</h:body>
+</html>

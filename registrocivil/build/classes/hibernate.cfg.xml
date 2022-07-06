@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+		<property name="hibernate.connection.provider_class">
+			org.hibernate.connection.C3P0ConnectionProvider
+		</property>
+
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.timeout">300</property>
+		<property name="hibernate.c3p0.max_statements">0</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.idle_test_period">100</property>
+
+
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+
+		<!-- *************SCA************************ -->
+		<!-- <mapping class="br.com.datasind.entidade.Banco" /> -->
+		<mapping class="br.com.datasind.entidade.Cartorio" />
+		<mapping class="br.com.datasind.entidade.CertidaoPedido" />
+		<mapping class="br.com.datasind.entidade.CertidaoUpload" />
+		<mapping class="br.com.datasind.entidade.Cidade" />
+		<!-- <mapping class="br.com.datasind.entidade.ContaBancaria" /> -->
+		<mapping class="br.com.datasind.entidade.Correios" />
+		<mapping class="br.com.datasind.entidade.CustoPedido" />
+		<mapping class="br.com.datasind.entidade.Endereco" />
+		<mapping class="br.com.datasind.entidade.IbgeUF" />
+		<mapping class="br.com.datasind.entidade.Modulo" />
+		<mapping class="br.com.datasind.entidade.ObjetoSessao" />
+		<mapping class="br.com.datasind.entidade.Perfil" />
+		<mapping class="br.com.datasind.entidade.PermissaoAcesso" />
+		<mapping class="br.com.datasind.entidade.TipoLivro" />
+		<mapping class="br.com.datasind.entidade.UF" />
+		<mapping class="br.com.datasind.entidade.UsuarioSite" />
+		<mapping class="br.com.datasind.entidade.UsuarioSiteModuloPerfil" />
+		<mapping class="br.com.datasind.entidade.UsuarioSitePerfil" />
+
+	</session-factory>
+
+</hibernate-configuration>

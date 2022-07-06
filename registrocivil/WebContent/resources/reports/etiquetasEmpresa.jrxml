@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetasEmpresa" columnCount="2" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="277" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="c19a5a93-fb28-4b48-961f-e323625d0900">
+	<property name="ireport.zoom" value="1.128947860107555"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="bordas" mode="Opaque" backcolor="#FFFFFF" fill="Solid" hAlign="Left" isBlankWhenNull="false" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="1.0" lineStyle="Double" lineColor="#CCCCCC"/>
+		<box leftPadding="0" bottomPadding="5">
+			<pen lineWidth="0.75" lineStyle="Double" lineColor="#CCCCCC"/>
+			<topPen lineWidth="0.75" lineStyle="Double" lineColor="#CCCCCC"/>
+			<leftPen lineWidth="0.75" lineStyle="Double" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.75" lineStyle="Double" lineColor="#CCCCCC"/>
+			<rightPen lineWidth="0.75" lineStyle="Double" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="ad3e79d3-cebe-4200-9b01-2d03819b30b9"/>
+	<parameter name="path" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Desenvolvimento\\DataSind\\WebContent\\resources\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="instituicao" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="Imagem" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cep" class="java.lang.String">
+		<fieldDescription><![CDATA[cep]]></fieldDescription>
+	</field>
+	<field name="cidade" class="br.com.datasind.entidade.Cidade">
+		<fieldDescription><![CDATA[cidade]]></fieldDescription>
+	</field>
+	<field name="endereco" class="java.lang.String">
+		<fieldDescription><![CDATA[endereco]]></fieldDescription>
+	</field>
+	<field name="nomeFantasia" class="java.lang.String">
+		<fieldDescription><![CDATA[nomeFantasia]]></fieldDescription>
+	</field>
+	<field name="razaoSocial" class="java.lang.String">
+		<fieldDescription><![CDATA[razaoSocial]]></fieldDescription>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<fieldDescription><![CDATA[bairro]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="b9bc29f3-753f-45de-a856-709c800ba9b4" style="bordas" positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="0" y="0" width="262" height="45" isPrintWhenDetailOverflows="true"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="3361218a-37ca-47df-ab25-69f2dd0a3cae" positionType="Float" x="0" y="17" width="260" height="25" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endereco} +" "+ $F{bairro} +" "+ $F{cep} +" "+ $F{cidade}.getDescCidade() +"-"+ $F{cidade}.getUf().getSiglaUF()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="badb2395-f9bc-4eb6-a086-8c4d34f305fa" x="0" y="2" width="260" height="14" isPrintWhenDetailOverflows="true"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica" isPdfEmbedded="false"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{razaoSocial}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

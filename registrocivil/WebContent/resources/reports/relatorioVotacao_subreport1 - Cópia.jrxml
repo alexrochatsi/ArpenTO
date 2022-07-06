@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioVotacao_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2733424e-bf7c-40ed-8a40-d5e4466ed0d1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[nome]]></fieldDescription>
+	</field>
+	<field name="CPF" class="java.lang.String">
+		<fieldDescription><![CDATA[CPF]]></fieldDescription>
+	</field>
+	<sortField name="nome"/>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="509319b6-3497-4236-8aea-55c51d3feefb" x="1" y="0" width="555" height="14" forecolor="#FFFFFF" backcolor="#CCCCCC">
+					<printWhenExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="7a2e820e-71f4-4edd-b173-e5fe13796526" x="1" y="0" width="228" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0788f157-78ee-46cb-a739-6d0b33616b69" x="229" y="0" width="93" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CPF}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="51bbd7a6-39a9-4f61-98d6-4674c566974f" x="322" y="11" width="231" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="25">
+			<staticText>
+				<reportElement uuid="ff0be6d7-5e9b-4e2e-99ec-8b9fc972fd39" x="0" y="1" width="138" height="19"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Associados na empresa:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="146a1441-d5db-44ac-bc57-e50f5702bd01" x="138" y="1" width="100" height="19"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="94ceea69-3005-459f-9c62-26d2770a9f5c" x="0" y="0" width="553" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

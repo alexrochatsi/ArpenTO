@@ -1,0 +1,77 @@
+package br.com.datasind.entidade;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+
+/**
+ * @Author osmar
+ * @since 01/06/2011
+ *
+ **/
+@Entity
+@Table (name="cidade")
+public class Cidade extends EntidadePadrao {
+	
+	/**
+	 * 
+	 */
+	@Transient
+	private static final long serialVersionUID = -4903756795856631339L;
+
+	@Id
+	@GeneratedValue
+	private Integer id;
+	
+	@Version
+	private Integer versao;
+	
+	private String descCidade;
+	
+	@ManyToOne (fetch=FetchType.EAGER,  cascade = CascadeType.ALL )
+	private UF uf;
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public Integer getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Integer versao) {
+		this.versao = versao;
+	}
+
+	public String getDescCidade() {
+		return descCidade;
+	}
+
+	public void setDescCidade(String descCidade) {
+		this.descCidade = descCidade;
+	}
+
+	public UF getUf() {
+		if(uf == null){
+			uf = new UF();
+		}
+		return uf;
+	}
+
+	public void setUf(UF uf) {
+		this.uf = uf;
+	}
+	
+	
+}

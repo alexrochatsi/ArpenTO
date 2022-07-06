@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaEntidadeSindical_historicoRegistro" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6869d95e-ab5e-4fd4-85fc-909def0bf1f8">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="1286"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="dataImpugnacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataImpugnacao]]></fieldDescription>
+	</field>
+	<field name="dataNovaEntrada" class="java.util.Date">
+		<fieldDescription><![CDATA[dataNovaEntrada]]></fieldDescription>
+	</field>
+	<field name="dataPedidoRevisao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataPedidoRevisao]]></fieldDescription>
+	</field>
+	<field name="entidadeSindical" class="br.com.datasind.entidade.EntidadeSindical">
+		<fieldDescription><![CDATA[entidadeSindical]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="impugnante" class="java.lang.String">
+		<fieldDescription><![CDATA[impugnante]]></fieldDescription>
+	</field>
+	<field name="observacoes" class="java.lang.String">
+		<fieldDescription><![CDATA[observacoes]]></fieldDescription>
+	</field>
+	<field name="usuario" class="br.com.datasind.entidade.Usuario">
+		<fieldDescription><![CDATA[usuario]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a9bd3f21-6dfe-4475-9c3c-b0f4b3163acd" x="0" y="4" width="91" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[PEDIDO DE REVISÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="347bed8a-08ab-4444-9ebd-3863ca2f7ef8" x="91" y="4" width="74" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NOVA ENTRADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5b150415-5879-42da-8eb8-1cf657155cff" x="165" y="4" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATA IMPUGNAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b5a996e-191e-409f-a9c4-a85ea77d80e4" x="257" y="4" width="138" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[IMPUGNANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c62e8527-efd9-4222-8c8c-c97fe13f0b71" x="395" y="4" width="148" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OBSERVAÇÃO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="aef13c09-fca4-4dc2-b7e8-2d5c37af042b" stretchType="RelativeToBandHeight" x="0" y="1" width="91" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataPedidoRevisao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="38381066-85fd-4aeb-82f2-171c199245d6" stretchType="RelativeToBandHeight" x="91" y="1" width="74" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataNovaEntrada}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="4bee29b8-faa9-4bc0-a358-6d5365210f36" stretchType="RelativeToBandHeight" x="165" y="1" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataImpugnacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="a7590423-86d9-4307-bd81-b20099bfaab8" stretchType="RelativeToBandHeight" x="257" y="1" width="138" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{impugnante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="3d905394-3825-40d7-b64d-42ca180d7363" stretchType="RelativeToBandHeight" x="395" y="1" width="148" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacoes}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="64786155-1985-4e63-a11a-1988d4327978" x="0" y="0" width="543" height="1" forecolor="#666666"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

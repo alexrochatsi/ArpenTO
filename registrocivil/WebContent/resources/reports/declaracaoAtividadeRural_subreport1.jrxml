@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="declaracaoAtividadeRural_subreport1" pageWidth="550" pageHeight="802" columnWidth="550" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d6d9dbe2-b762-43c9-809b-36623cd500b3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1" forecolor="#000000">
+		<box rightPadding="1">
+			<rightPen lineWidth="1.0"/>
+		</box>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="admissao" class="java.util.Date">
+		<fieldDescription><![CDATA[admissao]]></fieldDescription>
+	</field>
+	<field name="demissao" class="java.util.Date">
+		<fieldDescription><![CDATA[demissao]]></fieldDescription>
+	</field>
+	<field name="categoriaTrabalho" class="br.com.datasind.entidade.CategoriaTrabalho">
+		<fieldDescription><![CDATA[categoriaTrabalho]]></fieldDescription>
+	</field>
+	<field name="empresa" class="br.com.datasind.entidade.Empresa">
+		<fieldDescription><![CDATA[empresa]]></fieldDescription>
+	</field>
+	<field name="periodo" class="java.lang.String">
+		<fieldDescription><![CDATA[periodo]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="16">
+			<staticText>
+				<reportElement uuid="97b2720d-cafe-448f-a134-2bf2a82bed48" x="0" y="0" width="168" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME DO PROPRIETÁRIO:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="84bcb85c-14dd-4f92-837a-58eeea236146" x="0" y="12" width="550" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="8eb7691f-dde0-4d49-876b-1b773b4d9f47" x="366" y="0" width="100" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERÍODO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="97b2720d-cafe-448f-a134-2bf2a82bed48" x="168" y="0" width="198" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8eb7691f-dde0-4d49-876b-1b773b4d9f47" x="466" y="0" width="84" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAT. TRAB. RURAL:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="6640195e-5187-4664-8599-fe976defdfd8" x="0" y="0" width="161" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa}.getNomeFantasia()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="756c1598-7f33-4811-8efe-59660e41b8db" stretchType="RelativeToBandHeight" x="164" y="0" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement uuid="ef4f7010-aa83-43c6-a18d-b78c6cee934c" positionType="FixRelativeToBottom" x="0" y="13" width="550" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="6640195e-5187-4664-8599-fe976defdfd8" x="168" y="1" width="195" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa}.getEndereco()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="418f3b3d-3862-460b-829b-b4f645fb5785" x="366" y="1" width="97" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="280ed26e-f11d-4d71-9131-88f0b4f02756" x="466" y="0" width="84" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{categoriaTrabalho}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="756c1598-7f33-4811-8efe-59660e41b8db" stretchType="RelativeToBandHeight" x="364" y="0" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement uuid="756c1598-7f33-4811-8efe-59660e41b8db" stretchType="RelativeToBandHeight" x="464" y="0" width="1" height="12"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formCadastro" enctype="multipart/form-data">
+							<p:growl id="growl" autoUpdate="true" />
+							<div class="container">
+								<p:panel menuTitle="PAGAMENTOS." header="PAGAMENTOS.">
+									<p:panelGrid columns="4"
+										style="background-color: #0277BD;padding: 5px 5px; font-size: 1.4em"
+										layout="grid">
+										<p:column>
+											<p:selectOneMenu id="s_cartorioPagamento" style="width:80%"
+												value="#{pagamento.cartorioSelecionado}" filter="true"
+												filterMatchMode="startsWith" converter="cartorioConverter"
+												effect="fade">
+												<f:selectItem itemLabel="SELECIONE O CARTÓRIO" />
+												<f:selectItem itemLabel="Cartório: TODOS"
+													itemValue="#{null}" />
+												<f:selectItems value="#{pagamento.cartorios}" var="cartorio"
+													itemLabel="#{cartorio.nome} / #{cartorio.municipio}"
+													itemValue="#{cartorio}" />
+											</p:selectOneMenu>
+										</p:column>
+										<p:column>
+											<p:selectOneMenu id="s_mesPagamento" style="width:50%"
+												value="#{pagamento.mes}" filter="true" required="true"
+												requiredMessage="Informe o mês para a busca."
+												filterMatchMode="startsWith" effect="fade">
+												<f:selectItem itemLabel="MÊS" itemValue="#{null}" />
+												<f:selectItem itemLabel="JANEIRO" itemValue="01" />
+												<f:selectItem itemLabel="FERVEREIRO" itemValue="02" />
+												<f:selectItem itemLabel="MARÇO" itemValue="03" />
+												<f:selectItem itemLabel="ABRIL" itemValue="04" />
+												<f:selectItem itemLabel="MAIO" itemValue="05" />
+												<f:selectItem itemLabel="JUNHO" itemValue="06" />
+												<f:selectItem itemLabel="JULHO" itemValue="07" />
+												<f:selectItem itemLabel="AGOSTO" itemValue="08" />
+												<f:selectItem itemLabel="SETEMBRO" itemValue="09" />
+												<f:selectItem itemLabel="OUTUBRO" itemValue="10" />
+												<f:selectItem itemLabel="NOVEMBRO" itemValue="11" />
+												<f:selectItem itemLabel="DEZEMBRO" itemValue="12" />
+											</p:selectOneMenu>
+										</p:column>
+										<p:column>
+											<p:selectOneMenu id="s_anoPagamento" style="width:50%"
+												value="#{pagamento.ano}" filter="true"
+												filterMatchMode="startsWith" required="true"
+												requiredMessage="Informe o ano para a busca." effect="fade">
+												<f:selectItem itemLabel="ANO" itemValue="#{null}" />
+												<f:selectItems value="#{pagamento.anos}" />
+											</p:selectOneMenu>
+										</p:column>
+										<p:column>
+											<p:remoteCommand name="rcPagamentosCartorio"
+												actionListener="#{pagamento.buscarPagamentos}" />
+											<p:commandButton type="button"
+												styleClass="GreenButton Wid40 Fleft Fs16 White RaisedButton"
+												onclick="rcPagamentosCartorio()" value="Buscar"
+												icon="fa fa-search" />
+										</p:column>
+										<p:column />
+									</p:panelGrid>
+									<p:dataTable id="pagamentosCartorio" var="pagamentos"
+										paginator="true" rowsPerPageTemplate="10,15" rows="10"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+										paginatorPosition="bottom" widgetVar="tableUsuario"
+										tableStyleClass="ui-table-columntoggle"
+										emptyMessage="Não há pagamentos em aberto"
+										style="text-align: center"
+										sortBy="#{pagamentos.dataPagamento}" sortOrder="DESCENDING"
+										value="#{pagamento.listaPagamentos}"
+										selection="#{pagamento.pagamentoSelecionado}"
+										rowKey="#{pagamentos.id}" selectionMode="single">
+										<p:ajax event="rowSelect"
+											listener="#{pagamento.carregaPagamento}"
+											update=":formCadastro:btnPagar" />
+										<p:column headerText="Cartório" style="font-size: 1.1em"
+											styleClass="Responsive" priority="3">
+											<h:outputText value="#{pagamentos.cartorio.nome}" />
+										</p:column>
+										<p:column styleClass="Wid10 Responsive"
+											headerText="Qtd. Boletos" sortable="true" priority="1">
+											<h:outputText value="#{pagamentos.qtdBoletos}" />
+										</p:column>
+										<p:column headerText="Período" sortBy="#{pagamentos.periodo}"
+											styleClass="Wid10 Responsive" priority="2">
+											<h:outputText value="#{pagamentos.periodo}">
+												<f:convertDateTime pattern="MM/yyyy" timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column styleClass="Wid10 Responsive"
+											sortBy="#{pagamentos.total}" headerText="Total" priority="1">
+											<h:outputText value="#{pagamentos.total}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+										</p:column>
+										<p:column headerText="Data do Pagamento"
+											sortBy="#{pagamentos.dataPagamento}"
+											styleClass="Wid20 Responsive" priority="2">
+											<h:outputText rendered="#{pagamentos.pago == true}"
+												value="#{pagamentos.dataPagamento}">
+												<f:convertDateTime pattern="dd/MM/yyyy - HH:mm"
+													timeZone="GMT-3" />
+											</h:outputText>
+											<h:outputText rendered="#{pagamentos.pago == false}"
+												style="color:red" value="A PAGAR" />
+										</p:column>
+									</p:dataTable>
+								</p:panel>
+								<div class="EmptyBox10"></div>
+								<div class="Wid10 Fright" style="margin-right: 1%">
+									<p:commandButton id="btnPagar" type="button" immediate="true"
+										disabled="#{pagamento.pagamentoSelecionado.id != null and pagamento.pagamentoSelecionado.pago == true}"
+										styleClass="Wid100 Fright Fs14 White RaisedButton Responsive"
+										style="background-color: goldenrod;" value="Pagar"
+										icon="fa fa-dollar" onclick="PF('dlg2').show();" />
+								</div>
+								<div class="Wid10 Fright" style="margin-right: 1%">
+										<p:remoteCommand name="rcExcluir"
+											actionListener="#{pagamento.acaoExcluir}" />
+										<p:commandButton type="button" resetValues="true"
+											update="@this"
+											styleClass="RedButton Wid100 Fs14 White RaisedButton"
+											onclick="rcExcluir()" value="Excluir" icon="fa fa-trash" />
+									</div>
+								<div class="EmptyBox20"></div>
+							</div>
+						</h:form>
+						<p:dialog id="modalDialog" header="Forma de Pagamento"
+							widgetVar="dlg2" modal="true" width="60%" height="400px"
+							appendToBody="false" draggable="false" showEffect="puff"
+							hideEffect="clip" closeOnEscape="true" resizable="false">
+							<h:form id="formPagamentoCartorio" enctype="multipart/form-data">
+								<p:growl id="growl2" autoUpdate="true" />
+								<div class="container">
+									<div class="EmptyBox10"></div>
+									<div class="Container60 Responsive">
+										<p:outputLabel value="Nome Cartório:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel style="color: red"
+												value="#{pagamento.pagamento.cartorio.nome}" />
+										</div>
+									</div>
+									<div class="Container20 Responsive">
+										<p:outputLabel value="Período:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel value="#{pagamento.pagamento.periodo}"
+												style="color: red">
+												<f:convertDateTime pattern="MM/yyyy" timeZone="GMT-3" />
+											</p:outputLabel>
+										</div>
+									</div>
+									<div class="Container20 Responsive">
+										<p:outputLabel value="Total a pagar:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel style="color: red"
+												value="#{pagamento.pagamento.total}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</p:outputLabel>
+										</div>
+									</div>
+									<div class="EmptyBox20"></div>
+									<p:panel style="text-align:center">
+										<div class="Container20 Responsive">
+											<h:outputText value="Agência: "
+												style="font-weight: bold; font-size: 1.2em" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<h:outputText style="font-size: 1.1em;color:blue"
+													value="#{pagamento.pagamento.contaBancaria.agencia}" />
+											</div>
+										</div>
+										<div class="Container30 Responsive">
+											<h:outputText value="Conta Corrente: "
+												style="font-weight: bold; font-size: 1.2em" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<h:outputText style="font-size: 1.1em;color:blue"
+													value="#{pagamento.pagamento.contaBancaria.contaCorrente}" />
+											</div>
+										</div>
+										<div class="Container50 Responsive">
+											<h:outputText value="Banco: "
+												style="font-weight: bold; font-size: 1.2em" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<h:outputText style="font-size: 1.1em;color:blue"
+													value="#{pagamento.pagamento.contaBancaria.banco.nome}" />
+											</div>
+										</div>
+										<div class="EmptyBox10"></div>
+									</p:panel>
+									<div class="EmptyBox20"></div>
+									<p:panel header="Forma de Pagamento" styleClass="TexAlCenter"
+										menuTitle="Forma de Pagamento">
+										<div class="EmptyBox5"></div>
+										<p:selectOneRadio id="formaPagamentoRadio"
+											style="display: inline-table;"
+											value="#{pagamento.pagamento.formaPagamento}">
+											<f:selectItem itemLabel="TED" itemValue="1" />
+											<f:selectItem itemLabel="DOC" itemValue="2" />
+											<f:selectItem itemLabel="CHEQUE" itemValue="3" />
+											<f:ajax event="click" render=":formPagamentoCartorio" />
+										</p:selectOneRadio>
+										<p:outputLabel style="color: blue;margin-left: 5%;"
+											rendered="#{pagamento.pagamento.valorCheque != null}"
+											value="#{pagamento.pagamento.valorCheque}" />
+										<p:inputMask mask="9999999" required="true"
+											requiredMessage="Informe o número do cheque."
+											style="text-transform: uppercase; margin-left: 10%; margin-top: -10%"
+											placeholder="Ex: 4864786"
+											rendered="#{pagamento.pagamento.formaPagamento == 3 and pagamento.pagamento.valorCheque == null}"
+											value="#{pagamento.pagamento.valorCheque}" />
+									</p:panel>
+									<div class="EmptyBox20"></div>
+									<div class="Wid20 Fright">
+										<p:remoteCommand name="rcPagar"
+											actionListener="#{pagamento.pagar}" />
+										<p:commandButton type="button" resetValues="true"
+											oncomplete="formCadastro:pagamentosCartorio"
+											styleClass="BlueButton Wid100 Fs14 White RaisedButton"
+											onclick="rcPagar()" value="Pagar" icon="fa fa-dollar" />
+									</div>
+									<div class="EmptyBox20"></div>
+								</div>
+							</h:form>
+						</p:dialog>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

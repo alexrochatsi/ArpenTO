@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-scheduling-data
+	xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData  
+	http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
+	version="2.0">
+
+	<schedule>
+		<job>
+			<name>LimpaCertidoesPDF</name>
+			<group>arpen-to</group>
+			<description>esse job limpa todas as certidoes vencidas apos 30 dias da data atual</description>
+			<job-class>br.com.datasind.job.AutoLimpezaCertidoesPdfJOB</job-class>
+			<job-data-map>
+				<entry>
+					<key>qtdRegistros</key>
+					<value>100</value>
+				</entry>
+				<entry>
+					<key>horasDesatualizacao</key>
+					<value>2</value>
+				</entry>
+			</job-data-map>
+		</job>
+		<trigger>
+			<cron>
+				<name>trigger2</name>
+				<job-name>LimpaCertidoesPDF</job-name>
+				<job-group>arpen-to</job-group>
+				<!-- Será executado todo dia às 00:00 -->
+				<cron-expression>0 0 0 1/1 * ? *</cron-expression>
+				<!-- Executa de 23 em 23 segundos -->
+				<!-- <cron-expression>0/23 * * * * ?</cron-expression> -->
+			</cron>
+		</trigger>
+	</schedule>
+</job-scheduling-data>

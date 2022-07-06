@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioGuiasEmpresa_subreport1" pageWidth="588" pageHeight="802" columnWidth="588" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e96d5c42-86b8-47da-a246-cdba4d3bdf3f">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="red" forecolor="#000000" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{status}.equalsIgnoreCase("VENCIDA"))]]></conditionExpression>
+			<style forecolor="#FF0033" fontSize="10"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{status}.equalsIgnoreCase("PAGA"))]]></conditionExpression>
+			<style forecolor="#66CC00" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{status}.equalsIgnoreCase("BAIXADA"))]]></conditionExpression>
+			<style forecolor="#0000FF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="totalPorItem" class="java.lang.String"/>
+	<parameter name="totalPorEmpresa" class="java.lang.Integer"/>
+	<parameter name="valorTotaisPagos" class="java.math.BigDecimal"/>
+	<parameter name="valorTotalCreditado" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="pagamento" class="java.util.Date">
+		<fieldDescription><![CDATA[pagamento]]></fieldDescription>
+	</field>
+	<field name="tipoGuia" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoGuia]]></fieldDescription>
+	</field>
+	<field name="valorCreditado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorCreditado]]></fieldDescription>
+	</field>
+	<field name="valorPago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorPago]]></fieldDescription>
+	</field>
+	<field name="vencimento" class="java.util.Date">
+		<fieldDescription><![CDATA[vencimento]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
+	</field>
+	<field name="dataEfetivacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataEfetivacao]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement uuid="b20e046a-7788-4c2c-b87c-20a525395bc3" x="0" y="0" width="175" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoGuia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="33a6578a-13c7-4170-8c0a-6999748854a3" x="175" y="0" width="64" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{vencimento})]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="930750eb-95c1-4d97-9cbf-a4a0761c81e2" x="239" y="0" width="72" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorPago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="47ea09ba-4e61-4d14-a935-6e27b713447a" x="311" y="0" width="72" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorCreditado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8fbfa2a9-6958-4a9b-b844-e11924b6dab7" x="383" y="0" width="64" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{pagamento})]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="ef7e9105-e386-4a84-81b2-e3a86812b7da" style="red" mode="Transparent" x="511" y="0" width="77" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="0d7b7455-081a-48b0-9323-72d80ab03660" x="447" y="0" width="64" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataEfetivacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="35">
+			<line>
+				<reportElement uuid="c42be15d-fbe1-4922-b25e-75cf200be6f3" x="0" y="30" width="580" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="8a7fd39f-bdfd-46f5-969d-2c12a5d89a51" x="0" y="14" width="135" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total de Guias da Empresa:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="38f6c008-7115-4ede-9528-0dd851c74d37" x="0" y="0" width="580" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalPorItem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6df82764-cc2d-4b8b-a120-9ef39cf21c9c" x="135" y="14" width="63" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalPorEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2eb4f4a5-9bb4-4234-8ffa-3623648277c2" x="254" y="14" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorTotaisPagos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e5aaa04d-f924-4886-a15e-0b189a79298b" x="198" y="14" width="56" height="14">
+					<printWhenExpression><![CDATA[( $P{valorTotaisPagos} != null && !$P{valorTotaisPagos}.equals(new BigDecimal(0)))]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total Pago:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2d5c00c7-3381-40c0-bdcd-1146c0140da6" x="356" y="14" width="78" height="14">
+					<printWhenExpression><![CDATA[( $P{valorTotaisPagos} != null && !$P{valorTotaisPagos}.equals(new BigDecimal(0)))]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total Creditado:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="436eb28c-990a-4231-8ff8-856a1edfe061" x="434" y="14" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorTotalCreditado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

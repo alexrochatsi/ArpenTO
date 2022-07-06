@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaFiliacao_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f7556b8a-3844-4eb0-bc43-443ecac6c4c9">
+	<property name="ireport.zoom" value="1.652892561983472"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="Table Dataset 1" uuid="89ff5361-dbd0-494e-b347-c59e6d4d5f92"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="oposicao" class="java.lang.String">
+		<fieldDescription><![CDATA[oposicao]]></fieldDescription>
+	</field>
+	<field name="usuario" class="br.com.datasind.entidade.Usuario">
+		<fieldDescription><![CDATA[usuario]]></fieldDescription>
+	</field>
+	<field name="data" class="java.util.Date">
+		<fieldDescription><![CDATA[data]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="13">
+			<staticText>
+				<reportElement uuid="cca21d78-8f30-4e43-9bd9-d6cf90459f1a" x="2" y="1" width="72" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USUARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b40f72a-3fa7-48bd-8c1d-1803ac4e4fa9" x="74" y="1" width="61" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e93defd-c79c-4eae-9dea-355ad2c2aba4" x="135" y="1" width="117" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DADOS DOS PROCESSOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement uuid="818e34cf-ff78-4ee0-bc95-9bffaf1f6b40" stretchType="RelativeToBandHeight" x="2" y="0" width="72" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario}.getLogin()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="e24c5430-bdc2-4d45-a745-802de433ef68" stretchType="RelativeToBandHeight" x="74" y="0" width="61" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="01dc04d2-33f7-4142-a90c-f87d8b0f60d4" stretchType="RelativeToBandHeight" x="135" y="0" width="410" height="12" isPrintWhenDetailOverflows="true"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{oposicao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

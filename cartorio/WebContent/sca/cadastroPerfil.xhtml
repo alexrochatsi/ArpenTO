@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="pt-br">
+
+<ui:composition template="../resources/template/templateNovo.xhtml">
+
+
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<h:form id="form">
+			<p:panel header="Cadastro de Perfil">
+				<p:panel>
+					<h:panelGrid styleClass="input-text" style="border:none;"
+						id="display">
+						<p:growl id="growl" />
+						<h:panelGrid columns="8"
+							style="left: 10px; margin-top: 10px;  position: relative; "
+							cellspacing="1">
+
+							<h:outputText value="Modulo:" for="txt_modulo" />
+							<h:outputText value="*" styleClass="asterisco" />
+							<p:selectOneMenu value="#{cadastroPerfil.perfil.modulo}"
+								converter="#{modelConverter}" immediate="true" binding="#{id}"
+								style="width:315px;">
+								<f:selectItems value="#{cadastroPerfil.listaModuloSelect}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid style="margin-left: 20px;" columns="2">
+							<h:outputLabel value="Nome:" />
+							<p:inputText value="#{cadastroPerfil.perfil.descricao}"
+								style="margin-left:8px;width:310px;" id="descricaoPerfil" />
+						</h:panelGrid>
+
+
+					</h:panelGrid>
+
+
+					<h:panelGrid columns="5" id="commands"
+						styleClass="ui-panel ui-widget ui-widget-content ui-corner-all"
+						style=" height: 50px; 
+						  margin-left: 20px; ">
+						<h:panelGroup>
+							<p:commandLink
+								update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+								id="incluir" alt="Incluir"
+								actionListener="#{cadastroPerfil.acaoIncluir}"
+								style="margin-left:10px;"
+								disabled="#{cadastroPerfil.perfil.id != null}">
+								<p:graphicImage
+									value="#{(cadastroPerfil.perfil.id == null || cadastroPerfil.perfil.id ==0) ? '../resources/images/salvar.png' : '../resources/images/salvar_off.png'}" />
+							</p:commandLink>
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:commandLink id="alterar" title="Alterar"
+								update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+								actionListener="#{cadastroPerfil.acaoAlterar}"
+								disabled="#{(cadastroPerfil.perfil.id == null || cadastroPerfill.perfil.id ==0)}"
+								style="margin-left:15px;">
+								<p:graphicImage
+									value="#{(cadastroPerfil.perfil.id == null || cadastroPerfil.perfil.id ==0) ? '../resources/images/alterar_off.png' : '../resources/images/alterar.png'}" />
+							</p:commandLink>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandLink id="excluir" title="Excluir"
+								onclick="confirmation.show()"
+								disabled="#{(cadastroPerfil.perfil.id == null || cadastroPerfil.perfil.id ==0)}"
+								style="margin-left:15px;">
+								<p:graphicImage
+									value="#{(cadastroPerfil.perfil.id == null || cadastroPerfil.perfil.id ==0) ? '../resources/images/excluir_off.png' : '../resources/images/excluir.png'}" />
+
+							</p:commandLink>
+
+						</h:panelGroup>
+
+						<h:commandButton id="limpar" title="Limpar "
+							actionListener="#{cadastroPerfil.acaoLimpar}"
+							image="../resources/images/limpar.png"
+							style="margin-left:15px; margin-right:15px; " />
+					</h:panelGrid>
+
+
+				</p:panel>
+
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+
+	<ui:define name="footer" id="#{facesContext.externalContext.request}">
+		<p:panel style="margin-top:15px;" id="panel3">
+			<p:dataTable id="dataTable" var="perfil"
+				value="#{cadastroPerfil.perfilDM}" selectionMode="single"
+				selection="#{cadastroPerfil.perfil}" paginator="true" rows="7"
+				style="width:100%; ">
+
+				<p:ajax event="rowSelect" listener="#{cadastroPerfil.onRowSelect}"
+					update=":form:commands, :form:display" />
+
+				<p:column headerText="Perfil" style="width:100px;">
+					<h:outputText value="#{perfil.descricao}"
+						sortBy="#{perfil.descricao}" filterBy="#{perfil.descricao}"
+						style="width:100px;" />
+				</p:column>
+				<p:column headerText="Modulo" style="width:100px;">
+					<h:outputText value="#{perfil.modulo.descricao}"
+						sortBy="#{perfil.modulo.descricao}"
+						filterBy="#{perfil.modulo.descricao}" style="width:100px;" />
+				</p:column>
+			</p:dataTable>
+
+
+		</p:panel>
+
+
+
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<p:confirmDialog id="confirmDialog"
+			message="Deseja excluir esse perfil?" header="Exclusão"
+			severity="alert" widgetVar="confirmation" appendToBody="true">
+			<h:form id="formConfirmDialogExcluir">
+				<p:commandButton id="sim" value="SIM"
+					update=":form:growl, :form:commands, :formFooter:panel3, :form:display"
+					oncomplete="confirmation.hide()" ajax="true"
+					actionListener="#{cadastroPerfil.acaoExcluir}" />
+				<p:commandButton id="nao" value="NÃO" onclick="confirmation.hide()" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+
+</ui:composition>
+</html>

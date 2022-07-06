@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaCheckOut_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7e3a29c7-ebc6-4530-af23-7bee276e9c51">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="itemConsumo" class="br.com.datasind.entidade.ItemConsumo">
+		<fieldDescription><![CDATA[itemConsumo]]></fieldDescription>
+	</field>
+	<field name="quantidade" class="java.lang.Integer">
+		<fieldDescription><![CDATA[quantidade]]></fieldDescription>
+	</field>
+	<variable name="valorParcial" class="java.math.BigDecimal" resetType="Column">
+		<variableExpression><![CDATA[new BigDecimal($F{quantidade}).multiply($F{itemConsumo}.getValor())]]></variableExpression>
+	</variable>
+	<variable name="valorFim" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{valorParcial}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="17">
+			<staticText>
+				<reportElement uuid="a4238831-eab5-4bc8-a0f1-5129c7e92ef1" x="3" y="2" width="110" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIÇÃO DO PRODUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a4238831-eab5-4bc8-a0f1-5129c7e92ef1" x="381" y="2" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUANTIDADE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a4238831-eab5-4bc8-a0f1-5129c7e92ef1" x="284" y="2" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR UNITÁRIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a4238831-eab5-4bc8-a0f1-5129c7e92ef1" x="470" y="2" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="5aec605c-d0b1-48f6-b07d-c8b943fde29b" x="0" y="14" width="553" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fbcf530c-e82c-45a2-8218-cb39648aac45" x="381" y="0" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="560f14d7-d2ac-4290-a3ad-147708623e4e" x="284" y="0" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemConsumo}.getValor()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6d3b0424-41cd-4ce6-926a-07153693be3c" x="3" y="0" width="265" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemConsumo}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="00afeea9-ade4-4d52-8c61-3fe31833c455" x="470" y="0" width="75" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valorParcial}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="18">
+			<staticText>
+				<reportElement uuid="a4238831-eab5-4bc8-a0f1-5129c7e92ef1" x="391" y="3" width="79" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL CONSUMO:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="8b7b610a-c00e-49a3-a8d4-c504e6f11d72" x="470" y="3" width="75" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valorFim}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="679727bc-e4fc-4a32-b876-468ce7fa5740" x="0" y="2" width="553" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

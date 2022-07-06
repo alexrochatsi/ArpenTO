@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="EmptyBox30"></div>
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formCadastro" enctype="multipart/form-data">
+							<p:growl id="growl" />
+							<div class="container">
+								<p:panel menuTitle="" id="dadosPanel" header="Dados da Genitora">
+									<div class="EmptyBox20" />
+									<div class="Container50 Responsive">
+										<p:outputLabel value="Nome:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:inputText id="nome" required="true"
+												requiredMessage="Campo Vazio! Informe o nome da Genitora."
+												value="#{genitor.genitor.nome}"
+												styleClass="Fleft Responsive"
+												placeholder="Informe o nome..." style="width: 95%;" />
+										</div>
+									</div>
+									<div class="Fleft Container40 Responsive">
+										<p:outputLabel value="Profissão:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="s_ocupacao" required="true"
+												requiredMessage="Selecione a profissão." styleClass="Wid90"
+												value="#{genitor.genitor.ocupacao}" filter="true"
+												filterMatchMode="startsWith"
+												converter="orgaoEmissorConverter" effect="fade">
+												<f:selectItem itemLabel="SELECIONE A PROFISSÃO" itemValue="" />
+												<f:selectItems value="#{genitor.ocupacoes}" var="o"
+													itemLabel="#{o.cbo}" itemValue="#{o}" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="EmptyBox20" />
+									<div class="Container50 Responsive">
+										<p:outputLabel value="País de Nascimento:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="paisNascimento" required="true"
+												requiredMessage="Selecione o país de nascimento da Genitora."
+												onchange="PF('paisNascimento').Value(24);" filter="true"
+												filterMatchMode="startsWith"
+												placeholder="Pais de nascimento..." style="width: 80%"
+												value="#{genitor.genitor.paisNascimento}">
+												<f:selectItem value="#{null}"
+													itemLabel="Selecione o país..." />
+												<f:selectItems value="#{genitor.paisesIBGE()}" var="paises"
+													itemValue="#{paises}" itemLabel="#{paises.nome}" />
+												<f:converter converterId="paisConverter" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="Container50 Responsive">
+										<p:outputLabel value="Nacionalidade:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="Nascionalidade" required="true"
+												requiredMessage="Selecione a nacionalidade da Genitora."
+												onchange="PF('paisNascimento').Value(24);" filter="true"
+												filterMatchMode="startsWith"
+												placeholder="Pais de nascimento..." style="width: 80%"
+												value="#{genitor.genitor.nacionalidade}">
+												<f:selectItem value="#{null}"
+													itemLabel="Selecione o nacionalidade..." />
+												<f:selectItems value="#{genitor.paisesIBGE()}" var="paises"
+													itemValue="#{paises}" itemLabel="#{paises.nome}" />
+												<f:converter converterId="paisConverter" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<!-- ______________________________________________________ -->
+									<div class="EmptyBox20" />
+									<div class="Fleft Container20 Responsive">
+										<p:outputLabel value="Naturalidade:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="s_uf"
+												disabled="#{genitor.disableSelectNaturalidade}"
+												value="#{genitor.ufSelecionada}" filter="true"
+												filterMatchMode="startsWith" required="true"
+												requiredMessage="Selecione a naturalidade da Genitora."
+												converter="ufConverter" effect="fade">
+												<f:selectItem itemLabel="SELECIONE O ESTADO"
+													itemValue="#{null}" />
+												<f:selectItems value="#{genitor.ufs}" var="uf"
+													itemLabel="#{uf.descUF} / #{uf.siglaUF}" itemValue="#{uf}" />
+												<p:ajax event="change"
+													listener="#{genitor.habilitaListCidades}" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="Container70 Responsive">
+										<p:outputLabel value="Municipio:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:autoComplete id="naturalidade"
+												disabled="#{genitor.disableCidade}" forceSelection="true"
+												styleClass="Fleft Responsive" required="true"
+												requiredMessage="Campo Vazio! Informe o município da Genitora."
+												minQueryLength="3" size="110"
+												placeholder="Cidade de nascimento..."
+												completeMethod="#{genitor.completeMunicipiosIBGE}"
+												converter="ibgeUFConverter" var="iUF"
+												itemLabel="#{iUF.nomeMunicipio}" itemValue="#{iUF}"
+												value="#{genitor.genitor.naturalidade}">
+											</p:autoComplete>
+										</div>
+									</div>
+									<div class="EmptyBox20" />
+									<div class="Wid30 Fleft" style="margin-top: 2%">
+										<p:remoteCommand name="rcMun"
+											actionListener="#{genitor.novoMunicipio}" />
+										<p:commandButton type="button"
+											styleClass="RedButton Wid90 Fs16 White RaisedButton"
+											onclick="rcMun()" value="Municipio não listado"
+											icon="fa fa-warning" />
+									</div>
+									<div class="Container70 Responsive">
+										<p:outputLabel value="Novo Município:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:inputText id="novaNaturalidade"
+												disabled="#{genitor.disableNovoMunicipio}"
+												forceSelection="true" styleClass="Fleft Responsive"
+												minQueryLength="3" size="110"
+												placeholder="Município de nascimento..."
+												value="#{genitor.genitor.novoMunicipio}">
+											</p:inputText>
+										</div>
+									</div>
+									<!-- _______________________________________________________ -->
+									<div class="EmptyBox20" />
+									<p:fieldset legend="Documento" toggleable="false"
+										id="documentos" toggleSpeed="500">
+										<div class="EmptyBox20" />
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Tipo de Documento:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:selectOneMenu id="tipoDocumento" filter="true"
+													required="true"
+													requiredMessage="Selecione o tipo de documento da Genitora."
+													value="#{genitor.genitor.documento.tipoDocumento}">
+													<f:selectItem value="#{null}"
+														itemLabel="Selecione o tipo de doc." />
+													<f:selectItems value="#{genitor.tiposDocumento}" var="tipo"
+														itemValue="#{tipo}" itemLabel="#{tipo.label}" />
+													<f:converter converterId="tipoDocumentoEnumConverter" />
+													<p:ajax
+														update="serieDocumento,descricao_genitora,dataEmissao_genitora" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Número:" />
+											<div class="EmptyBox5"></div>
+											<p:inputText id="numeroDocumento" required="true"
+												requiredMessage="Campo Vazio! Informe o número do documento."
+												value="#{genitor.genitor.documento.numero}"
+												styleClass="Fleft Responsive" />
+										</div>
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Série:" />
+											<div class="EmptyBox5"></div>
+											<p:inputText id="serieDocumento" required="true"
+												requiredMessage="Campo Vazio! Informe a série do documento."
+												disabled="#{genitor.genitor.documento.tipoDocumento == 'CPF' or
+													genitor.genitor.documento.tipoDocumento == 'NIT' or
+													genitor.genitor.documento.tipoDocumento == 'RIC' or
+													genitor.genitor.documento.tipoDocumento == 'RNE' or
+													genitor.genitor.documento.tipoDocumento == 'CNH' or
+													genitor.genitor.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+													genitor.genitor.documento.tipoDocumento == 'NAO_IDENTIFICADO' or
+													genitor.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													genitor.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													genitor.genitor.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+													genitor.genitor.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+													genitor.genitor.documento.tipoDocumento == 'RG'}"
+												value="#{genitor.genitor.documento.numeroSerie}"
+												styleClass="Fleft Responsive" />
+										</div>
+										<div class="EmptyBox20" />
+										<div class="Fleft Container60 Responsive">
+											<p:outputLabel value="Orgão Emissor:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:selectOneMenu id="s_cartorio" required="true"
+													requiredMessage="Selecione o órgão emissor."
+													styleClass="Wid90"
+													value="#{genitor.genitor.documento.orgaoEmissao}"
+													filter="true" filterMatchMode="startsWith"
+													converter="orgaoEmissorConverter" effect="fade">
+													<f:selectItem itemLabel="SELECIONE O ÓRGÃO EMISSOR"
+														itemValue="#{null}" />
+													<f:selectItems value="#{genitor.orgaoEmissores}"
+														var="orgaoEmissor"
+														itemLabel="#{orgaoEmissor.descricao} / #{orgaoEmissor.abreviatura}"
+														itemValue="#{orgaoEmissor}" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+										<div class="Fleft Container30 Responsive">
+											<p:outputLabel value="UF de Emissão:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:selectOneMenu id="s_uf_genitora" required="true"
+													requiredMessage="Selecione o estado emissor do documento."
+													value="#{genitor.genitor.documento.ufEmissao}"
+													filter="true" filterMatchMode="startsWith"
+													converter="ufConverter" effect="fade">
+													<f:selectItem itemLabel="SELECIONE O ESTADO"
+														itemValue="#{null}" />
+													<f:selectItems value="#{genitor.ufs}" var="uf"
+														itemLabel="#{uf.descUF} / #{uf.siglaUF}" itemValue="#{uf}" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+										<div class="EmptyBox20" />
+										<div class="Container30 Responsive">
+											<p:outputLabel value="Data de Emissão:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:calendar id="dataEmissao_genitora" navigator="true"
+													disabled="#{genitor.genitor.documento.tipoDocumento == 'CPF' or
+													genitor.genitor.documento.tipoDocumento == 'NIT' or
+													genitor.genitor.documento.tipoDocumento == 'RNE' or
+													genitor.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													genitor.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													genitor.genitor.documento.tipoDocumento == 'NAO_IDENTIFICADO' or
+													genitor.genitor.documento.tipoDocumento == 'DOC_ESTRANGEIRO' or
+													genitor.genitor.documento.tipoDocumento == 'RIC'}"
+													locale="pt_BR" placeholder="__/__/____" required="true"
+													requiredMessage="Campo Vazio! Informe a data de emissão do documento."
+													value="#{genitor.genitor.documento.dataEmissao}"
+													pattern="dd/MM/yyyy" mask="true" yearRange="c-120:c+0" />
+											</div>
+										</div>
+										<div class="Container60 Responsive">
+											<p:outputLabel value="Descrição:" />
+											<div class="EmptyBox5"></div>
+											<div class="container100">
+												<p:inputText id="descricao_genitora"
+													disabled="#{genitor.genitor.documento.tipoDocumento == 'CPF' or
+													genitor.genitor.documento.tipoDocumento == 'NIT' or
+													genitor.genitor.documento.tipoDocumento == 'CNH' or
+													genitor.genitor.documento.tipoDocumento == 'RNE' or
+													genitor.genitor.documento.tipoDocumento == 'RG' or
+													genitor.genitor.documento.tipoDocumento == 'CERT_DE_NASCIMENTO' or
+													genitor.genitor.documento.tipoDocumento == 'CERT_DE_RESERVISTA' or
+													genitor.genitor.documento.tipoDocumento == 'TITULO_DE_ELEITOR' or
+													genitor.genitor.documento.tipoDocumento == 'CARTEIRA_DE_MARITIMO' or
+													genitor.genitor.documento.tipoDocumento == 'PASSAPORTE' or
+													genitor.genitor.documento.tipoDocumento == 'CTPS' or
+													genitor.genitor.documento.tipoDocumento == 'RIC'}"
+													value="#{genitor.genitor.documento.descricao}"
+													styleClass="Fleft Responsive" />
+											</div>
+										</div>
+										<div class="EmptyBox5"></div>
+									</p:fieldset>
+									<div class="EmptyBox30" />
+									<div class="Wid20 Fright">
+										<p:remoteCommand name="rc1" update="@(form)"
+											actionListener="#{genitor.acaoIncluir}" />
+										<p:commandButton type="button" resetValues="true"
+											styleClass="BlueButton Wid60 Fs16 White RaisedButton"
+											onclick="rc1()" value="Finalizar" icon="fa fa-arrow-right" />
+									</div>
+									<div class="EmptyBox30" />
+								</p:panel>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

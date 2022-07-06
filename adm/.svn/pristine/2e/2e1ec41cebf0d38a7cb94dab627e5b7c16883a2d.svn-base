@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="pt-br">
+
+<ui:composition template="../resources/template/templateNovo.xhtml">
+
+
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<h:form id="form">
+			<p:panel header="Cadastro Funcionalidade">
+				<p:panel>
+					<h:panelGrid styleClass="input-text" style="border:none;"
+						id="display">
+						<p:growl id="growl" />
+						<h:panelGrid columns="4"
+							style="margin-left: 53px;   position: relative; " cellspacing="1">
+							<h:outputLabel value="Modulo:" style="font-weight: bold;" />
+							<p:inputText
+								value="#{cadastroModuloFuncionalidade.funcionalidadeSelecionada.modulo.descricao}"
+								style="margin-left:10px;width:250px;" />
+							<h:outputLink value="javascript:void(0)" onclick="dlg.show()"
+								style="margin-left:7px;">
+								<p:graphicImage value="../resources/images/search.png" />
+							</h:outputLink>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Funcionalidade:" style="font-weight: bold;" />
+							<p:inputText
+								value="#{cadastroModuloFuncionalidade.funcionalidadeSelecionada.descricao}"
+								style="margin-left:10px;width:250px;" />
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" style="margin-left: 8px;">
+							<h:outputLabel value="Nome Interno:" style="font-weight: bold;" />
+							<p:inputText
+								value="#{cadastroModuloFuncionalidade.funcionalidadeSelecionada.nomeInterno}"
+								style="margin-left:10px;width:250px;" />
+
+						</h:panelGrid>
+
+					</h:panelGrid>
+
+					<p:separator />
+					<h:panelGrid columns="5" id="commands"
+						styleClass="ui-panel ui-widget ui-widget-content ui-corner-all"
+						style=" height: 50px; 
+						  margin-left: 0px; ">
+						<h:panelGroup>
+							<p:commandLink
+								update=":form:growl, :form:display, :form:commands,  :form:gridTable"
+								id="incluir" alt="Incluir"
+								actionListener="#{cadastroModuloFuncionalidade.acaoIncluir}"
+								style="margin-left:10px;"
+								disabled="#{cadastroModuloFuncionalidade.funcionalidade.id != null}">
+								<p:graphicImage
+									value="#{(cadastroModuloFuncionalidade.funcionalidade.id != null || cadastroModuloFuncionalidade.funcionalidade.id !=0) ? '../resources/images/salvar.png' : '../resources/images/salvar_off.png'}" />
+
+							</p:commandLink>
+						</h:panelGroup>
+
+						<p:commandLink id="alterar" title="Alterar"
+							update=":form:growl, :form:commands, :form:display, :form:gridTable"
+							actionListener="#{cadastroModuloFuncionalidade.acaoAlterar}"
+							disabled="#{(cadastroModuloFuncionalidade.funcionalidade.id == null || cadastroModuloFuncionalidade.funcionalidade.id ==0)}"
+							style="margin-left:15px;">
+							<p:graphicImage
+								value="#{(cadastroModuloFuncionalidade.funcionalidade.id == null || cadastroModuloFuncionalidade.funcionalidade.id ==0) ? '../resources/images/alterar_off.png' : '../resources/images/alterar.png'}" />
+						</p:commandLink>
+
+						<p:commandLink id="excluir" title="Excluir"
+							update=":form:growl, :form:commands, :form:display, :form:gridTable"
+							actionListener="#{cadastroModuloFuncionalidade.acaoDeletar}"
+							disabled="#{(cadastroModuloFuncionalidade.funcionalidade.id == null || cadastroModuloFuncionalidade.funcionalidade.id ==0)}"
+							style="margin-left:15px;">
+							<p:graphicImage
+								value="#{(cadastroModuloFuncionalidade.funcionalidade.id == null || cadastroModuloFuncionalidade.funcionalidade.id ==0) ? '../resources/images/excluir_off.png' : '../resources/images/excluir.png'}" />
+						</p:commandLink>
+
+						<p:commandLink type="reset" title="Limpar"
+							update=":form:growl, :form:display, :form:commands,  :form:gridTable"
+							id="limpar"
+							actionListener="#{cadastroModuloFuncionalidade.acaoLimpar}"
+							style="margin-left:10px;">
+
+							<p:graphicImage value="../resources/images/limpar.png" />
+
+						</p:commandLink>
+
+					</h:panelGrid>
+
+					<p:separator />
+
+					<h:panelGrid id="gridTable">
+						<p:dataTable id="dataTableSelect" var="func"
+							value="#{cadastroModuloFuncionalidade.funcionalidadeDM}"
+							selectionMode="single"
+							selection="#{cadastroModuloFuncionalidade.funcionalidade}"
+							paginator="true" rows="7" style="width:100%; ">
+
+							<p:ajax event="rowSelect"
+								listener="#{cadastroModuloFuncionalidade.onRowSelect}"
+								update=":form:commands, :form:display" />
+
+							<p:column headerText="Modulo" style="width:200px;">
+								<h:outputText value="#{func.modulo.descricao}"
+									style="width:200px;" />
+							</p:column>
+							<p:column headerText="Nome Funcionalidade" style="width:200px;">
+								<h:outputText value="#{func.descricao}" style="width:200px;" />
+							</p:column>
+							<p:column headerText="Nome Interno" style="width:200px;">
+								<h:outputText value="#{func.nomeInterno}" style="width:200px;" />
+							</p:column>
+
+						</p:dataTable>
+
+					</h:panelGrid>
+
+
+
+				</p:panel>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+
+	<ui:define name="footer" id="#{facesContext.externalContext.request}">
+
+
+
+	</ui:define>
+
+	<ui:define name="dialogs" id="#{facesContext.externalContext.request}">
+
+		<p:dialog header="Busca Usuario" widgetVar="dlg" modal="true"
+			width="700" height="400">
+			<h:panelGrid>
+				<h:panelGroup>
+					<p:dataTable id="dataTable" var="modulo"
+						value="#{cadastroModuloFuncionalidade.moduloDM}"
+						selectionMode="single"
+						selection="#{cadastroModuloFuncionalidade.funcionalidadeSelecionada.modulo}"
+						paginator="true" rows="7"
+						style="max-width: 650px; min-width: 650px; max-height: 300px; min-height: 300px;  position:absolute;">
+
+						<p:ajax event="rowSelect" oncomplete="dlg.hide();"
+							listener="#{cadastroModuloFuncionalidade.onRowModuloSelect}"
+							update=":form:commands, :form:display" />
+
+						<p:column headerText="Login">
+							<h:outputText value="#{modulo.descricao}" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

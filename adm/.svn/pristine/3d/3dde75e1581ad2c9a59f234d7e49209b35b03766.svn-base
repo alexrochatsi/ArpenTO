@@ -1,0 +1,100 @@
+.inp {
+	width: 300px;
+	/*margin-left: 5px;*/
+}
+
+.inp250 {
+	width: 250px;
+	/*margin-left: 5px;*/
+}
+
+output[type=text], outputText {
+	text-align: right;
+}
+
+#header {
+	overflow: hidden;
+	height: 80px;
+}
+
+.ui-layout-unit .ui-layout-unit-content {
+	overflow: hidden;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+	margin-top: 20px;
+}
+
+.ui-growl {
+	top: 95px;
+}
+
+#form:j_idt69 {
+	
+}
+
+border
+
+
+
+
+:none
+
+
+
+
+;
+}
+.radio {
+	margin-left: 6px;
+	margin-right: 11px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 20px;
+	float: right;
+}
+
+.bordaObrigatoria {
+	border: solid 1px #ff4500;
+	padding: 10px;
+	width: 820px;
+	overflow: hidden;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.aberto {
+	background-color: #c5dbec !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+
+.pago {
+	background-color: #C7E3FF !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+
+.cancelado {
+	background-color: #FF7154 !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+
+.atrasado {
+	background-color: #FFD700 !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+
+.ui-panelmenu .ui-panelmenu-header a {
+	text-decoration: none;
+}
+
+.money {
+	background-image: url("../images/money.png") !important;
+}

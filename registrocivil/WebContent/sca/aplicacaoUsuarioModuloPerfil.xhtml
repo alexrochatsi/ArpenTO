@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="pt-br">
+
+<ui:composition template="../resources/template/templateNovo.xhtml">
+
+
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<h:form id="form">
+			<p:panel header="Aplicar Perfil">
+				<p:panel>
+					<h:panelGrid styleClass="input-text" style="border:none;"
+						id="display">
+						<p:growl id="growl" />
+						<h:panelGrid columns="4" style="left: 0px;   position: relative; "
+							cellspacing="1">
+							<h:outputLabel value="Usuário:" style="font-weight: bold;" />
+							<p:inputText value="#{cadUsuarioModuloPerfil.usuario.login}"
+								style="margin-left:10px;width:250px;" />
+							<h:outputLink value="javascript:void(0)" onclick="dlg.show()"
+								style="margin-left:7px;">
+								<p:graphicImage value="../resources/images/search.png" />
+							</h:outputLink>
+						</h:panelGrid>
+
+
+					</h:panelGrid>
+
+					<p:separator />
+					<h:panelGrid id="gridTree">
+						<p:tree value="#{cadUsuarioModuloPerfil.root}" var="node"
+							id="checkboxTree" selectionMode="checkbox" style="width:332px;"
+							selection="#{cadUsuarioModuloPerfil.selectedNodes}">
+
+							<p:treeNode>
+								<h:outputText value="#{node.descricao}" />
+							</p:treeNode>
+						</p:tree>
+					</h:panelGrid>
+					<p:separator />
+					<h:panelGrid columns="5" id="commands"
+						styleClass="ui-panel ui-widget ui-widget-content ui-corner-all"
+						style=" height: 50px; 
+						  margin-left: 0px; ">
+						<h:panelGroup>
+							<p:commandLink
+								update=":form:growl, :form:gridTree, :form:display, :form:checkboxTree"
+								id="incluir" alt="Incluir"
+								actionListener="#{cadUsuarioModuloPerfil.acaoIncluir}"
+								style="margin-left:10px;"
+								disabled="#{cadUsuarioModuloPerfil.usuario.id == null}">
+								<p:graphicImage
+									value="#{(cadUsuarioModuloPerfil.usuario.id != null || cadUsuarioModuloPerfil.usuario.id !=0) ? '../resources/images/salvar.png' : '../resources/images/salvar_off.png'}" />
+							</p:commandLink>
+						</h:panelGroup>
+
+						<p:commandLink type="reset" title="Limpar"
+							update=":form:growl, :form:gridTree, :form:display, :form:checkboxTree"
+							id="limpar" actionListener="#{cadUsuarioModuloPerfil.acaoLimpar}"
+							style="margin-left:10px;">
+
+							<p:graphicImage value="../resources/images/limpar.png" />
+
+						</p:commandLink>
+
+
+					</h:panelGrid>
+
+
+				</p:panel>
+
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+
+
+	<ui:define name="footer" id="#{facesContext.externalContext.request}">
+
+
+
+	</ui:define>
+
+	<ui:define name="dialogs" id="#{facesContext.externalContext.request}">
+
+		<p:dialog header="Busca Usuario" widgetVar="dlg" modal="true"
+			width="700" height="400">
+			<h:panelGrid>
+				<h:panelGroup>
+					<p:dataTable id="dataTable" var="usuario"
+						value="#{cadUsuarioModuloPerfil.usuarioDM}" selectionMode="single"
+						selection="#{cadUsuarioModuloPerfil.usuario}" paginator="true"
+						rows="7"
+						style="max-width: 650px; min-width: 650px; max-height: 300px; min-height: 300px;  position:absolute;">
+
+						<p:ajax event="rowSelect" oncomplete="dlg.hide();"
+							listener="#{cadUsuarioModuloPerfil.onRowSelect}"
+							update=":form:commands, :form:display, :form:checkboxTree" />
+
+						<p:column headerText="Login">
+							<h:outputText value="#{usuario.login}" />
+						</p:column>
+						<p:column headerText="Nome">
+							<h:outputText value="#{usuario.nomeCompleto}" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

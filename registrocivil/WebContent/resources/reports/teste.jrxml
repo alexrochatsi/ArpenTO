@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carteira" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="71eb99f7-884e-46d1-b740-e8106ca1a62a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.background.image.properties" value="false,true,0.25,0,0,0,0,0,0"/>
+	<style name="style1"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band height="162"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="162" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="2dcae2dc-5a1e-46de-8b49-43b996cf7a07" mode="Transparent" x="0" y="0" width="275" height="162"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement uuid="afe84ffa-a624-4364-a308-7189d5a8f51c" mode="Transparent" x="10" y="49" width="83" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="aef934b9-66c5-4dc8-89e3-3e16386f0b1d" mode="Opaque" x="14" y="45" width="37" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[MATRÍCULA]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement uuid="ff8c1b73-7acd-41bc-8309-f440134c5994" mode="Transparent" x="10" y="70" width="185" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="676a43c1-8bac-4818-b323-c4eeac7ce3c7" mode="Opaque" x="14" y="66" width="23" height="8"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement uuid="1050da76-17ef-489a-8c1f-c10dacc9a147" mode="Transparent" x="10" y="90" width="185" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="9994e415-0a73-40db-a406-4f8e56a668b4" mode="Opaque" x="14" y="87" width="43" height="8"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[NASCIMENTO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="2dcae2dc-5a1e-46de-8b49-43b996cf7a07" x="280" y="0" width="275" height="162"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement uuid="879c6b8f-db60-4cfb-9f47-b0ddfa46199f" mode="Transparent" x="291" y="30" width="252" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="e74afbb6-83c6-42df-b7d4-cdf744dbe859" mode="Opaque" x="298" y="28" width="34" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[TITULAR]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement uuid="9c60a52f-bd5c-4a2d-9fda-bc9645c238c5" x="291" y="53" width="252" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="8432465e-f1f3-403f-95e9-d08af228dd91" mode="Opaque" x="298" y="50" width="34" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[EMPRESA]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement uuid="1cf384b3-cf34-4a60-a5aa-ee953db25417" x="291" y="76" width="252" height="26"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="387aec44-cfc8-42ad-b46b-663ccf24522c" mode="Opaque" x="298" y="72" width="39" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement uuid="4572407d-3e5f-4cd4-8282-dff11caae345" x="10" y="112" width="117" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="ade2ee63-38ba-499e-8486-bbdb94adee7f" mode="Opaque" x="14" y="108" width="36" height="8"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[VALIDADE]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="5a7b8a9b-f33b-46e3-98ec-e3f59fb8949a" x="359" y="147" width="117" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="7fed6954-18ea-4f51-b6fd-a60df1135bb4" x="367" y="4" width="100" height="13"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Dados do Titular]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/core_layout_rio.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/rio-font.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/font-awesome.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/styles/layout_rio.css" />
+	<TITLE>ARPEN-TO</TITLE>
+</h:head>
+
+<h:body>
+	<!-- TOPO DO TEMPLATE CABEÇALHO-->
+	<ui:insert name="header">
+		<ui:include src="header.xhtml" />
+	</ui:insert>
+	<!-- END -->
+
+	<!-- BEGIN CONTEUDO (O QUE SERÁ SUBSTITUIDO)-->
+	<div id="wrapper">
+		<div id="wrapperIndent">
+			<div class="Animated05 ps-container ps-active-y"
+				id="layout-menu-cover">
+				<ul class="layout-menu">
+					<li><a class="menulink ripplelink"> <i
+							class="icon-round58 Fs40"></i> <span class="Fs18"><p:outputLabel
+									value="#{loginAdministrador.usuarioAdministradorSessao.nome}"></p:outputLabel>
+								<i class="icon-downwards Fright Fs20"></i><br /> <!-- <span class="Fs12 FontRobotoLight">Sr. Administrator</span> -->
+						</span>
+					</a>
+						<ul style="width: 80%">
+							<li><p:commandLink onclick="PF('dlg').show();"
+									class="menulink ripplelink">
+									<i class="icon-two385 Fs16"></i> Alterar Senha</p:commandLink></li>
+							<li><p:commandLink
+									actionListener="#{loginAdministrador.logout()}" process="@this"
+									class="menulink ripplelink">
+									<i class="icon-thermostat1 Fs16"></i> Sair</p:commandLink></li>
+						</ul></li>
+				</ul>
+				<div class="Separator"></div>
+				<ul class="layout-menu rio-menu">
+					<li id="rm_mHome" role="menuitem"><a
+						class="menulink ripplelink"
+						href="#{request.contextPath}/portal/portal.jsf"> <i
+							class="icon-ellipsis1"></i><i class="icon-home"
+							style="color: red"></i>Home
+					</a></li>
+					<li id="rm_mPagamento" role="menuitem"><a
+						class="menulink ripplelink"
+						href="#{request.contextPath}/fin/pagamentos.jsf"> <i
+							class="icon-ellipsis1"></i><i class="fa fa-dollar"
+							style="color: green"></i>Pagamentos
+					</a></li>
+					<li id="rm_mgeraPagamento" role="menuitem"><a
+						class="menulink ripplelink"
+						href="#{request.contextPath}/fin/geraPagamentos.jsf"> <i
+							class="icon-ellipsis1"></i><i class="fa fa-dollar"
+							style="color: MediumVioletRed"></i>Gerar Pagamentos
+					</a></li>
+					<li id="rm_mPedido" role="menuitem"><a
+						class="menulink ripplelink"
+						href="#{request.contextPath}/portal/usuariosAdm.jsf"> <i
+							class="icon-ellipsis1"></i><i class="icon-radio51"
+							style="color: blue"></i>Usuários Adm
+					</a></li>
+					<li id="rm_mPedido" role="menuitem"><a
+						class="menulink ripplelink"
+						href="#{request.contextPath}/portal/usuariosCartorio.jsf"> <i
+							class="icon-ellipsis1"></i><i class="icon-account4"
+							style="color: darkorange"></i>Usuários Cartório
+					</a></li>
+				</ul>
+			</div>
+			<div id="layout-portlets-cover">
+				<div class="Container100">
+					<ui:insert name="content">
+				    Add your content here or delete to use the default
+				</ui:insert>
+				</div>
+				<ui:insert name="footer">
+					<ui:include src="footer.xhtml" />
+				</ui:insert>
+			</div>
+		</div>
+	</div>
+	<p:dialog header="Informe uma nova senha" modal="true" widgetVar="dlg"
+		width="70%" height="100%" showEffect="puff" hideEffect="clip">
+		<h:form id="form" enctype="multipart/form-data">
+			<p:growl id="growl" />
+			<div class="EmptyBox20"></div>
+			<div class="container">
+				<div class="EmptyBox20"></div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Digite a senha:" />
+					<div class="EmptyBox5"></div>
+					<p:password id="senha"
+						value="#{usuarioAdministrador.usuarioAdministrador.senha}"
+						required="true" match="senha2" styleClass="Wid90"
+						requiredMessage="Campo Vazio! Informe uma senha."
+						validatorMessage="As senhas não são iguais!" />
+				</div>
+				<div class="Fleft Container50 Responsive">
+					<p:outputLabel value="Repita a senha:" />
+					<div class="EmptyBox5"></div>
+					<p:password id="senha2" required="true" styleClass="Wid90"
+						requiredMessage="Campo vazio! Repita a senha." />
+				</div>
+			</div>
+
+			<div class="EmptyBox20"></div>
+			<div class="Wid30">
+				<p:remoteCommand name="rc" update="@(form)"
+					actionListener="#{usuarioAdministrador.salvarNovaSenha}" />
+				<p:commandButton type="button"
+					styleClass="GreenButton Wid60 Fs18 White RaisedButton"
+					onclick="rc()" value="Alterar" icon="fa fa-lock" />
+			</div>
+		</h:form>
+	</p:dialog>
+
+	<p:ajaxStatus id="status" onstart="PF('statusDialog').show();"
+		onsuccess="PF('statusDialog').hide();">
+	</p:ajaxStatus>
+
+	<p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+		resizable="false" responsive="true" draggable="false" closable="true">
+		<p:graphicImage value="../resources/images/Preloader_3.gif" />
+	</p:dialog>
+
+	<!-- END-->
+
+	<!-- BEGIN FOOTER (RODAPE) -->
+
+	<!-- END -->
+
+	<!-- 	<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.js"></script> -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/keyboard.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/inputswitch.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/ripple-effect.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/perfect-scrollbar.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/layout.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/locale-primefaces.js"></script>
+</h:body>
+
+</html>

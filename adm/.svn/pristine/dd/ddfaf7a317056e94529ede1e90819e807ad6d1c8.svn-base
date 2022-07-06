@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formCadastro" enctype="multipart/form-data">
+							<p:growl id="growl" />
+							<div class="container">
+								<p:panel menuTitle="Solicitações para o Cartório."
+									header="USUÁRIOS CADASTRADOS.">
+									<p:panelGrid columns="2"
+										style="background-color: #0277BD;padding: 5px 5px; font-size: 1.4em"
+										layout="grid">
+										<p:column>
+											<p:selectOneMenu id="s_cartorioUsuario" styleClass="Wid90"
+												value="#{usuarioCartorio.cartorioSelecionado}" filter="true"
+												filterMatchMode="startsWith"
+												converter="cartorioConverter" effect="fade">
+												<f:selectItem itemLabel="Cartório: TODOS"
+													itemValue="#{null}" />
+												<f:selectItems value="#{usuarioCartorio.cartorios}"
+													var="cartorio"
+													itemLabel="#{cartorio.nome} / #{cartorio.municipio}"
+													itemValue="#{cartorio}" />
+											</p:selectOneMenu>
+										</p:column>
+										<p:column>
+											<p:remoteCommand name="rcUsuariosCartorio"
+												actionListener="#{usuarioCartorio.buscarUsuarios()}" />
+											<p:commandButton type="button"
+												styleClass="GreenButton Wid30 Fs16 White RaisedButton"
+												onclick="rcUsuariosCartorio()" value="Buscar"
+												icon="fa fa-search" />
+										</p:column>
+									</p:panelGrid>
+									<p:dataTable id="usuariosCartorio" var="usuarios"
+										paginator="true" rowsPerPageTemplate="10,15" rows="10"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+										paginatorPosition="bottom" widgetVar="tableUsuario"
+										tableStyleClass="ui-table-columntoggle"
+										emptyMessage="Não há usuários cadastrados"
+										style="text-align: center" sortBy="#{usuarios.dataCadastro}"
+										sortOrder="DESCENDING"
+										value="#{usuarioCartorio.listaUsuariosCartorio}"
+										required="true" requiredMessage="Selecione um usuário"
+										selection="#{usuarioCartorio.usuarioCartorioSelecionado}"
+										rowKey="#{usuarios.id}" selectionMode="single">
+										<p:ajax event="rowSelect"
+											listener="#{usuarioCartorio.carregaUsuarioCartorio}"
+											update=":formCadastro:btnMudarStatus" />
+										<p:column headerText="Código" style="font-size: 1.1em"
+											styleClass="Wid10 Responsive" priority="3">
+											<h:outputText value="#{usuarios.id}" />
+										</p:column>
+										<p:column styleClass="Wid20 Responsive" headerText="Nome"
+											sortable="true" sortBy="#{usuarios.nome}" priority="1">
+											<h:outputText value="#{usuarios.nome} [ #{usuarios.nomeLogin} ]" />
+										</p:column>
+										<p:column headerText="Data do Cadastro"
+											sortBy="#{usuarios.dataCadastro}"
+											styleClass="Wid10 Responsive" priority="2">
+											<h:outputText value="#{usuarios.dataCadastro}">
+												<f:convertDateTime pattern="dd/MM/yyyy - HH:mm"
+													timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column headerText="Data Último Login"
+											sortBy="#{usuarios.dataUltimoLogin}"
+											styleClass="Wid10 Responsive" priority="2">
+											<h:outputText value="#{usuarios.dataUltimoLogin}">
+												<f:convertDateTime pattern="dd/MM/yyyy - HH:mm"
+													timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column styleClass="Wid10 Responsive"
+											sortBy="#{usuarios.flagAtivo}" headerText="Status"
+											priority="2">
+											<h:outputText rendered="#{usuarios.flagAtivo == true}"
+												value="ATIVO" style="color: green" />
+											<h:outputText rendered="#{usuarios.flagAtivo == false}"
+												value="INATIVO" style="color: red" />
+										</p:column>
+									</p:dataTable>
+								</p:panel>
+								<div class="EmptyBox10"></div>
+								<div class="Wid15 Fright" style="margin-right: 2%">
+									<p:commandButton id="btnMudarStatus" type="button"
+										disabled="#{usuarioCartorio.usuarioCartorioSelecionado.id == null}"
+										styleClass="BlueButton Wid100 Fs14 White RaisedButton Responsive"
+										value="Mudar Status" icon="fa fa-pencil-square-o"
+										onclick="PF('dlgStatus').show();" />
+								</div>
+								<div class="Wid15 Fright" style="margin-right: 2%">
+									<p:commandButton id="btnAddUsuario" type="button"
+										styleClass="GreenButton Wid100 Fs14 White RaisedButton Responsive"
+										value="Novo Usuário" icon="fa fa-plus"
+										onclick="PF('dlgNovoUsuario').show();" />
+								</div>
+								<div class="EmptyBox20"></div>
+							</div>
+						</h:form>
+						<p:dialog header="Mudar Status." modal="true"
+							widgetVar="dlgStatus" draggable="false" resizable="false"
+							closeOnEscape="true" width="50%" height="250px" showEffect="puff"
+							hideEffect="clip">
+							<h:form id="formStatusUsuario" enctype="multipart/form-data">
+								<p:growl id="growl" />
+								<div class="container">
+									<div class="EmptyBox10"></div>
+									<div class="Container10 Responsive">
+										<p:outputLabel value="Código:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel style="color: red"
+												value="#{usuarioCartorio.usuarioCartorio.id}" />
+										</div>
+									</div>
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Nome de Login:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:outputLabel style="color: red"
+												value="#{usuarioCartorio.usuarioCartorio.nomeLogin}" />
+										</div>
+									</div>
+									<div class="Container60 Responsive">
+										<p:outputLabel value="Nome do usuário:" />
+										<div class="EmptyBox5"></div>
+										<p:outputLabel style="color: red"
+											value="#{usuarioCartorio.usuarioCartorio.nome}" />
+									</div>
+									<div class="EmptyBox20"></div>
+									<p:panel header="Status do Usuário" styleClass="TexAlCenter"
+										menuTitle="Status do Usuário">
+										<div class="EmptyBox5"></div>
+										<p:selectOneRadio id="console" style="display: inline-table;"
+											value="#{usuarioCartorio.usuarioCartorio.flagAtivo}">
+											<f:selectItem itemLabel="Ativo" itemValue="#{true}" />
+											<f:selectItem itemLabel="Inativo" itemValue="#{false}" />
+											<!-- <f:ajax event="click" render=":formStatusPedido" /> -->
+										</p:selectOneRadio>
+									</p:panel>
+									<div class="EmptyBox20"></div>
+									<div class="Wid20 Fright">
+										<p:remoteCommand name="rcAlteraStatus"
+											actionListener="#{usuarioCartorio.acaoAlterar}" />
+										<p:commandButton type="button" resetValues="true"
+											oncomplete=":formCadastro:usuariosCartorio"
+											styleClass="BlueButton Wid100 Fs14 White RaisedButton"
+											onclick="rcAlteraStatus()" value="Alterar"
+											icon="fa icon-round50" />
+									</div>
+									<div class="EmptyBox20"></div>
+								</div>
+							</h:form>
+						</p:dialog>
+						<p:dialog header="Cadastrar novo usuário" modal="true"
+							closeOnEscape="true" widgetVar="dlgNovoUsuario" width="80%"
+							height="100%" showEffect="puff" hideEffect="clip">
+							<h:form id="formCadastroUsuario" enctype="multipart/form-data">
+								<p:growl id="growl" autoUpdate="true" />
+								<div class="EmptyBox20"></div>
+								<div class="container">
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Nome para o Login" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:inputText id="nomeLogin"
+												value="#{usuarioCartorio.usuarioCartorio.nomeLogin}"
+												styleClass="Fleft Responsive" required="true"
+												requiredMessage="Campo Vazio! Informe um nome de login."
+												style="width: 95%;">
+												<p:focus for="nomeLogin" />
+												<f:ajax listener="#{usuarioCartorio.validaUsuarioCartorio}"
+													event="blur" />
+											</p:inputText>
+										</div>
+									</div>
+									<div class="EmptyBox20"></div>
+									<div class="Container100 Responsive">
+										<p:outputLabel value="Nome Completo:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:inputText id="nome"
+												value="#{usuarioCartorio.usuarioCartorio.nome}"
+												styleClass="Fleft Responsive" required="true"
+												requiredMessage="Campo Vazio! Informe seu nome."
+												style="width: 95%;" />
+										</div>
+									</div>
+									<div class="EmptyBox20"></div>
+									<div class="Fleft Container50 Responsive">
+										<p:outputLabel value="Digite seu E-mail:" />
+										<div class="EmptyBox5"></div>
+										<p:inputText id="email"
+											value="#{usuarioCartorio.usuarioCartorio.email}"
+											required="true" styleClass="Wid90"
+											requiredMessage="Campo Vazio! Informe um E-mail."
+											validatorMessage="E-mail inválido!">
+											<f:validateRegex
+												pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+										</p:inputText>
+									</div>
+									<div class="Fleft Container50 Responsive">
+										<p:outputLabel value="Cartório:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="s_cartorio" styleClass="Wid90"
+												value="#{usuarioCartorio.usuarioCartorio.cartorio}"
+												filter="true" filterMatchMode="startsWith" required="true"
+												requiredMessage="Selecione o cartório"
+												converter="cartorioConverter" effect="fade">
+												<f:selectItem itemLabel="SELECIONE O CARTÓRIO"
+													itemValue="#{null}" />
+												<f:selectItems value="#{usuarioCartorio.cartorios}"
+													var="cartorio"
+													itemLabel="#{cartorio.nome} / #{cartorio.municipio}"
+													itemValue="#{cartorio}" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+								</div>
+
+								<div class="EmptyBox20"></div>
+								<div class="Wid30">
+									<p:remoteCommand name="rc1" update="@(form)"
+										actionListener="#{usuarioCartorio.acaoIncluir}" />
+									<p:commandButton type="button"
+										styleClass="GreenButton Wid60 Fs18 White RaisedButton"
+										onclick="rc1()" value="Salvar" icon="fa fa-save" />
+								</div>
+							</h:form>
+						</p:dialog>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

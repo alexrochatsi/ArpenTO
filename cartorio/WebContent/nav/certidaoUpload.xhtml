@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" lang="pt-br">
+
+<ui:composition
+	template="../resources/template/template-arpen-portal.xhtml">
+	<h:head>
+		<title>ARPEN - TO</title>
+	</h:head>
+	<ui:define name="content" id="#{facesContext.externalContext.request}">
+		<div class="Container100 Responsive100">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="EmptyBox30"></div>
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 392px;">
+						<h:form id="formUpload" enctype="multipart/form-data">
+							<p:growl id="growl" autoUpdate="true" />
+							<div class="container">
+								<p:panel menuTitle="Anexar Certidão Certificada"
+									header="Anexar Certidão Certificada">
+									<div class="EmptyBox20" />
+									<div class="Fleft Container40 Responsive">
+										<p:outputLabel value="Certidão" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:selectOneMenu id="s_certidao" styleClass="Wid80"
+												value="#{certidaoUpload.certidaoPedido}" filter="true"
+												filterMatchMode="startsWith" required="true"
+												requiredMessage="Selecione a certidão"
+												converter="certidaoPedidoConverter" effect="fade">
+												<f:selectItem itemLabel="SELECIONE A CERTIDÃO"
+													itemValue="#{null}" />
+												<f:selectItems value="#{certidaoUpload.certidoesPedido}"
+													var="certidao" itemLabel="#{certidao.id}"
+													itemValue="#{certidao}" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<!-- <div class="Container40 Responsive">
+										<p:outputLabel value="Código do Pedido:" />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:autoComplete id="certidaoPedido" forceSelection="true"
+												styleClass="Fleft Responsive" required="true"
+												minQueryLength="1" size="40"
+												requiredMessage="Campo Vazio! Informe o código do pedido."
+												placeholder="Código do pedido..."
+												completeMethod="#{certidaoUpload.completeCertidaoPedido}"
+												converter="certidaoPedidoConverter" var="cPedido"
+												itemLabel="#{cPedido.id}" itemValue="#{cPedido}"
+												value="#{certidaoUpload.certidaoPedido}">
+											</p:autoComplete>
+										</div>
+									</div> -->
+									<div class="Container30 Responsive">
+										<p:outputLabel value="Anexar Certidão:" />
+
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:inputText id="caminhoDoc" size="40"
+												placeholder="Selecione a certidão..." disabled="true"
+												required="true" requiredMessage="Anexar a certidão do pedido."
+												value="#{certidaoUpload.certidaoUpload.nomeArquivo}" />
+										</div>
+									</div>
+									<div class="Container20 Responsive">
+										<p:outputLabel value="." />
+										<div class="EmptyBox5"></div>
+										<div class="container100">
+											<p:fileUpload fileUploadListener="#{certidaoUpload.doUpload}"
+												allowTypes="/(\.|\/)(pdf)$/" multiple="false"
+												required="true" requiredMessage="Selecione a certidão"
+												mode="advanced" invalidFileMessage="Somente formato PDF. \n"
+												sizeLimit="2097152"
+												invalidSizeMessage="Tamanho de 2mb excedido. \n"
+												showButtons="false" label="Selecionar..." auto="true" />
+										</div>
+									</div>
+									<div class="EmptyBox30"></div>
+								</p:panel>
+								<div class="EmptyBox20"></div>
+								<div class="Wid25 Fright">
+									<p:remoteCommand name="rc1"
+										actionListener="#{certidaoUpload.acaoIncluir}" />
+									<p:commandButton type="button" resetValues="true"
+										styleClass="GreenButton Wid50 Fs16 White RaisedButton"
+										onclick="rc1()" value="Salvar" icon="fa fa-save" />
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<application>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+	</application>
+
+
+	<lifecycle>
+		<phase-listener>br.com.datasind.jsf.PhaseJsfListener</phase-listener>
+	</lifecycle>
+
+
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>portal</from-outcome>
+			<to-view-id>/portal/portal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>senha</from-outcome>
+			<to-view-id>/portal/alterarSenha.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/portal/portal.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>../index.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/portal/portal.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>verProcesso</from-outcome>
+			<to-view-id>/cad/cadastroCliente.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/cad/certidaoPedido.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>certidaoPedido</from-outcome>
+			<to-view-id>/cad/certidaoPedido.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+
+	<!-- <navigation-rule> -->
+	<!-- <from-view-id> -->
+	<!-- /portal/alterarSenha.jsf -->
+	<!-- </from-view-id> -->
+	<!-- <navigation-case> -->
+	<!-- <from-outcome>portal</from-outcome> -->
+	<!-- <to-view-id>portal.xhtml</to-view-id> -->
+	<!-- <redirect /> -->
+	<!-- </navigation-case> -->
+	<!-- </navigation-rule> -->
+
+	<navigation-rule>
+		<from-view-id>/ext/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>extGuias</from-outcome>
+			<to-view-id>/ext/extGuias.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+
+	<navigation-rule>
+		<from-view-id>/ext/extGuias.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/ext/index.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+
+</faces-config>
